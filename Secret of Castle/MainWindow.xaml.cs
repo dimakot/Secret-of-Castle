@@ -35,13 +35,23 @@ namespace Secret_of_Castle
         }
 
         private void Button_Play_Click(object sender, RoutedEventArgs e) {
-            NavigationService nav = NavigationService.GetNavigationService(MainMenu);
-            nav.Navigate(new Game_run());
+         /*   Game To_Game = new Game();
+            To_Game.Show(); //Показывает окно поверх второго*/
+
+            var Game = new Game();
+            Game.Owner = this; // Ставит окно Главным
+            Game.ShowDialog(); // Показывает выбранное окно вместо первого 
+
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e) {
 
             System.Windows.Application.Current.Shutdown();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

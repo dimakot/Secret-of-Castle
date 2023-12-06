@@ -9,11 +9,28 @@
         WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" >
     <Grid Cursor="">
         <Image x:Name="background" HorizontalAlignment="Left" Height="1645" VerticalAlignment="Center" Width="1668" Cursor="No" Source="/castle_1.jpeg" Stretch="UniformToFill" Margin="-9,0,0,0"/>
-        <Button x:Name="Button_Play" Content="Играть" HorizontalAlignment="Left" Height="66" Margin="710,326,0,0" VerticalAlignment="Top" Width="217" MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" Background="Transparent" Foreground="#FFFBFBFB" BorderBrush="{x:Null}" FontFamily="Arial" FontWeight="Bold" FontSize="36" Click="Button_Play_Click"/>
-        <Button x:Name="Button_Exit" Content="Выход" HorizontalAlignment="Left" Height="96" Margin="716,412,0,0" VerticalAlignment="Top" Width="218" Background="Transparent" Foreground="#FFFBFBFB" BorderBrush="{x:Null}" FontFamily="Arial" FontWeight="Bold" FontSize="36" Click="Button_Exit_Click"/>
+        <Button x:Name="Button_Play" Content="" HorizontalAlignment="Center" Height="114" Margin="0,281,0,0" VerticalAlignment="Top" Width="270
+                " MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" BorderBrush="{x:Null}" FontFamily="Arial" FontWeight="Bold" FontSize="36" Click="Button_Play_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Play_Button_Menu.png"/>
+            </Button.Background>
+            <Button.Foreground>
+                <ImageBrush/>
+            </Button.Foreground>
+        </Button>
+        <Button x:Name="Button_Exit" Content="" HorizontalAlignment="Center" Height="114" Margin="0,519,0,0" VerticalAlignment="Top" Width="270
+                " Foreground="#04FBFBFB" BorderBrush="{x:Null}" FontFamily="Arial" FontWeight="Bold" FontSize="36" Click="Button_Exit_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Play_Exit_Menu.png"/>
+            </Button.Background>
+        </Button>
         <Grid HorizontalAlignment="Left" Height="1100" Margin="1779,224,0,0" VerticalAlignment="Top" Width="1776"/>
         <ComboBox HorizontalAlignment="Left" Height="146" Margin="659,-146,0,0" VerticalAlignment="Top" Width="2"/>
         <Grid/>
-        <Frame x:Name = "MainMenu" NavigationUIVisibility="Hidden"/>
+        <Button x:Name="Settings" Content="" HorizontalAlignment="Center" Height="114" Margin="0,400,0,0" VerticalAlignment="Top" Width="270" Click="Settings_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Play_Exit_Settings.png"/>
+            </Button.Background>
+        </Button>
     </Grid>
 </Window>

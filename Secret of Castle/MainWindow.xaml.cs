@@ -51,7 +51,8 @@ namespace Secret_of_Castle
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
-
+            Settings To_Settings = new Settings();
+            To_Settings.Show();
         }
     }
 }

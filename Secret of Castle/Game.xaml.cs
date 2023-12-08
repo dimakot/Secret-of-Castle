@@ -23,5 +23,12 @@ namespace Secret_of_Castle
         {
             InitializeComponent();
         }
+
+        private void Game1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.W && rect1.Margin.Top > 4) { }
+            rect1.Margin = new Thickness (rect1.Margin.Left,rect1.Margin.Top (-5), 0,0);
+
+        }
     }
 }

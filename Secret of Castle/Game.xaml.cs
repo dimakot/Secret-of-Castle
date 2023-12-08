@@ -17,18 +17,15 @@ namespace Secret_of_Castle
     /// <summary>
     /// Логика взаимодействия для Game.xaml
     /// </summary>
-    public partial class Game : Window
-    {
-        public Game()
-        {
+    public partial class Game : Window {
+        public Game() {
             InitializeComponent();
         }
 
-        private void Game1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.W && rect1.Margin.Top > 4) { }
-            rect1.Margin = new Thickness (rect1.Margin.Left,rect1.Margin.Top (-5), 0,0);
+        private void Game1_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.W && rect1.Margin.Top > 4) {
 
+            }
         }
     }
 }

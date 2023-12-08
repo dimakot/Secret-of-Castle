@@ -5,15 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Secret_of_Castle"
         mc:Ignorable="d"
-        Title="Settings" Height="500" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Opacity="0.7" WindowStyle="None">
-    <Window.Effect>
-        <BlurEffect/>
-    </Window.Effect>
-    <Grid x:Name="Settings_GRID" Background="#AD901919">
-        <Grid.Effect>
-            <BlurEffect/>
-        </Grid.Effect>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="144,421,0,0" VerticalAlignment="Top" Width="186" Height="38"/>
+        Title="Settings" Height="500" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Opacity="1.0" WindowStyle="None">
+    <Grid x:Name="Settings_GRID" Background="#FF195690">
+        <Button x:Name="Exit_Settings" Content="Выйти" HorizontalAlignment="Center" Margin="0,429,0,0" VerticalAlignment="Top" Width="186" Height="38" Click="Exit_Settings_Click"/>
 
     </Grid>
 </Window>

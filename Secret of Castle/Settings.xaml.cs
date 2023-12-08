@@ -23,5 +23,10 @@ namespace Secret_of_Castle
         {
             InitializeComponent();
         }
+
+        private void Exit_Settings_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -1,0 +1,15 @@
+﻿<Window x:Class="Secret_of_Castle.Pause"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Secret_of_Castle"
+        mc:Ignorable="d"
+        Title="Pause" Height="500" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <Button x:Name="Settings_Button" Content="Настройки" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="140" Click="Settings_Button_Click"/>
+        <Button x:Name="Play_Button" Content="Продолжить" HorizontalAlignment="Center" Margin="0,155,0,0" VerticalAlignment="Top" Height="40" Width="140" Click="Play_Button_Click"/>
+        <Button x:Name="Exit_Button" Content="Выйти" HorizontalAlignment="Center" Margin="0,302,0,0" VerticalAlignment="Top" Height="40" Width="140" Click="Exit_Button_Click"/>
+
+    </Grid>
+</Window>

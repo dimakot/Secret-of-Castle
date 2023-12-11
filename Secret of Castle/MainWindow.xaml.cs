@@ -24,9 +24,12 @@ namespace Secret_of_Castle
     {
         public MainWindow()
         {
-     /*       SoundPlayer player = new SoundPlayer();
-            player.Stream = MainMenuTheme.waw;
-            player.Play(); */
+            InitializeComponent();
+        }
+
+        private void Menu_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point cursorPos = new Point(e.GetPosition(relativeTo: this).X, e.GetPosition(relativeTo: this).Y);
         }
 
         private void Button_Play_MouseEnter(object sender, MouseEventArgs e) {

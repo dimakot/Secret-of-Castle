@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Secret_of_Castle"
         mc:Ignorable="d"
-        Title="Secret Of Castle Game" Height="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}" Width="{DynamicResource {x:Static SystemParameters.FullPrimaryScreenWidthKey}}"
+        Title="Secret Of Castle Game" Height="720" Width="1280"
         WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" KeyDown="Game1_KeyDown">
     <Grid x:Name="Game_grid">
-        <Grid.Background>
-            <ImageBrush ImageSource="/_815ec1da-917b-4f0f-a757-5f725b962ccf.jpeg"/>
-        </Grid.Background>
-        <Image x:Name="rect1" HorizontalAlignment="Left" Height="272" Margin="117,880,0,0" VerticalAlignment="Top" Width="254" Source="/Player.png"/>
-
+        <Canvas x:Name="CanvasGame" Focusable="True" KeyUp="kbup" KeyDown="kbdown">
+            <Rectangle x:Name="Player" Canvas.Left="590" Canvas.Top="285"  Width="100" Height="150">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="/Player.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Canvas>
     </Grid>
 </Window>

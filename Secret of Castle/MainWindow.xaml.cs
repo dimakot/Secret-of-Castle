@@ -26,18 +26,13 @@ namespace Secret_of_Castle
         public MainWindow()
         {
             InitializeComponent();
-
-            var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Sound/Music/MainMenuTheme.wav"));
-
-            if (sri != null)
-            {
-                using (var s = sri.Stream)
+            var SoundPlayerMenu = Application.GetResourceStream(new Uri("pack://application:,,,/Sound/Music/MainMenuTheme.wav"));
+                using (var s = SoundPlayerMenu.Stream)
                 {
-                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(s);
-                    player.Load();
-                    player.Play();
+                    System.Media.SoundPlayer MainMenuPlayer = new System.Media.SoundPlayer(s);
+                    MainMenuPlayer.Load();
+                    MainMenuPlayer.Play();
                 }
-            }
         }
 
         private void Menu_MouseMove(object sender, MouseEventArgs e)
@@ -56,7 +51,6 @@ namespace Secret_of_Castle
         private void Button_Play_Click(object sender, RoutedEventArgs e) {
             /* Game To_Game = new Game();
                To_Game.Show(); //Показывает окно поверх второго*/
-
             if (Game_to == null)
             {
                 Game_to = new Game();

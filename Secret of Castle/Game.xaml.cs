@@ -14,6 +14,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
 using System.Windows.Threading;
+using System.Numerics;
+using System.Text.RegularExpressions;
 
 namespace Secret_of_Castle
 {
@@ -23,35 +25,10 @@ namespace Secret_of_Castle
     public partial class Game : Window {
         private DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
-        private float SpeedX, SpeedY, Friction = 0.75f, Speed = 1;
-        public Game() {
-            InitializeComponent();
-            CanvasGame.Focus();
-            gametimer.Interval = TimeSpan.FromMilliseconds(1);
-            gametimer.Tick += GameTickTimer;
-            gametimer.Start();
-        }
-        private void Game1_KeyDown(object sender, KeyEventArgs e) {
-            if (e.Key == Key.Escape) {
-                Pause To_pause = new Pause(); //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
-                To_pause.Show();
-            }
-        }
-        private void kbup(object sender, KeyEventArgs e) {
-            if (e.Key == Key.W) {
-                UpKeyDown = true;
-            }
-            if (e.Key == Key.S) {
-                DownKeyDown = true;
-            }
-            if (e.Key == Key.A) {
-                LeftKeyDown = true;
-            }
-            if (e.Key == Key.D) {
-                RightKeyDown = true;
-            }
-        }
-        private void kbdown(object sender, KeyEventArgs e) {
+        int Speed = 15;
+
+        private void kbup(object sender, KeyEventArgs e)
+        {
             if (e.Key == Key.W) {
                 UpKeyDown = false;
             }
@@ -65,26 +42,58 @@ namespace Secret_of_Castle
                 RightKeyDown = false;
             }
         }
+        private void kbdown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.W)
+            {
+                UpKeyDown = true;
+            }
+            if (e.Key == Key.S)
+            {
+                DownKeyDown = true;
+            }
+            if (e.Key == Key.A)
+            {
+                LeftKeyDown = true;
+            }
+            if (e.Key == Key.D)
+            {
+                RightKeyDown = true;
+            }
+        }
+        public Game() {
+            InitializeComponent(); //Таймер
+            CanvasGame.Focus();
+            gametimer.Interval = TimeSpan.FromMilliseconds(10);
+            gametimer.Tick += GameTickTimer;
+            gametimer.Start();
+        }
+        private void Game1_KeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Escape) {
+                Pause To_pause = new Pause(); //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
+                To_pause.Show();
+            }
+        }
         private void GameTickTimer(object sender, EventArgs e) {
-            if (UpKeyDown) {
-                SpeedY -= Speed; 
-            }
-            if (DownKeyDown)
+            if (LeftKeyDown == true && Canvas.GetLeft(Player) > 0)
             {
-                SpeedY -= Speed;
+                Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
             }
-            if (LeftKeyDown)
+
+            if (RightKeyDown == true && Canvas.GetLeft(Player) + Player.Width < this.Width)
             {
-                SpeedX -= Speed;
+                Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
             }
-            if (RightKeyDown)
+
+            if (UpKeyDown == true && Canvas.GetTop(Player) > 0)
             {
-                SpeedX += Speed;
+                Canvas.SetTop(Player, Canvas.GetTop(Player) - Speed);
             }
-            SpeedX = SpeedX * Friction;
-            SpeedY = SpeedY * Friction;
-            Canvas.SetLeft(Player, Canvas.GetLeft(Player) + SpeedX);
-            Canvas.SetTop(Player, Canvas.GetTop(Player) - SpeedX);
+
+            if (DownKeyDown == true && Canvas.GetTop(Player) + Player.Height < this.Height)
+            {
+                Canvas.SetTop(Player, Canvas.GetTop(Player) + Speed);
+            }
         }
     }
-}
+ }

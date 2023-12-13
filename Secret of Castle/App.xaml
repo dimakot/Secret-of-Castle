@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Secret_of_Castle"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="HyliaSerifCyr">pack://application:,,,/font/#ru</FontFamily>
     </Application.Resources>
 </Application>

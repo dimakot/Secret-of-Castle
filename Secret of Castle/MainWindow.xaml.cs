@@ -22,9 +22,22 @@ namespace Secret_of_Castle
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Window Game_to;
         public MainWindow()
         {
             InitializeComponent();
+
+            var sri = Application.GetResourceStream(new Uri("pack://application:,,,/Sound/Music/MainMenuTheme.wav"));
+
+            if (sri != null)
+            {
+                using (var s = sri.Stream)
+                {
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(s);
+                    player.Load();
+                    player.Play();
+                }
+            }
         }
 
         private void Menu_MouseMove(object sender, MouseEventArgs e)
@@ -41,12 +54,19 @@ namespace Secret_of_Castle
         }
 
         private void Button_Play_Click(object sender, RoutedEventArgs e) {
-         /* Game To_Game = new Game();
-            To_Game.Show(); //Показывает окно поверх второго*/
+            /* Game To_Game = new Game();
+               To_Game.Show(); //Показывает окно поверх второго*/
 
-            var Game = new Game();
-            Game.Owner = this; // Ставит окно Главным
-            Game.ShowDialog(); // Показывает выбранное окно вместо первого
+            if (Game_to == null)
+            {
+                Game_to = new Game();
+                Game_to.Show();
+            }
+            else
+            {
+                Game_to.Activate();
+            }
+            this.Hide();
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e) {

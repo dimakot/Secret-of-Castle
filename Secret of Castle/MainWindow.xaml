@@ -5,16 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Secret_of_Castle"
         mc:Ignorable="d"
-        Title="Secret of Castle" Height="720" Width="1280
-"
-        WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseMove="Menu_MouseMove">
+        Title="Secret of Castle" Height="1080" Width="1920" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" MouseMove="Menu_MouseMove">
     <Grid x:Name="MainMenuGRID" Cursor="">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="580*"/>
-            <ColumnDefinition Width="1243*"/>
-            <ColumnDefinition Width="83*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions> <ColumnDefinition Width="14*"/> <ColumnDefinition Width="580*"/> <ColumnDefinition Width="1243*"/> <ColumnDefinition Width="83*"/> </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/Texture/Parallax/MainMenu.png"/>
         </Grid.Background>

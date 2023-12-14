@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -26,13 +27,7 @@ namespace Secret_of_Castle
         public MainWindow()
         {
             InitializeComponent();
-            var SoundPlayerMenu = Application.GetResourceStream(new Uri("pack://application:,,,/Sound/Music/MainMenuTheme.wav"));
-                using (var s = SoundPlayerMenu.Stream)
-                {
-                    System.Media.SoundPlayer MainMenuPlayer = new System.Media.SoundPlayer(s);
-                    MainMenuPlayer.Load();
-                    MainMenuPlayer.Play();
-                }
+
         }
 
         private void Menu_MouseMove(object sender, MouseEventArgs e)
@@ -61,6 +56,7 @@ namespace Secret_of_Castle
                 Game_to.Activate();
             }
             this.Hide();
+
         }
 
         private void Button_Exit_Click(object sender, RoutedEventArgs e) {

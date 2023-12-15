@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using static System.Net.Mime.MediaTypeNames;
+using Control_player;
 
 
 namespace Secret_of_Castle
@@ -27,48 +28,22 @@ namespace Secret_of_Castle
     public partial class Game : Window {
         private DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
+        Player Player_Controller;
         int Speed = 7;
         int Speed_Zombie = 2;
         Rectangle Zombie = new Rectangle();
         Random rand = new Random();
 
         private void kbup(object sender, KeyEventArgs e) { //Кнопка поднята
-            if (e.Key == Key.W) {
-                UpKeyDown = false;
-            }
-            if (e.Key == Key.S) {
-                DownKeyDown = false;
-            }
-            if (e.Key == Key.A) {
-                LeftKeyDown = false;
-            }
-            if (e.Key == Key.D) {
-                RightKeyDown = false;
-            }
-            if (e.Key == Key.LeftShift) {
-                Speed = 7;
-            }
+            Player_Controller.kbup(sender, e);
         }
         private void kbdown(object sender, KeyEventArgs e) { //Кнопка опущена
-            if (e.Key == Key.W) {
-                UpKeyDown = true;
-            }
-            if (e.Key == Key.S) {
-                DownKeyDown = true;
-            }
-            if (e.Key == Key.A) {
-                LeftKeyDown = true;
-            }
-            if (e.Key == Key.D) {
-                RightKeyDown = true;
-            }
-            if (e.Key == Key.LeftShift)
-            {
-                Speed = 12;
-            }
+            Player_Controller.kbdown(sender, e);
         }
         public Game() {
             InitializeComponent(); //Таймер
+            List<UIElement> elementsCopy = CanvasGame.Children.Cast<UIElement>().ToList();
+            Player_Controller = new Player(player, CanvasGame);
             CanvasGame.Focus();
             gametimer.Interval = TimeSpan.FromMilliseconds(7);
             gametimer.Tick += GameTickTimer;
@@ -88,43 +63,29 @@ namespace Secret_of_Castle
             }
         }
         private void GameTickTimer(object sender, EventArgs e) {
-            if (LeftKeyDown == true && Canvas.GetLeft(Player) > 0) { //Движения игрока
-                Canvas.SetLeft(Player, Canvas.GetLeft(Player) - Speed);
-            }
-
-            if (RightKeyDown == true && Canvas.GetLeft(Player) + Player.Width < this.ActualWidth) {
-                Canvas.SetLeft(Player, Canvas.GetLeft(Player) + Speed);
-            }
-
-            if (UpKeyDown == true && Canvas.GetTop(Player) > 85) {
-                Canvas.SetTop(Player, Canvas.GetTop(Player) - Speed);
-            }
-
-            if (DownKeyDown == true && Canvas.GetTop(Player) + Player.Height < this.ActualHeight) {
-                Canvas.SetTop(Player, Canvas.GetTop(Player) + Speed);
-            }
-                if (Canvas.GetLeft(Zombie) > Canvas.GetLeft(Player)) //Движение зомби
+            Player_Controller.Control(); //Движение игрока
+                if (Canvas.GetLeft(Zombie) > Canvas.GetLeft(player)) //Движение зомби
                 {
                     Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) - Speed_Zombie);
                 }
 
-                if (Canvas.GetLeft(Zombie) < Canvas.GetLeft(Player))
+                if (Canvas.GetLeft(Zombie) < Canvas.GetLeft(player))
                 {
                     Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) + Speed_Zombie);
                 }
 
-                if (Canvas.GetTop(Zombie) > Canvas.GetTop(Player))
+                if (Canvas.GetTop(Zombie) > Canvas.GetTop(player))
                 {
                     Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) - Speed_Zombie);
                 }
 
-                if (Canvas.GetTop(Zombie) < Canvas.GetTop(Player))
+                if (Canvas.GetTop(Zombie) < Canvas.GetTop(player))
                 {
                     Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) + Speed_Zombie);
                 }
-                if (Canvas.GetLeft(Player) + Player.ActualWidth > Canvas.GetLeft(Zombie) && Canvas.GetLeft(Player) < Canvas.GetLeft(Zombie) + Zombie.ActualWidth && Canvas.GetTop(Player) < Canvas.GetTop(Zombie) + Zombie.ActualHeight && Canvas.GetTop(Player) + Player.ActualHeight > Canvas.GetTop(Zombie))
+                if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombie) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombie) + Zombie.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombie) + Zombie.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombie))
             {
-                hp_bar.Value -= 1; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
+                hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
                 if (hp_bar.Value > 50)
                 {
                     hp_bar.Foreground = Brushes.Green; //если здоровья больше 50, то ProgressBar окрашен в зеленый 

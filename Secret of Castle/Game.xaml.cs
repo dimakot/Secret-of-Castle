@@ -34,11 +34,11 @@ namespace Secret_of_Castle
         Rectangle Zombie = new Rectangle();
         Random rand = new Random();
 
-        private void kbup(object sender, KeyEventArgs e) { //Кнопка поднята
-            Player_Controller.kbup(sender, e);
+        private void kbup(object sender, KeyEventArgs e) {
+            Player_Controller.kbup(sender, e); //Кнопка поднята
         }
-        private void kbdown(object sender, KeyEventArgs e) { //Кнопка опущена
-            Player_Controller.kbdown(sender, e);
+        private void kbdown(object sender, KeyEventArgs e) {
+            Player_Controller.kbdown(sender, e); //Кнопка опущена
         }
         public Game() {
             InitializeComponent(); //Таймер

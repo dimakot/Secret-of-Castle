@@ -14,7 +14,7 @@ namespace Control_player
     internal class Player
     {
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
-        public static int Speed = 10;
+        public static int Speed = 7;
         Image player;
         Canvas CanvasGame;
         public Player(Image player, Canvas CanvasGame)

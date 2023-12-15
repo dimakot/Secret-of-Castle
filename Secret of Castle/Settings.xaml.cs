@@ -28,5 +28,10 @@ namespace Secret_of_Castle
         {
             Close();
         }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

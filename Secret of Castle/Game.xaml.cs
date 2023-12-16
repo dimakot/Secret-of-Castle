@@ -19,6 +19,7 @@ using System.Windows.Threading;
 using Control_player;
 using Collision_class;
 using Secret_of_Castle.Game_classes.IO_Mob;
+using Secret_of_Castle.Game_classes;
 
 
 namespace Secret_of_Castle
@@ -30,10 +31,11 @@ namespace Secret_of_Castle
         private DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
+        health_bar health_Bar_Controller;
         Collision col_obj;
         int Speed = 7;
+        int Speed_Zombie = 2;
         Random rand = new Random();
-        List<Image> zombiesList = new List<Image>();
         Zombie zombieai;
 
         private void kbup(object sender, KeyEventArgs e) {
@@ -44,8 +46,10 @@ namespace Secret_of_Castle
         }
         public Game() {
             InitializeComponent(); //Таймер
+            List<UIElement> copyCanvasElement = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame);
             zombieai = new Zombie(player, CanvasGame, zombiesList);
+/*          health_Bar_Controller = new health_bar(player, Zombies, hp_bar);*/
             CanvasGame.Focus();
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Tick += GameTickTimer;
@@ -61,26 +65,26 @@ namespace Secret_of_Castle
         private void GameTickTimer(object sender, EventArgs e) {
             Player_Controller.Control(); //Движение игрока
             zombieai.ZombieMovement();
-            /*if (Canvas.GetLeft(zombieai) > Canvas.GetLeft(player)) //Движение зомби
+           /* if (Canvas.GetLeft(Zombies) > Canvas.GetLeft(player)) //Движение зомби
             {
-                Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) - Speed_Zombie);
+                Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) - Speed_Zombie);
             }
 
-            if (Canvas.GetLeft(Zombie) < Canvas.GetLeft(player))
+            if (Canvas.GetLeft(Zombies) < Canvas.GetLeft(player))
             {
-                Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) + Speed_Zombie);
+                Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) + Speed_Zombie);
             }
 
-            if (Canvas.GetTop(Zombie) > Canvas.GetTop(player))
+            if (Canvas.GetTop(Zombies) > Canvas.GetTop(player))
             {
-                Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) - Speed_Zombie);
+                Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) - Speed_Zombie);
             }
 
-            if (Canvas.GetTop(Zombie) < Canvas.GetTop(player))
+            if (Canvas.GetTop(Zombies) < Canvas.GetTop(player))
             {
-                Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) + Speed_Zombie);
+                Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) + Speed_Zombie);
             }
-            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombie) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombie) + Zombie.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombie) + Zombie.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombie))
+            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombies) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombies) + Zombies.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombies) + Zombies.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombies))
             {
                 hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
                 if (hp_bar.Value > 50)

@@ -10,6 +10,7 @@
             <ProgressBar x:Name="hp_bar" Height="18" Canvas.Left="1664" Canvas.Top="57" Width="192" HorizontalAlignment="Left" VerticalAlignment="Center" Value="100" BorderBrush="{x:Null}" Background="#FFA19D9D" Foreground="#FF6BFF00"/>
             <Image x:Name="player" Height="230" Canvas.Left="131" Canvas.Top="425" Width="154" Source="/Player.png" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Image x:Name="c1" Height="216" Canvas.Left="729" Source="/Texture/Objects/Furniture/Table.png" Stretch="Fill" Canvas.Top="402" Width="330" Tag="objects"/>
+            <Image x:Name="Zombies" Height="100" Canvas.Left="960" Canvas.Top="834" Width="100" Source="/Texture/Mob/Player/Player.png" Tag="Zombies"/>
         </Canvas>
     </Viewbox>
 </Window>

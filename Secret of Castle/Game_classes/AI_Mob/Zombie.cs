@@ -17,17 +17,11 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         Canvas CanvasGame;
         List<Image> zombiesList = new List<Image>(); //Список для моба
         int Speed_Zombie = 2;
-        public Zombie(Image player, Canvas CanvasGame, Image Zombies)
+        public Zombie(Image player, Canvas CanvasGame, Image Zombies, List<Image> zombiesList)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.Zombies = Zombies;
-        }
-
-        public Zombie(Image player, Canvas canvasGame, List<Image> zombiesList)
-        {
-            this.player = player;
-            CanvasGame = canvasGame;
             this.zombiesList = zombiesList;
         }
 
@@ -45,8 +39,6 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         }
         public void ZombieMovement()
         {
-            if (Zombies != null)
-            {
                 if (Canvas.GetLeft(Zombies) > Canvas.GetLeft(player)) //Движение зомби
                 {
                     Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) - Speed_Zombie);
@@ -66,7 +58,6 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
                 {
                     Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) + Speed_Zombie);
                 }
-            }
         }
         public void GameLose()
         {

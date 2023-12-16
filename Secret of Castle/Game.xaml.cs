@@ -16,8 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using static System.Net.Mime.MediaTypeNames;
 using Control_player;
+using Collision_class;
+using Secret_of_Castle.Game_classes.IO_Mob;
 
 
 namespace Secret_of_Castle
@@ -29,10 +30,11 @@ namespace Secret_of_Castle
         private DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
+        Collision col_obj;
         int Speed = 7;
-        int Speed_Zombie = 2;
-        Rectangle Zombie = new Rectangle();
         Random rand = new Random();
+        List<Image> zombiesList = new List<Image>();
+        Zombie zombieai;
 
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -42,19 +44,13 @@ namespace Secret_of_Castle
         }
         public Game() {
             InitializeComponent(); //Таймер
-            List<UIElement> elementsCopy = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame);
+            zombieai = new Zombie(player, CanvasGame, zombiesList);
             CanvasGame.Focus();
-            gametimer.Interval = TimeSpan.FromMilliseconds(7);
+            gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Tick += GameTickTimer;
             gametimer.Start();
-            Zombie.Width = 50; //Враг
-            Zombie.Height = 50;
-            Zombie.Fill = Brushes.Red;
-            CanvasGame.Children.Add(Zombie); //враг на канвасе
-            Canvas.SetLeft(Zombie, rand.Next(0, Convert.ToInt32(CanvasGame.Width)));
-            Canvas.SetTop(Zombie, rand.Next(80, Convert.ToInt32(CanvasGame.Height))); ;
-
+            zombieai.MobSpawn();
         }
         private void Game1_KeyDown(object sender, KeyEventArgs e) { //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
             if (e.Key == Key.Escape) {
@@ -64,26 +60,27 @@ namespace Secret_of_Castle
         }
         private void GameTickTimer(object sender, EventArgs e) {
             Player_Controller.Control(); //Движение игрока
-                if (Canvas.GetLeft(Zombie) > Canvas.GetLeft(player)) //Движение зомби
-                {
-                    Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) - Speed_Zombie);
-                }
+            zombieai.ZombieMovement();
+            /*if (Canvas.GetLeft(zombieai) > Canvas.GetLeft(player)) //Движение зомби
+            {
+                Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) - Speed_Zombie);
+            }
 
-                if (Canvas.GetLeft(Zombie) < Canvas.GetLeft(player))
-                {
-                    Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) + Speed_Zombie);
-                }
+            if (Canvas.GetLeft(Zombie) < Canvas.GetLeft(player))
+            {
+                Canvas.SetLeft(Zombie, Canvas.GetLeft(Zombie) + Speed_Zombie);
+            }
 
-                if (Canvas.GetTop(Zombie) > Canvas.GetTop(player))
-                {
-                    Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) - Speed_Zombie);
-                }
+            if (Canvas.GetTop(Zombie) > Canvas.GetTop(player))
+            {
+                Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) - Speed_Zombie);
+            }
 
-                if (Canvas.GetTop(Zombie) < Canvas.GetTop(player))
-                {
-                    Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) + Speed_Zombie);
-                }
-                if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombie) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombie) + Zombie.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombie) + Zombie.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombie))
+            if (Canvas.GetTop(Zombie) < Canvas.GetTop(player))
+            {
+                Canvas.SetTop(Zombie, Canvas.GetTop(Zombie) + Speed_Zombie);
+            }
+            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombie) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombie) + Zombie.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombie) + Zombie.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombie))
             {
                 hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
                 if (hp_bar.Value > 50)
@@ -98,7 +95,11 @@ namespace Secret_of_Castle
                 {
                     hp_bar.Foreground = Brushes.Red; //в иных случаях ProgressBar красный 
                 }
-            }
+            }*/
+        }
+        private void GameLose()
+        {
+            zombieai.GameLose();
         }
     }
  }

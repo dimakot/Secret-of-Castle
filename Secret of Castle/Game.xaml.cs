@@ -37,6 +37,7 @@ namespace Secret_of_Castle
         int Speed_Zombie = 2;
         Random rand = new Random();
         Zombie zombieai;
+        List<Image> zombiesList = new List<Image>();
 
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -46,15 +47,15 @@ namespace Secret_of_Castle
         }
         public Game() {
             InitializeComponent(); //Таймер
-            List<UIElement> copyCanvasElement = CanvasGame.Children.Cast<UIElement>().ToList();
+            List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame);
-            zombieai = new Zombie(player, CanvasGame, zombiesList);
+            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
 /*          health_Bar_Controller = new health_bar(player, Zombies, hp_bar);*/
             CanvasGame.Focus();
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Tick += GameTickTimer;
             gametimer.Start();
-            zombieai.MobSpawn();
+            GameLose();
         }
         private void Game1_KeyDown(object sender, KeyEventArgs e) { //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
             if (e.Key == Key.Escape) {

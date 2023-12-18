@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
@@ -12,17 +13,18 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
     internal class Zombie
     {
         Image player;
-        Image Zombies;
         Random rand = new Random();
         Canvas CanvasGame;
-        List<Image> zombiesList = new List<Image>(); //Список для моба
-        int Speed_Zombie = 2;
-        public Zombie(Image player, Canvas CanvasGame, Image Zombies, List<Image> zombiesList)
+        List<Image> zombiesList; //Список для моба
+        public List<UIElement> elc;
+        public int Speed_Zombie;
+        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int Speed_Zombie = 2)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
-            this.Zombies = Zombies;
             this.zombiesList = zombiesList;
+            this.elc = elc;
+            this.Speed_Zombie = Speed_Zombie;
         }
 
         public void MobSpawn()
@@ -39,25 +41,31 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         }
         public void ZombieMovement()
         {
-                if (Canvas.GetLeft(Zombies) > Canvas.GetLeft(player)) //Движение зомби
+            foreach (UIElement w in elc)
+            {
+                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
                 {
-                    Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) - Speed_Zombie);
-                }
+                    if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
+                    {
+                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
+                    }
 
-                if (Canvas.GetLeft(Zombies) < Canvas.GetLeft(player))
-                {
-                    Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) + Speed_Zombie);
-                }
+                    if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
+                    {
+                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) + Speed_Zombie);
+                    }
 
-                if (Canvas.GetTop(Zombies) > Canvas.GetTop(player))
-                {
-                    Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) - Speed_Zombie);
-                }
+                    if (Canvas.GetTop(ImgZomb) > Canvas.GetTop(player))
+                    {
+                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
+                    }
 
-                if (Canvas.GetTop(Zombies) < Canvas.GetTop(player))
-                {
-                    Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) + Speed_Zombie);
+                    if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
+                    {
+                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
+                    }
                 }
+            }
         }
         public void GameLose()
         {

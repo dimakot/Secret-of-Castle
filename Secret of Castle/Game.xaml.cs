@@ -20,6 +20,7 @@ using Control_player;
 using Collision_class;
 using Secret_of_Castle.Game_classes.IO_Mob;
 using Secret_of_Castle.Game_classes;
+using Secret_of_Castle.Level;
 
 
 namespace Secret_of_Castle
@@ -31,7 +32,6 @@ namespace Secret_of_Castle
         DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
-        health_bar health_Bar_Controller;
         Collision col_obj;
         int Speed = 7;
         int Speed_Zombie = 2;
@@ -68,11 +68,17 @@ namespace Secret_of_Castle
             zombieai.ZombieMovement();
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             zombieai.elc = elc;
-/*            health_Bar_Controller.damage();*/
+            if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+            {
+                level2 ChangeLevel = new level2();
+                this.Hide();
+                gametimer.Stop();
+                ChangeLevel.Show();
+            }
         }
         private void GameLose()
         {
             zombieai.GameLose();
         }
     }
- }
+}

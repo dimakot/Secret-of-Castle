@@ -16,16 +16,17 @@ namespace Collision_class
         Canvas CanvasGame;
         Image player;
         public static int Speed = 7;
-        public IEnumerable<UIElement> elementsCopy { get; private set; }
+        public List<UIElement> elc;
 
-        public Collision(Canvas CanvasGame, Image player)
+        public Collision(Canvas CanvasGame, Image player, List<UIElement> elc)
         {
             this.CanvasGame = CanvasGame;
             this.player = player;
+            this.elc = elc;
         }
         public void Collision_physics(string dir)
         {
-            foreach (UIElement u in elementsCopy)
+            foreach (UIElement u in elc)
             {
                 if (u is Image obj && (string)obj.Tag == "objects")
                 {

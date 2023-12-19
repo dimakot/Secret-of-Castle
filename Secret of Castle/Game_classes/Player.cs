@@ -53,12 +53,10 @@ namespace Control_player
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.A)
             {
@@ -68,7 +66,7 @@ namespace Control_player
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
-                player.Source = new BitmapImage(new Uri("Texture\\Mob\\Player\\player_right.png", UriKind.RelativeOrAbsolute));
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.LeftShift)
             {

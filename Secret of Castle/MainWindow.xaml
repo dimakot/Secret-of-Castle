@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Secret_of_Castle"
-        mc:Ignorable="d"
+        mc:Ignorable="d" FontFamily ="./Fonts/#Ru"
         Title="Secret of Castle" Height="1080" Width="1920" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" MouseMove="Menu_MouseMove">
     <Grid x:Name="MainMenuGRID" Cursor="">
         <Grid.ColumnDefinitions>
@@ -24,7 +24,7 @@
             <RowDefinition Height="455*"/>
         </Grid.RowDefinitions>
         <Image HorizontalAlignment="Left" Height="100" Margin="140,231,0,0" VerticalAlignment="Top" Width="100" Grid.Row="4" Grid.Column="2"/>
-        <Button x:Name="Button_Play" Content="Играть" Margin="36,10,0,7" MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" FontFamily="Hylia Serif Cyrillic" FontSize="65" Click="Button_Play_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Row="2" HorizontalAlignment="Left" Width="342" Grid.Column="1"/>
+        <Button x:Name="Button_Play" Content="Играть" Margin="36,10,0,7" MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" FontFamily = "{StaticResource ResourceKey=CustomFont}" FontSize="65" Click="Button_Play_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Row="2" HorizontalAlignment="Left" Width="342" Grid.Column="1"/>
         <Button x:Name="Button_Exit" Content="Выйти" HorizontalAlignment="Left" Height="111" Margin="36,26,0,0" VerticalAlignment="Top" Width="342" Foreground="White" FontFamily="Hylia Serif Cyrillic" FontSize="65" Click="Button_Exit_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="4" Grid.Column="1"/>
         <Button x:Name="Settings" Content="Настройки" Height="114" VerticalAlignment="Top" Width="342" Click="Settings_Click" FontFamily="Hylia Serif Cyrillic" FontSize="65" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Row="3" HorizontalAlignment="Left" Grid.Column="1" Margin="35,18,0,0" Grid.RowSpan="2"/>
         <Image x:Name="logo" Height="158" Margin="386,10,10,0" VerticalAlignment="Top" Source="/Texture/UI/logo.png" Grid.Row="1" Grid.Column="2"/>

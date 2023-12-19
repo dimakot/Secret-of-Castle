@@ -12,17 +12,17 @@ namespace Secret_of_Castle.Game_classes
     internal class health_bar
     {
         Image player;
-        Image Zombies;
+        Image ImgZomb;
         ProgressBar hp_bar;
-        public health_bar(Image player, Image Zombies, ProgressBar hp_bar)
+        public health_bar(Image player, Image ImgZomb, ProgressBar hp_bar)
         {
             this.player = player;
-            this.Zombies = Zombies;
+            this.ImgZomb = ImgZomb;
             this.hp_bar = hp_bar;
         }
         public void damage()
         {
-            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombies) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombies) + Zombies.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombies) + Zombies.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombies))
+            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(ImgZomb) && Canvas.GetLeft(player) < Canvas.GetLeft(ImgZomb) + ImgZomb.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(ImgZomb) + ImgZomb.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(ImgZomb))
             {
                 hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
                 if (hp_bar.Value > 50)

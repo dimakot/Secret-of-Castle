@@ -28,7 +28,7 @@ namespace Secret_of_Castle
     /// Логика взаимодействия для Game.xaml
     /// </summary>
     public partial class Game : Window {
-        private DispatcherTimer gametimer = new DispatcherTimer();
+        DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
         health_bar health_Bar_Controller;
@@ -66,41 +66,9 @@ namespace Secret_of_Castle
         private void GameTickTimer(object sender, EventArgs e) {
             Player_Controller.Control(); //Движение игрока
             zombieai.ZombieMovement();
-           /* if (Canvas.GetLeft(Zombies) > Canvas.GetLeft(player)) //Движение зомби
-            {
-                Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) - Speed_Zombie);
-            }
-
-            if (Canvas.GetLeft(Zombies) < Canvas.GetLeft(player))
-            {
-                Canvas.SetLeft(Zombies, Canvas.GetLeft(Zombies) + Speed_Zombie);
-            }
-
-            if (Canvas.GetTop(Zombies) > Canvas.GetTop(player))
-            {
-                Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) - Speed_Zombie);
-            }
-
-            if (Canvas.GetTop(Zombies) < Canvas.GetTop(player))
-            {
-                Canvas.SetTop(Zombies, Canvas.GetTop(Zombies) + Speed_Zombie);
-            }
-            if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Zombies) && Canvas.GetLeft(player) < Canvas.GetLeft(Zombies) + Zombies.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(Zombies) + Zombies.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Zombies))
-            {
-                hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычется 1 хп
-                if (hp_bar.Value > 50)
-                {
-                    hp_bar.Foreground = Brushes.Green; //если здоровья больше 50, то ProgressBar окрашен в зеленый 
-                }
-                else if (hp_bar.Value > 25)
-                {
-                    hp_bar.Foreground = Brushes.Yellow; //если здоровья больше 25, то ProgressBar окрашен в желтый
-                }
-                else
-                {
-                    hp_bar.Foreground = Brushes.Red; //в иных случаях ProgressBar красный 
-                }
-            }*/
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
+            zombieai.elc = elc;
+/*            health_Bar_Controller.damage();*/
         }
         private void GameLose()
         {

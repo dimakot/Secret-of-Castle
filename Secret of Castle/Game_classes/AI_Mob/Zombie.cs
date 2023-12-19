@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Secret_of_Castle.Game_classes;
 
 namespace Secret_of_Castle.Game_classes.IO_Mob
 {
@@ -16,9 +17,10 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         Random rand = new Random();
         Canvas CanvasGame;
         List<Image> zombiesList; //Список для моба
+        ProgressBar health_bar;
         public List<UIElement> elc;
         public int Speed_Zombie;
-        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int Speed_Zombie = 2)
+        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int Speed_Zombie = 2, ProgressBar hp_bar = null)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
@@ -31,7 +33,7 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         {
             Image Zombies = new Image();
             Zombies.Tag = "Zombie";
-            Zombies.Source = new BitmapImage(new Uri("Icon.jpeg", UriKind.RelativeOrAbsolute));
+            Zombies.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Width)));
             Canvas.SetTop(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Height)));
             Zombies.Height = 200; Zombies.Width = 200;
@@ -69,7 +71,7 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         }
         public void GameLose()
         {
-            player.Source = new BitmapImage(new Uri("Player.png", UriKind.RelativeOrAbsolute));
+            player.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/zombie_right.png", UriKind.RelativeOrAbsolute));
             foreach (Image i in zombiesList)
             {
                             CanvasGame.Children.Remove(i);

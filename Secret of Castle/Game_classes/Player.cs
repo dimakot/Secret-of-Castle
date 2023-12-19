@@ -26,18 +26,22 @@ namespace Control_player
             if (e.Key == Key.W)
             {
                 UpKeyDown = false;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = false;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = false;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = false;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.LeftShift)
             {
@@ -49,18 +53,22 @@ namespace Control_player
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = true;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
+                player.Source = new BitmapImage(new Uri("Texture\\Mob\\Player\\player_right.png", UriKind.RelativeOrAbsolute));
             }
             if (e.Key == Key.LeftShift)
             {

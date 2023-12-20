@@ -46,6 +46,7 @@ namespace Control_player
             if (e.Key == Key.LeftShift)
             {
                 Speed = 7;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
         }
         public void kbdown(object sender, KeyEventArgs e) //Кнопка опущена
@@ -71,6 +72,7 @@ namespace Control_player
             if (e.Key == Key.LeftShift)
             {
                 Speed = 12;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));
             }
         }
         public void Control()

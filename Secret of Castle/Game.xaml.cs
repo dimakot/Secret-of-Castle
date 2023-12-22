@@ -73,7 +73,7 @@ namespace Secret_of_Castle
                 level2 ChangeLevel = new level2();
                 this.Hide();
                 gametimer.Stop();
-                ChangeLevel.Show();
+                ChangeLevel.Show(); // переход на следующий левел
             }
         }
         private void GameLose()

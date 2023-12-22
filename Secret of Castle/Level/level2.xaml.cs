@@ -23,12 +23,12 @@ namespace Secret_of_Castle.Level
     /// </summary>
     public partial class level2 :  Window
     {
-        DispatcherTimer gametimer = new DispatcherTimer();
+        DispatcherTimer gametimer1 = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
         int Speed = 7;
         Random rand = new Random();
-        //public List<Rectangle> wallList;
+        List<Rectangle> walllist = new List<Rectangle>(); //создаем список 
         //----------------------------------------------------
         int x, y, n = 0;
         public bool[,] coordinateWeb = new bool[19, 10];
@@ -60,7 +60,7 @@ namespace Secret_of_Castle.Level
         public void wallBuilder()
         {
 
-            if (coordinateWeb[x, y] == true && n < 2 && x < coordinateWeb.GetLength(0) && y < coordinateWeb.GetLength(1))
+/*            if (coordinateWeb[x, y] == true && n < 2 && x < coordinateWeb.GetLength(0) && y < coordinateWeb.GetLength(1))
             {
                 newHorisontalWall(x, y);
                 n++;
@@ -86,20 +86,31 @@ namespace Secret_of_Castle.Level
             else if (coordinateWeb[x - 1, y] == true && x < coordinateWeb.GetLength(0) && y < coordinateWeb.GetLength(1))
             {
                 newVerticallWall(x -= 1, y);
-            }
+            }*/
         }
-        public void newVerticallWall(int xx, int yy)
+        public void newVerticallWall()
         {
-            Rectangle rect = new Rectangle();
+            Rectangle rect = new Rectangle(); //Создаем прямоугольник
             rect.Tag = "objects";
-            rect.Width = 100;
-            rect.Height = 50;
             rect.Stroke = Brushes.Aqua;
             rect.Fill = Brushes.Coral;
-            CanvasGame.Children.Add(rect);
-            rect.Margin = new Thickness(xx * 100, yy * 100, 0, 0);
+            Canvas.SetLeft(rect, rand.Next(0, Convert.ToInt32(CanvasGame.Width))); //Ставим его в рандомное место экрана
+            Canvas.SetTop(rect, rand.Next(85, Convert.ToInt32(CanvasGame.Width)));
+            rect.Width = 100; rect.Height = 50;
+            walllist.Add(rect); //добавляем в список
+            CanvasGame.Children.Add(rect); //добавляем объекты на канвас 
+            Canvas.SetZIndex(player, 1);
         }
-        //--------------------------------------------------------
+        public level2()
+        {
+            InitializeComponent(); //Таймер
+            Player_Controller = new Player(player, CanvasGame, hp_bar);
+            CanvasGame.Focus();
+            gametimer1.Tick += new EventHandler(GameTickTimer);
+            gametimer1.Interval = TimeSpan.FromMilliseconds(10);
+            gametimer1.Start();
+            GameLose();
+        }
         private void kbup(object sender, KeyEventArgs e)
         {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -107,22 +118,6 @@ namespace Secret_of_Castle.Level
         private void kbdown(object sender, KeyEventArgs e)
         {
             Player_Controller.kbdown(sender, e); //Кнопка опущена
-        }
-        public level2()
-        {
-            InitializeComponent(); //Таймер
-            Player_Controller = new Player(player, CanvasGame, hp_bar);
-            CanvasGame.Focus();
-            gametimer.Tick += new EventHandler(GameTickTimer);
-            gametimer.Interval = TimeSpan.FromMilliseconds(10);
-           
-            gametimer.Start();
-            //----------------
-            startWeb();
-            for (int i = 0; i < 10; i++)
-            {
-                wallBuilder();
-           }
         }
         private void Game1_KeyDown(object sender, KeyEventArgs e)
         { //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
@@ -134,8 +129,20 @@ namespace Secret_of_Castle.Level
         }
         private void GameTickTimer(object sender, EventArgs e)
         {
-            player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             Player_Controller.Control(); //Движение игрока
+        }
+        private void GameLose() // Создаем функцию для экрана проигрыша и остальных задач игры 
+        {
+
+            foreach (Rectangle x in walllist)
+            {
+                CanvasGame.Children.Remove(x);
+            }
+            walllist.Clear();
+            for (int i = 0; i < 10; i++)  //массив 
+            {
+                newVerticallWall(); //если i меньше 10, то обращаемся к функции, и создаем объект
+            }
         }
     }
 }

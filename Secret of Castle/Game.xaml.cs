@@ -52,7 +52,6 @@ namespace Secret_of_Castle
             List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
-/*          health_Bar_Controller = new health_bar(player, Zombies, hp_bar);*/
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
@@ -108,9 +107,11 @@ namespace Secret_of_Castle
                 if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
                 {
                     level2 ChangeLevel = new level2();
+                    gametimer.Stop();
                     this.Hide();
                     gametimer.Stop();
                     ChangeLevel.Show();
+                    gametimer.Stop();
                 }
             }
         }

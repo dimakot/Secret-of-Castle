@@ -73,7 +73,7 @@ namespace Secret_of_Castle
             zombieai.elc = elc;
             foreach (UIElement u in elc)
             {
-                if (u is Image objc && (string)objc.Tag == "objects") // Коллизия
+                if (u is Image objc && (string)objc.Tag == "objects") //Коллизия
                 {
                     Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
                     Rect rect2 = new Rect(Canvas.GetLeft(objc), Canvas.GetTop(objc), objc.Width, objc.Height);

@@ -93,7 +93,7 @@ namespace Secret_of_Castle.Level
             Rectangle rect = new Rectangle();
             rect.Tag = "objects";
             rect.Width = 100;
-            rect.Height = 5 0;
+            rect.Height = 50;
             rect.Stroke = Brushes.Aqua;
             rect.Fill = Brushes.Coral;
             CanvasGame.Children.Add(rect);

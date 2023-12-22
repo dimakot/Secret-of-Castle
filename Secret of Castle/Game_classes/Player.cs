@@ -6,20 +6,25 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Control_player
 {
     internal class Player
     {
-        public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
+        public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         public static int Speed = 7;
+        public static int HealthPlayer = 100;
         Image player;
         Canvas CanvasGame;
-        public Player(Image player, Canvas CanvasGame)
+        ProgressBar hp_bar;
+
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
+            this.hp_bar = hp_bar;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -95,6 +100,22 @@ namespace Control_player
             if (DownKeyDown == true && Canvas.GetTop(player) + player.Height < this.CanvasGame.Height)
             {
                 Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+            }
+            if (HealthPlayer > 1)
+            {
+                hp_bar.Value = HealthPlayer;
+            }
+            if (hp_bar.Value > 50)
+            {
+                hp_bar.Foreground = Brushes.Green; //если здоровья больше 50, то ProgressBar окрашен в зеленый 
+            }
+            else if (hp_bar.Value > 25)
+            {
+                hp_bar.Foreground = Brushes.Yellow; //если здоровья больше 25, то ProgressBar окрашен в желтый
+            }
+            else
+            {
+                hp_bar.Foreground = Brushes.Red; //в иных случаях ProgressBar красный 
             }
         }
     }

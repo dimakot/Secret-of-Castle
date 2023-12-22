@@ -21,7 +21,7 @@ namespace Secret_of_Castle.Level
     /// <summary>
     /// Логика взаимодействия для level2.xaml
     /// </summary>
-    public partial class level2 : Window
+    public partial class level2 :  Window
     {
         DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
@@ -111,10 +111,11 @@ namespace Secret_of_Castle.Level
         public level2()
         {
             InitializeComponent(); //Таймер
-            Player_Controller = new Player(player, CanvasGame);
+            Player_Controller = new Player(player, CanvasGame, hp_bar);
             CanvasGame.Focus();
+            gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
-            gametimer.Tick += GameTickTimer;
+           
             gametimer.Start();
             //----------------
             startWeb();
@@ -133,6 +134,7 @@ namespace Secret_of_Castle.Level
         }
         private void GameTickTimer(object sender, EventArgs e)
         {
+            player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             Player_Controller.Control(); //Движение игрока
         }
     }

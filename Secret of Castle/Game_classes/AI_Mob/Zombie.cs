@@ -20,7 +20,6 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
         List<Image> zombiesList; //Список для моба
         public List<UIElement> elc;
         public int Speed_Zombie;
-        ProgressBar hp_bar;
         public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int Speed_Zombie = 2)
         {
             this.player = player;
@@ -28,6 +27,7 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
             this.zombiesList = zombiesList;
             this.elc = elc;
             this.Speed_Zombie = Speed_Zombie;
+
         }
 
         public void MobSpawn() //Создаем зомби
@@ -36,7 +36,7 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
             Zombies.Tag = "Zombie";
             Zombies.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Width))); //Использует случайное значение от 0 до крайней точки разрешения экрана
-            Canvas.SetTop(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Height)));
+            Canvas.SetTop(Zombies, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
             Zombies.Height = 200; Zombies.Width = 200;
             zombiesList.Add(Zombies);
             CanvasGame.Children.Add(Zombies);
@@ -48,7 +48,14 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
             {
                 if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
                 {
-                        if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
+                    Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                    Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
+                    if (rect1.IntersectsWith(rect2))
+                    {
+                        Player.HealthPlayer -= 1; //Если зомби прикасается к коллизии игрока, то из хп бара вычитается 1 хп
+                    }
+
+                    if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
                     {
                         Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.Relative)); //Текстура зомби, идущего влево
@@ -69,22 +76,6 @@ namespace Secret_of_Castle.Game_classes.IO_Mob
                     {
                         Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
                     }
-/*                    if (Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(ImgZomb) && Canvas.GetLeft(player) < Canvas.GetLeft(ImgZomb) + ImgZomb.ActualWidth && Canvas.GetTop(player) < Canvas.GetTop(ImgZomb) + ImgZomb.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(ImgZomb))
-                    {
-                        hp_bar.Value -= 0.5; //Если зомби прикосается к коллизии игрока, то из хп бара вычтется 1 хп
-                        if (hp_bar.Value > 50)
-                        {
-                            hp_bar.Foreground = Brushes.Green; //если здоровья больше 50, то ProgressBar окрашен в зеленый 
-                        }
-                        else if (hp_bar.Value > 25)
-                        {
-                            hp_bar.Foreground = Brushes.Yellow; //если здоровья больше 25, то ProgressBar окрашен в желтый
-                        }
-                        else
-                        {
-                            hp_bar.Foreground = Brushes.Red; //в иных случаях ProgressBar красный 
-                        }
-                    }*/
                 }
             }
         }

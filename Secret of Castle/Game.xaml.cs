@@ -17,10 +17,9 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using System.Drawing;
 using System.Windows.Media.Animation;
-using Control_player;
 using Secret_of_Castle.Game_classes.IO_Mob;
 using Secret_of_Castle.Game_classes;
-using Secret_of_Castle.Level;
+/*using level1;*/
 
 
 namespace Secret_of_Castle
@@ -34,23 +33,27 @@ namespace Secret_of_Castle
         int Speed_Zombie = 2;
         Random rand = new Random();
         Zombie zombieai;
-        List<Image> zombiesList = new List<Image>();
+        List<object> zombiesList = new List<object>();
         List<Image> objectlist = new List<Image>();
-
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         public static int Speed = 7;
         private string dir;
+        private string direction = "Right";
 
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
         }
         private void kbdown(object sender, KeyEventArgs e) {
             Player_Controller.kbdown(sender, e); //Кнопка опущена
+            if (e.Key == Key.E)
+            {
+                ShootMagicBasic(direction);
+            }
         }
         public Game() {
             InitializeComponent(); //Таймер
             List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, direction);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
@@ -104,14 +107,14 @@ namespace Secret_of_Castle
                         }
                     }
                 }
-                if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+/*                if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
                 {
                     level2 ChangeLevel = new level2();
                     this.Hide(); // скрываем текущее окно
                     gametimer.Stop();
                     ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
                     this.Close(); // закрываем текущее окно после закрытия нового
-                }
+                }*/
             }
         }
         private void OBJGeneration() //Рандомная генерация
@@ -125,6 +128,15 @@ namespace Secret_of_Castle
             objectlist.Add(collisionobj);
             CanvasGame.Children.Add(collisionobj);
             Canvas.SetZIndex(player, 1);
+        }
+        public void ShootMagicBasic(string Controlmagic)
+        {
+            Magic ShootBasicWeapon = new Magic();
+            ShootBasicWeapon.Controlmagic = Controlmagic;
+            ShootBasicWeapon.MagicHorisontal = (int)(Canvas.GetLeft(player) + (player.Width / 2));
+            ShootBasicWeapon.MagicVertical = (int)(Canvas.GetTop(player) + (player.Height / 2));
+            ShootBasicWeapon.SphereMagicNew(CanvasGame);
+
         }
         private void GameLose()
         {

@@ -10,24 +10,26 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace Control_player
+namespace Secret_of_Castle
 {
     internal class Player
     {
         public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
         public static int Speed = 7;
         public static int HealthPlayer = 100;
+        public string direction = "Down";
         Image player;
         Canvas CanvasGame;
         ProgressBar hp_bar;
         DispatcherTimer gametimer;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String direction)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
             this.gametimer = gametimer;
+            this.direction = direction;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -59,6 +61,7 @@ namespace Control_player
             {
                 Speed = 7;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+
             }
         }
         public void kbdown(object sender, KeyEventArgs e) //Кнопка опущена
@@ -70,20 +73,24 @@ namespace Control_player
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
+                direction = "Up";
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
+                direction = "Down";
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
+                direction = "Right";
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
+                direction = "Left";
             }
             if (e.Key == Key.LeftShift)
             {

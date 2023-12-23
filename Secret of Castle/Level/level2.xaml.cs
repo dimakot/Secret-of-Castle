@@ -12,10 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Control_player;
 using Secret_of_Castle.Game_classes.IO_Mob;
 
-namespace Secret_of_Castle.Level
+namespace Secret_of_Castle
 {   ///второй уровень, сюда можно засунуть рандомную генерацию
     /// <summary>
     /// Логика взаимодействия для level2.xaml
@@ -28,6 +27,7 @@ namespace Secret_of_Castle.Level
         int Speed = 7;
         Random rand = new Random();
         List<Rectangle> walllist = new List<Rectangle>(); //создаем список 
+        private string direction = "Down";
         //----------------------------------------------------
         int x, y, n = 0;
         public bool[,] coordinateWeb = new bool[19, 10];
@@ -104,7 +104,7 @@ namespace Secret_of_Castle.Level
         {
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, direction);
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);

@@ -50,7 +50,7 @@ namespace Secret_of_Castle
         public Game() {
             InitializeComponent(); //Таймер
             List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
@@ -107,11 +107,10 @@ namespace Secret_of_Castle
                 if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
                 {
                     level2 ChangeLevel = new level2();
+                    this.Hide(); // скрываем текущее окно
                     gametimer.Stop();
-                    this.Hide();
-                    gametimer.Stop();
-                    ChangeLevel.Show();
-                    gametimer.Stop();
+                    ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
+                    this.Close(); // закрываем текущее окно после закрытия нового
                 }
             }
         }
@@ -121,7 +120,7 @@ namespace Secret_of_Castle
             collisionobj.Tag = "objects";
             collisionobj.Source = new BitmapImage(new Uri("castle_1.jpeg", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(collisionobj, rand.Next(0, Convert.ToInt32(CanvasGame.Width)));
-            Canvas.SetTop(collisionobj, rand.Next(85, Convert.ToInt32(CanvasGame.Width)));
+            Canvas.SetTop(collisionobj, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
             collisionobj.Height = 75; collisionobj.Width = 75;
             objectlist.Add(collisionobj);
             CanvasGame.Children.Add(collisionobj);

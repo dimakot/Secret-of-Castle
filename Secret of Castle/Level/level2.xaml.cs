@@ -1,7 +1,4 @@
-﻿using Collision_class;
-using Control_player;
-using Secret_of_Castle.Game_classes.IO_Mob;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Control_player;
+using Secret_of_Castle.Game_classes.IO_Mob;
 
 namespace Secret_of_Castle.Level
 {   ///второй уровень, сюда можно засунуть рандомную генерацию
@@ -23,7 +22,7 @@ namespace Secret_of_Castle.Level
     /// </summary>
     public partial class level2 :  Window
     {
-        DispatcherTimer gametimer1 = new DispatcherTimer();
+        DispatcherTimer gametimer = new DispatcherTimer();
         private bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         Player Player_Controller;
         int Speed = 7;
@@ -95,7 +94,7 @@ namespace Secret_of_Castle.Level
             rect.Stroke = Brushes.Aqua;
             rect.Fill = Brushes.Coral;
             Canvas.SetLeft(rect, rand.Next(0, Convert.ToInt32(CanvasGame.Width))); //Ставим его в рандомное место экрана
-            Canvas.SetTop(rect, rand.Next(85, Convert.ToInt32(CanvasGame.Width)));
+            Canvas.SetTop(rect, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
             rect.Width = 100; rect.Height = 50;
             walllist.Add(rect); //добавляем в список
             CanvasGame.Children.Add(rect); //добавляем объекты на канвас 
@@ -104,11 +103,12 @@ namespace Secret_of_Castle.Level
         public level2()
         {
             InitializeComponent(); //Таймер
-            Player_Controller = new Player(player, CanvasGame, hp_bar);
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             CanvasGame.Focus();
-            gametimer1.Tick += new EventHandler(GameTickTimer);
-            gametimer1.Interval = TimeSpan.FromMilliseconds(10);
-            gametimer1.Start();
+            gametimer.Tick += new EventHandler(GameTickTimer);
+            gametimer.Interval = TimeSpan.FromMilliseconds(10);
+            gametimer.Start();
             GameLose();
         }
         private void kbup(object sender, KeyEventArgs e)
@@ -129,6 +129,7 @@ namespace Secret_of_Castle.Level
         }
         private void GameTickTimer(object sender, EventArgs e)
         {
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller.Control(); //Движение игрока
         }
         private void GameLose() // Создаем функцию для экрана проигрыша и остальных задач игры 

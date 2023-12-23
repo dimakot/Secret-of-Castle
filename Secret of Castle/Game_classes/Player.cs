@@ -8,26 +8,33 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace Control_player
 {
     internal class Player
     {
-        public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
+        public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
         public static int Speed = 7;
         public static int HealthPlayer = 100;
         Image player;
         Canvas CanvasGame;
         ProgressBar hp_bar;
+        DispatcherTimer gametimer;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
+            this.gametimer = gametimer;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
+            if (Lose == true)
+            {
+                return;
+            }
             if (e.Key == Key.W)
             {
                 UpKeyDown = false;
@@ -56,6 +63,10 @@ namespace Control_player
         }
         public void kbdown(object sender, KeyEventArgs e) //Кнопка опущена
         {
+            if (Lose == true) //Если активно условие проигрыша, то управление не работает
+            {
+                return;
+            }
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
@@ -101,9 +112,15 @@ namespace Control_player
             {
                 Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
             }
-            if (HealthPlayer > 1)
+            if (HealthPlayer > 1) //Если HP больше 1, то мы заносим значение здоровья в прогресс бар 
             {
                 hp_bar.Value = HealthPlayer;
+            }
+            else //иначе игрок проигрывает, таймер отключается
+            {
+                Lose = true;
+                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));
+                gametimer.Stop();
             }
             if (hp_bar.Value > 50)
             {

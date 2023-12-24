@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using Secret_of_Castle.Game_classes;
 using System.Windows.Media;
 
-namespace Secret_of_Castle.Game_classes.IO_Mob
+namespace Secret_of_Castle
 {
     internal class Zombie
     {

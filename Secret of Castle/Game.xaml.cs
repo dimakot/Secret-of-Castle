@@ -17,7 +17,6 @@ using System.Windows.Threading;
 using System.Xml.Linq;
 using System.Drawing;
 using System.Windows.Media.Animation;
-using Secret_of_Castle.Game_classes.IO_Mob;
 using Secret_of_Castle.Game_classes;
 /*using level1;*/
 
@@ -38,7 +37,14 @@ namespace Secret_of_Castle
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         public static int Speed = 7;
         private string dir;
-        private string direction = "Right";
+        private string Controlmagic = "Right";
+        int HP_Zombie = 100;
+        private NavigationService navigationService;
+
+        public Game(NavigationService navigationService)
+        {
+            this.navigationService = navigationService;
+        }
 
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -47,13 +53,13 @@ namespace Secret_of_Castle
             Player_Controller.kbdown(sender, e); //Кнопка опущена
             if (e.Key == Key.E)
             {
-                ShootMagicBasic(direction);
+                ShootMagicBasic(Controlmagic);
             }
         }
         public Game() {
             InitializeComponent(); //Таймер
             List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, direction);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, Controlmagic);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
@@ -107,14 +113,35 @@ namespace Secret_of_Castle
                         }
                     }
                 }
-/*                if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+                foreach (UIElement j in elc)
                 {
-                    level2 ChangeLevel = new level2();
-                    this.Hide(); // скрываем текущее окно
-                    gametimer.Stop();
-                    ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
-                    this.Close(); // закрываем текущее окно после закрытия нового
-                }*/
+                        if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie")
+                        {
+                            Rect rect1 = new Rect(Canvas.GetLeft(BasicMagSphere), Canvas.GetTop(BasicMagSphere), BasicMagSphere.RenderSize.Width, BasicMagSphere.RenderSize.Height);
+                            Rect rect2 = new Rect(Canvas.GetLeft(ZombieMob), Canvas.GetTop(ZombieMob), ZombieMob.RenderSize.Width, ZombieMob.RenderSize.Height);
+                            if (rect1.IntersectsWith(rect2))
+                            {
+                                CanvasGame.Children.Remove(BasicMagSphere);
+                                BasicMagSphere.Source = null;
+                                HP_Zombie -= 30;
+                            if (HP_Zombie < 1)
+                            {
+                                CanvasGame.Children.Remove(ZombieMob);
+                                ZombieMob.Source = null;
+                                zombiesList.Remove(ZombieMob);
+                                zombieai.MobSpawn();
+                            }
+                            }
+                        }
+                    }
+                if (Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+                {
+                    /*                    level2 ChangeLevel = new level2();
+                                        this.Hide(); // скрываем текущее окно
+                                        gametimer.Stop();
+                                        ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
+                                        this.Close(); // закрываем текущее окно после закрытия нового*/
+                }
             }
         }
         private void OBJGeneration() //Рандомная генерация

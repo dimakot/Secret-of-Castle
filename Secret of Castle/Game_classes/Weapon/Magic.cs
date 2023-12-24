@@ -23,14 +23,23 @@ namespace Secret_of_Castle
         private DispatcherTimer TimerBasicMagicWeapon = new DispatcherTimer();
         public void SphereMagicNew(Canvas CanvasGame)
         {
-            MagicSphere.Source = new BitmapImage(new Uri("Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_1.png", UriKind.RelativeOrAbsolute));
+            List<string> MagicSphereImages = new List<string>() {
+                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_1.png",
+                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_2.png",
+                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_3.png",
+                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_4.png"
+            }; int animationCurrentImage = 0;
+            MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
             MagicSphere.Height = 106; MagicSphere.Width = 70;
             MagicSphere.Tag = "BasicMagicSphere";
             Canvas.SetLeft(MagicSphere, MagicHorisontal); Canvas.SetTop(MagicSphere, MagicVertical);
             Canvas.SetZIndex(MagicSphere, 1);
             CanvasGame.Children.Add(MagicSphere);
-            TimerBasicMagicWeapon.Interval = TimeSpan.FromMilliseconds(SpeedMagic); 
-            TimerBasicMagicWeapon.Tick += new EventHandler(BasicMagicEvent);
+            TimerBasicMagicWeapon.Interval = TimeSpan.FromMilliseconds(SpeedMagic);
+            TimerBasicMagicWeapon.Tick += (sender, e) => {
+                animationCurrentImage = (animationCurrentImage + 1) % MagicSphereImages.Count;
+                MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute)); BasicMagicEvent(sender, e);
+            };
             TimerBasicMagicWeapon.Start();
         }
         private void BasicMagicEvent(object sender, EventArgs w)
@@ -59,5 +68,28 @@ namespace Secret_of_Castle
                 TimerBasicMagicWeapon = null;
             }
         }
+/*        public void KillMob(Canvas CanvasGame, List<UIElement> elc)
+        {
+            foreach (UIElement j in elc)
+            {
+                foreach (UIElement u in elc)
+                {
+                    if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie") //Убийство мобов
+                    {
+                        if (Canvas.GetLeft(ZombieMob) < Canvas.GetLeft(BasicMagSphere) + BasicMagSphere.ActualWidth &&
+                        Canvas.GetLeft(ZombieMob) + ZombieMob.ActualWidth > Canvas.GetLeft(BasicMagSphere) &&
+                        Canvas.GetTop(ZombieMob) < Canvas.GetTop(BasicMagSphere) + BasicMagSphere.ActualHeight &&
+                        Canvas.GetTop(ZombieMob) + ZombieMob.ActualHeight > Canvas.GetTop(BasicMagSphere))
+                        {
+                            CanvasGame.Children.Remove(BasicMagSphere);
+                            BasicMagSphere.Source = null;
+                            CanvasGame.Children.Remove(ZombieMob);
+                            ZombieMob.Source = null;
+                            zombieList.Remove(ZombieMob
+                        }
+                    }
+                }
+            }
+        }*/
     }
 }

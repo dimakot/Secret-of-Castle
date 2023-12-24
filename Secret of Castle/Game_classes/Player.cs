@@ -17,19 +17,19 @@ namespace Secret_of_Castle
         public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
         public static int Speed = 7;
         public static int HealthPlayer = 100;
-        public string direction = "Down";
+        public string Controlmagic = "Down";
         Image player;
         Canvas CanvasGame;
         ProgressBar hp_bar;
         DispatcherTimer gametimer;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String direction)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String Controlmagic)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
             this.gametimer = gametimer;
-            this.direction = direction;
+            this.Controlmagic = Controlmagic;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -73,24 +73,24 @@ namespace Secret_of_Castle
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
-                direction = "Up";
+                Controlmagic = "Up";
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
-                direction = "Down";
+                Controlmagic = "Down";
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
-                direction = "Right";
+                Controlmagic = "Left";
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
-                direction = "Left";
+                Controlmagic = "Right";
             }
             if (e.Key == Key.LeftShift)
             {

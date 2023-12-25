@@ -21,6 +21,7 @@ namespace Secret_of_Castle
         public int Speed_Zombie;
         ProgressBar zombieHPBar;
         public static int zombieHP = 100;
+        difficult Difficult;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
         public Zombie(Image player, Canvas CanvasGame, List<object> zombiesList, List<UIElement> elc, int Speed_Zombie = 2) {
@@ -51,43 +52,64 @@ namespace Secret_of_Castle
         }
         public void ZombieMovement() {
             foreach (UIElement w in elc) {
-                    if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
+                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
+                {
+                    Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                    Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
+                    if (rect1.IntersectsWith(rect2))
                     {
-                        Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                        Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
-                        if (rect1.IntersectsWith(rect2))
+                        DateTime currentTime = DateTime.Now;
+                        double difference = (currentTime - lastDamageTime).TotalMilliseconds;
+
+                        if (difference >= delay) //В зависимости от выбранной сложности, игрок получает определенное кол-во урона
                         {
-                            DateTime currentTime = DateTime.Now;
-                            double difference = (currentTime - lastDamageTime).TotalMilliseconds;
-                            if (difference >= delay) //Если зомби прикасается к коллизии игрока, то из хп бара вычитается 7 хп каждую секунду
+                            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+                            if (currentDifficulty == "Hard")
                             {
-                                Player.HealthPlayer -= 7;
+                                Player.HealthPlayer -= 50;
+                                lastDamageTime = currentTime;
+                            }
+                            else if (currentDifficulty == "Medium")
+                            {
+                                Player.HealthPlayer -= 15;
+                                lastDamageTime = currentTime;
+                            }
+                            else if (currentDifficulty == "Lite")
+                            {
+                                Player.HealthPlayer -= 4;
+                                lastDamageTime = currentTime;
+                            }
+                            else
+                            {
+                                Player.HealthPlayer -= 4;
                                 lastDamageTime = currentTime;
                             }
                         }
-                        if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
-                        {
-                            Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
-                            ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.Relative)); //Текстура зомби, идущего влево
-                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb) + 15);
+
+                    }
+                    if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
+                    {
+                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
+                        ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.Relative)); //Текстура зомби, идущего влево
+                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb) + 15);
                     }
 
-                        if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
-                        {
-                            Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) + Speed_Zombie);
-                        }
-
-                        if (Canvas.GetTop(ImgZomb) > Canvas.GetTop(player))
-                        {
-                            Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
-                            ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.Relative)); // Текстура зомби, идущего вправо
-                            Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - 15);
+                    if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
+                    {
+                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) + Speed_Zombie);
                     }
 
-                        if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
-                        {
-                            Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
-                        }
+                    if (Canvas.GetTop(ImgZomb) > Canvas.GetTop(player))
+                    {
+                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
+                        ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.Relative)); // Текстура зомби, идущего вправо
+                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - 15);
+                    }
+
+                    if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
+                    {
+                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
+                    }
                 }
             }
         }

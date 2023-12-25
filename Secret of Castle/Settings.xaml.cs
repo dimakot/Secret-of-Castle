@@ -29,9 +29,25 @@ namespace Secret_of_Castle
             Close();
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        private void DifficultLite_Click(object sender, RoutedEventArgs e)
         {
+            difficult.Instance.SetDifficulty("Lite");
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            Difficultlb.Content = currentDifficulty;
+        }
 
+        private void DifficultMedium_Click(object sender, RoutedEventArgs e)
+        {
+            difficult.Instance.SetDifficulty("Medium");
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            Difficultlb.Content = currentDifficulty;
+        }
+
+        private void DifficultHard_Click(object sender, RoutedEventArgs e)
+        {
+            difficult.Instance.SetDifficulty("Hard");
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            Difficultlb.Content = currentDifficulty;
         }
     }
 }

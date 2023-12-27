@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 
-namespace Secret_of_Castle.Game_classes.Weapon
+namespace Weapon
 {
     public class Sword
     {

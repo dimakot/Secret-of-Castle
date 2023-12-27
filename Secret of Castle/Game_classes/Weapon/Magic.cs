@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 
-namespace Secret_of_Castle
+namespace Weapon
 {
     internal class Magic
     {

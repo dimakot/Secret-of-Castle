@@ -1,21 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
-using System.Drawing;
-using System.Windows.Media.Animation;
-using System.Threading;
 using System.Windows.Threading;
-using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace Secret_of_Castle
 {
     internal class Magic
     {
-        public string Controlmagic;
+        public string ControlWeapon;
         public int MagicHorisontal;
         public int MagicVertical;
         private int SpeedMagic = 50;
@@ -44,19 +37,19 @@ namespace Secret_of_Castle
         }
         private void BasicMagicEvent(object sender, EventArgs w)
         {
-            if (Controlmagic == "Left")
+            if (ControlWeapon == "Left")
             {
                 Canvas.SetLeft(MagicSphere, Canvas.GetLeft(MagicSphere) - SpeedMagic);
             }
-            if (Controlmagic == "Right")
+            if (ControlWeapon == "Right")
             {
                 Canvas.SetLeft(MagicSphere, Canvas.GetLeft(MagicSphere) + SpeedMagic);
             }
-            if (Controlmagic == "Down")
+            if (ControlWeapon == "Down")
             {
                 Canvas.SetTop(MagicSphere, Canvas.GetTop(MagicSphere) + SpeedMagic);
             }
-            if (Controlmagic == "Up")
+            if (ControlWeapon == "Up")
             {
                 Canvas.SetTop(MagicSphere, Canvas.GetTop(MagicSphere) - SpeedMagic);
             }
@@ -68,28 +61,5 @@ namespace Secret_of_Castle
                 TimerBasicMagicWeapon = null;
             }
         }
-/*        public void KillMob(Canvas CanvasGame, List<UIElement> elc)
-        {
-            foreach (UIElement j in elc)
-            {
-                foreach (UIElement u in elc)
-                {
-                    if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie") //Убийство мобов
-                    {
-                        if (Canvas.GetLeft(ZombieMob) < Canvas.GetLeft(BasicMagSphere) + BasicMagSphere.ActualWidth &&
-                        Canvas.GetLeft(ZombieMob) + ZombieMob.ActualWidth > Canvas.GetLeft(BasicMagSphere) &&
-                        Canvas.GetTop(ZombieMob) < Canvas.GetTop(BasicMagSphere) + BasicMagSphere.ActualHeight &&
-                        Canvas.GetTop(ZombieMob) + ZombieMob.ActualHeight > Canvas.GetTop(BasicMagSphere))
-                        {
-                            CanvasGame.Children.Remove(BasicMagSphere);
-                            BasicMagSphere.Source = null;
-                            CanvasGame.Children.Remove(ZombieMob);
-                            ZombieMob.Source = null;
-                            zombieList.Remove(ZombieMob
-                        }
-                    }
-                }
-            }
-        }*/
     }
 }

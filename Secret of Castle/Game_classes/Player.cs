@@ -17,7 +17,7 @@ namespace Secret_of_Castle
         public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
         public static int Speed = 7;
         public static int HealthPlayer = 100;
-        public string Controlmagic = "Down";
+        public string ControlWeapon = "Down";
         Image player;
         Canvas CanvasGame;
         ProgressBar hp_bar;
@@ -29,7 +29,7 @@ namespace Secret_of_Castle
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
             this.gametimer = gametimer;
-            this.Controlmagic = Controlmagic;
+            this.ControlWeapon = Controlmagic;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -73,24 +73,24 @@ namespace Secret_of_Castle
             if (e.Key == Key.W)
             {
                 UpKeyDown = true;
-                Controlmagic = "Up";
+                ControlWeapon = "Up";
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
-                Controlmagic = "Down";
+                ControlWeapon = "Down";
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
-                Controlmagic = "Left";
+                ControlWeapon = "Left";
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
-                Controlmagic = "Right";
+                ControlWeapon = "Right";
             }
             if (e.Key == Key.LeftShift)
             {

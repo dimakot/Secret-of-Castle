@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Secret_of_Castle.Game_classes;
 using System.Windows.Media;
 
 namespace Secret_of_Castle
@@ -114,7 +110,7 @@ namespace Secret_of_Castle
             }
         }
         public void GameLose() {
-            player.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/zombie_right.png", UriKind.RelativeOrAbsolute));
+            player.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/zombie_right.png", UriKind.Relative));
             foreach (Image i in zombiesList) // при проигрыше игрока, лист с зомби чистится, мобы пропадают
             {
                             CanvasGame.Children.Remove(i);

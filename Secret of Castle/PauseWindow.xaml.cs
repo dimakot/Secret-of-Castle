@@ -31,7 +31,7 @@ namespace Secret_of_Castle {
         }
 
         private void Exit_Button_Click(object sender, RoutedEventArgs e) {
-            System.Windows.Application.Current.Shutdown();
+            Application.Current.Shutdown();
         }
     }
 }

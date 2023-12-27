@@ -18,6 +18,7 @@ using System.Xml.Linq;
 using System.Drawing;
 using System.Windows.Media.Animation;
 using Secret_of_Castle.Game_classes;
+using Secret_of_Castle.Game_classes.Weapon;
 /*using level1;*/
 
 
@@ -40,10 +41,12 @@ namespace Secret_of_Castle
         private string Controlmagic = "Right";
         int HP_Zombie = 100;
         private NavigationService navigationService;
+        private Sword sworder;
 
-        public Game(NavigationService navigationService)
+        public Game(NavigationService navigationService, Sword sworder)
         {
             this.navigationService = navigationService;
+            this.sworder = sworder;
         }
 
         private void kbup(object sender, KeyEventArgs e) {
@@ -54,6 +57,10 @@ namespace Secret_of_Castle
             if (e.Key == Key.E)
             {
                 ShootMagicBasic(Controlmagic);
+            }
+            if (e.Key == Key.Q)
+            {
+                SwordStroke();
             }
         }
         public Game() {
@@ -165,6 +172,16 @@ namespace Secret_of_Castle
             ShootBasicWeapon.SphereMagicNew(CanvasGame);
 
         }
+        public void SwordStroke()
+        {
+            Sword sword = new Sword();
+            sword.playerVertical = (int)(Canvas.GetLeft(player) - (player.Width / 2));
+            sword.playerHorizontal = (int)(Canvas.GetTop(player) - (player.Height / 2));
+            sword.powerWaveCreator(CanvasGame);
+        }
+
+
+
         private void GameLose()
         {
             zombieai.GameLose();

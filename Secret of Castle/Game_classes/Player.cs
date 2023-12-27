@@ -40,27 +40,27 @@ namespace Secret_of_Castle
             if (e.Key == Key.W)
             {
                 UpKeyDown = false;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));*/
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = false;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));*/
             }
             if (e.Key == Key.A)
             {
                 LeftKeyDown = false;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));*/
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = false;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));*/
             }
             if (e.Key == Key.LeftShift)
             {
                 Speed = 7;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));*/
 
             }
         }
@@ -83,19 +83,19 @@ namespace Secret_of_Castle
             if (e.Key == Key.A)
             {
                 LeftKeyDown = true;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));*/
                 ControlWeapon = "Left";
             }
             if (e.Key == Key.D)
             {
                 RightKeyDown = true;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));*/
                 ControlWeapon = "Right";
             }
             if (e.Key == Key.LeftShift)
             {
                 Speed = 12;
-                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));*/
             }
         }
         public void Control()

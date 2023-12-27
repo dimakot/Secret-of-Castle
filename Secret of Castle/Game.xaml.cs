@@ -28,9 +28,7 @@ namespace Secret_of_Castle
         List<Image> objectlist = new List<Image>();
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         public static int Speed = 7;
-        private string dir;
         private string ControlWeapon = "Right";
-        int HP_Zombie = 100;
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
         }
@@ -55,7 +53,8 @@ namespace Secret_of_Castle
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Start();
             GameLose();
-    }
+            player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
+        }
         private void Game1_KeyDown(object sender, KeyEventArgs e) { //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
             if (e.Key == Key.Escape) {
                 Pause To_pause = new Pause(); 
@@ -80,7 +79,6 @@ namespace Secret_of_Castle
                             {
                             CanvasGame.Children.Remove(BasicMagSphere);
                                 BasicMagSphere.Source = null;
-                                HP_Zombie -= 30;
                                 CanvasGame.Children.Remove(ZombieMob);
                                 ZombieMob.Source = null;
                                 zombiesList.Remove(ZombieMob);
@@ -95,6 +93,10 @@ namespace Secret_of_Castle
                     level1 ChangeLevel = new level1();
                     this.Hide(); // скрываем текущее окно
                     gametimer.Stop();
+                    UpKeyDown = false;
+                    DownKeyDown = false;
+                    LeftKeyDown = false;
+                    RightKeyDown = false;
                     ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
                     this.Close(); // закрываем текущее окно после закрытия нового
                 }

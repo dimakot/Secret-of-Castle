@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Secret_of_Castle.Level;
+using Weapon;
 
 
 namespace Secret_of_Castle

@@ -9,7 +9,7 @@ namespace Secret_of_Castle
 {
     internal class difficult
     {
-        public string CurrentDifficulty;
+        public string CurrentDifficulty = "Lite";
         private static difficult instance = null;
         private difficult() { }
         public static difficult Instance

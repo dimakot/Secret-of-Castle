@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -19,16 +21,18 @@ namespace Secret_of_Castle
     /// Логика взаимодействия для Game.xaml
     /// </summary>
     public partial class Game : Window {
-        DispatcherTimer gametimer = new DispatcherTimer();
-        Player Player_Controller;
-        int Speed_Zombie = 2;
-        Random rand = new Random();
-        Zombie zombieai;
-        List<object> zombiesList = new List<object>();
-        List<Image> objectlist = new List<Image>();
-        public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
-        public static int Speed = 7;
-        private string ControlWeapon = "Right";
+        DispatcherTimer gametimer = new DispatcherTimer(); //Таймер
+        Player Player_Controller; //Класс игрока
+        int Speed_Zombie = 2; //Скорость зомби
+        int zombieKilles = 0; //Количество убитых зомби
+        Random rand = new Random(); //Рандом
+        Zombie zombieai; //Класс зомби
+        Collision collision; //Класс коллизий
+        List<object> zombiesList = new List<object>(); //Список для моба
+        List<Image> objectlist = new List<Image>(); //Список для объектов
+        public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown; //Кнопки
+        public static int Speed = 7; //Скорость игрока
+        public string ControlWeapon = "Right"; //Направление магии
         private void kbup(object sender, KeyEventArgs e) {
             Player_Controller.kbup(sender, e); //Кнопка поднята
         }
@@ -47,7 +51,9 @@ namespace Secret_of_Castle
             InitializeComponent(); //Таймер
             List<UIElement> elc= CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, ControlWeapon);
-            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie);
+            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie, zombieKilles);
+            Player_Controller.ControlWeapon = ControlWeapon; //Направление магии
+            collision = new Collision(CanvasGame, player, elc);
             CanvasGame.Focus();
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
@@ -71,20 +77,21 @@ namespace Secret_of_Castle
             {
                 foreach (UIElement j in elc)
                 {
-                        if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie")
+                        if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Zombie")
                         {
                             Rect MagicSphere = new Rect(Canvas.GetLeft(BasicMagSphere), Canvas.GetTop(BasicMagSphere), BasicMagSphere.RenderSize.Width, BasicMagSphere.RenderSize.Height);
-                            Rect rect2 = new Rect(Canvas.GetLeft(ZombieMob), Canvas.GetTop(ZombieMob), ZombieMob.RenderSize.Width, ZombieMob.RenderSize.Height);
+                            Rect rect2 = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
                             if (MagicSphere.IntersectsWith(rect2))
                             {
                             CanvasGame.Children.Remove(BasicMagSphere);
                                 BasicMagSphere.Source = null;
-                                CanvasGame.Children.Remove(ZombieMob);
-                                ZombieMob.Source = null;
-                                zombiesList.Remove(ZombieMob);
+                                CanvasGame.Children.Remove(ZombieMobAttack);
+                                ZombieMobAttack.Source = null;
+                                zombiesList.Remove(ZombieMobAttack);
                                 zombieai.MobSpawn();
-                            }
+                                zombieKilles++;
                         }
+                    }
                     }
                 Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
                 Rect portal = new Rect(Canvas.GetLeft(Portal), Canvas.GetTop(Portal), Portal.RenderSize.Width, Portal.RenderSize.Height);
@@ -93,13 +100,15 @@ namespace Secret_of_Castle
                     level1 ChangeLevel = new level1();
                     this.Hide(); // скрываем текущее окно
                     gametimer.Stop();
-                    UpKeyDown = false;
+                    UpKeyDown = false; //Обнуляем кнопки
                     DownKeyDown = false;
                     LeftKeyDown = false;
                     RightKeyDown = false;
                     ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
                     this.Close(); // закрываем текущее окно после закрытия нового
                 }
+/*                collision.elc = elc;
+                collision.Collision_physics();*/
             }
         }
         private void OBJGeneration() //Рандомная генерация
@@ -114,7 +123,7 @@ namespace Secret_of_Castle
             CanvasGame.Children.Add(collisionobj);
             Canvas.SetZIndex(player, 1);
         }
-        public void ShootMagicBasic(string Controlmagic)
+        public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {
             Magic ShootBasicWeapon = new Magic();
             ShootBasicWeapon.ControlWeapon = Controlmagic;
@@ -123,7 +132,7 @@ namespace Secret_of_Castle
             ShootBasicWeapon.SphereMagicNew(CanvasGame);
 
         }
-        public void SwordStroke()
+        public void SwordStroke() //Удар мечом
         {
             Sword sword = new Sword();
             sword.playerVertical = (int)(Canvas.GetLeft(player) - (player.Width / 2));

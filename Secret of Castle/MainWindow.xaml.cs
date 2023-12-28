@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Secret_of_Castle
@@ -9,10 +10,15 @@ namespace Secret_of_Castle
     public partial class MainWindow : Window
     {
         public static Window Game_to;
+/*        public void Music()
+        {
+            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
+            player.SoundLocation = @"Sound\Music\MainMenuTheme.wav";
+            player.PlayLooping();
+        }*/
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         private void Menu_MouseMove(object sender, MouseEventArgs e)
@@ -20,15 +26,18 @@ namespace Secret_of_Castle
             Point cursorPos = new Point(e.GetPosition(relativeTo: this).X, e.GetPosition(relativeTo: this).Y);
         }
 
-        private void Button_Play_MouseEnter(object sender, MouseEventArgs e) {
+        private void Button_Play_MouseEnter(object sender, MouseEventArgs e)
+        {
 
         }
 
-        private void Button_Play_MouseLeave(object sender, MouseEventArgs e) {
+        private void Button_Play_MouseLeave(object sender, MouseEventArgs e)
+        {
 
         }
 
-        private void Button_Play_Click(object sender, RoutedEventArgs e) {
+        private void Button_Play_Click(object sender, RoutedEventArgs e)
+        {
             /* Game To_Game = new Game();
                To_Game.Show(); //Показывает окно поверх второго*/
             if (Game_to == null)
@@ -44,7 +53,8 @@ namespace Secret_of_Castle
 
         }
 
-        private void Button_Exit_Click(object sender, RoutedEventArgs e) {
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
+        {
 
             System.Windows.Application.Current.Shutdown();
         }

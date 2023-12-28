@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Secret_of_Castle
 {
@@ -15,12 +15,14 @@ namespace Secret_of_Castle
         List<object> zombiesList; //Список для моба
         public List<UIElement> elc;
         public int Speed_Zombie;
-        ProgressBar zombieHPBar;
+        public ProgressBar zombieHPBar;
         public static int zombieHP = 100;
+        public static int zombieKilles;
         difficult Difficult;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
-        public Zombie(Image player, Canvas CanvasGame, List<object> zombiesList, List<UIElement> elc, int Speed_Zombie = 2) {
+        public Zombie(Image player, Canvas CanvasGame, List<object> zombiesList, List<UIElement> elc, int Speed_Zombie = 2, int zombieKilles = 0) //Конструктор
+        {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.zombiesList = zombiesList;
@@ -35,19 +37,21 @@ namespace Secret_of_Castle
             Zombies.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Width))); //Использует случайное значение от 0 до крайней точки разрешения экрана
             Canvas.SetTop(Zombies, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
-            zombieHPBar = new ProgressBar(); zombieHPBar.Background = Brushes.Gray; zombieHPBar.Foreground = Brushes.Green;
-            zombieHPBar.Width = 170; zombieHPBar.Height = 12;
+/*            zombieHPBar = new ProgressBar(); zombieHPBar.Background = Brushes.Gray; zombieHPBar.Foreground = Brushes.Green;
+            zombieHPBar.Width = 170; zombieHPBar.Height = 12;*/
             Zombies.Height = 200; Zombies.Width = 200;
-            zombieHPBar.Minimum = 0; zombieHPBar.Maximum = zombieHP; zombieHPBar.Value = zombieHP;
-            zombieHPBar.Tag = "ZombieHP";
+/*            zombieHPBar.Minimum = 0; zombieHPBar.Maximum = zombieHP; zombieHPBar.Value = zombieHP;*/
+/*            zombieHPBar.Tag = "ZombieHP";*/
             zombiesList.Add(Zombies); // Добавляем зомби в список
-            zombiesList.Add(zombieHPBar); // Добавляем ProgressBar в список
+/*            zombiesList.Add(zombieHPBar); // Добавляем ProgressBar в список*/
             CanvasGame.Children.Add(Zombies); // Добавляем зомби на Canvas
-            CanvasGame.Children.Add(zombieHPBar); // Добавляем ProgressBar на Canvas
+/*            CanvasGame.Children.Add(zombieHPBar); // Добавляем ProgressBar на Canvas*/
             Canvas.SetZIndex(player, 1);
         }
-        public void ZombieMovement() {
-            foreach (UIElement w in elc) {
+        public void ZombieMovement()
+        {
+            foreach (UIElement w in elc)
+            {
                 if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
                 {
                     Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
@@ -87,7 +91,7 @@ namespace Secret_of_Castle
                     {
                         Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.Relative)); //Текстура зомби, идущего влево
-                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb) + 15);
+/*                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb) + 15);*/
                     }
 
                     if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
@@ -99,7 +103,7 @@ namespace Secret_of_Castle
                     {
                         Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.Relative)); // Текстура зомби, идущего вправо
-                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - 15);
+/*                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - 15);*/
                     }
 
                     if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
@@ -109,18 +113,62 @@ namespace Secret_of_Castle
                 }
             }
         }
-        public void GameLose() {
+        public void GameLose(int ZombieKills = 0)
+        {
             player.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/zombie_right.png", UriKind.Relative));
             foreach (Image i in zombiesList) // при проигрыше игрока, лист с зомби чистится, мобы пропадают
             {
-                            CanvasGame.Children.Remove(i);
+                CanvasGame.Children.Remove(i);
+                foreach (ProgressBar w in zombiesList)
+                {
+                    CanvasGame.Children.Remove(w);
+                }
             }
-
             zombiesList.Clear();
-
-            for (int i = 0; i < 3; i++) //если мобов меньше чем 3, спавнится еще один
+            if (zombiesList.Count < 3) //если мобов меньше чем 3, спавнится еще один
             {
-                MobSpawn();
+                string currentDifficulty = difficult.Instance.CurrentDifficulty; //В зависимости от выбранной сложности спавнится за раз определенное кол-во мобов
+                if (currentDifficulty == "Hard")
+                {
+                    //Если на счетчеке больше меньше 50 спавнится еще мобы 
+                   if (zombiesList.Count < 50)
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            MobSpawn();
+                        }
+                    }
+                }
+                else if (currentDifficulty == "Medium")
+                {
+                    if (zombiesList.Count < 25)
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            MobSpawn();
+                        }
+                    }
+                }
+                else if (currentDifficulty == "Lite")
+                {
+                    if (zombieKilles < 10)
+                    {
+                        for (int i = 0; i < 2; i++)
+                        {
+                            MobSpawn();
+                        }
+                    }
+                }
+                else
+                {
+                    if (zombieKilles < 10)
+                    {
+                        for (int i = 0; i < 2; i++)
+                        {
+                            MobSpawn();
+                        }
+                    }
+                }
             }
         }
 

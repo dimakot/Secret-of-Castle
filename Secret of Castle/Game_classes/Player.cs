@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,14 +23,15 @@ namespace Secret_of_Castle
         Canvas CanvasGame;
         ProgressBar hp_bar;
         DispatcherTimer gametimer;
+        public List<UIElement> elc;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String Controlmagic)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String ControlWeapon)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
             this.gametimer = gametimer;
-            this.ControlWeapon = Controlmagic;
+            this.ControlWeapon = ControlWeapon;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -118,6 +120,63 @@ namespace Secret_of_Castle
             if (DownKeyDown == true && Canvas.GetTop(player) + player.Height < this.CanvasGame.Height)
             {
                 Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+            }
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
+            foreach (UIElement u in elc)
+            {
+                if (u is Image collisionobj && (string)collisionobj.Tag == "objects" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie")
+                {
+                    Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                    Rect rect6 = new Rect(Canvas.GetLeft(collisionobj), Canvas.GetTop(collisionobj), collisionobj.RenderSize.Width, collisionobj.RenderSize.Height);
+                    Rect rect7 = new Rect(Canvas.GetLeft(ZombieMob), Canvas.GetTop(ZombieMob), ZombieMob.RenderSize.Width, ZombieMob.RenderSize.Height);
+                    //Проверка на столкновение с объектами
+                    if (playerRect.IntersectsWith(rect6))
+                    {
+                        if (UpKeyDown)
+                        {
+                            UpKeyDown = false;
+                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+                        }
+                        if (DownKeyDown)
+                        {
+                            DownKeyDown = false;
+                            Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
+                        }
+                        if (LeftKeyDown)
+                        {
+                            LeftKeyDown = false;
+                            Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
+                        }
+                        if (RightKeyDown)
+                        {
+                            RightKeyDown = false;
+                            Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
+                        }
+                    }
+                    if (playerRect.IntersectsWith(rect7))
+                    {
+                        if (UpKeyDown)
+                        {
+                            UpKeyDown = false;
+                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+                        }
+                        if (DownKeyDown)
+                        {
+                            DownKeyDown = false;
+                            Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
+                        }
+                        if (LeftKeyDown)
+                        {
+                            LeftKeyDown = false;
+                            Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
+                        }
+                        if (RightKeyDown)
+                        {
+                            RightKeyDown = false;
+                            Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
+                        }
+                    }
+                }
             }
             if (HealthPlayer > 1) //Если HP больше 1, то мы заносим значение здоровья в прогресс бар 
             {

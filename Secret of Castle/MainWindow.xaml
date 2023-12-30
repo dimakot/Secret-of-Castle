@@ -6,27 +6,23 @@
         xmlns:local="clr-namespace:Secret_of_Castle"
         mc:Ignorable="d" FontFamily ="./Fonts/#Ru"
         Title="Secret of Castle" Height="1080" Width="1920" WindowState="Maximized" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode = "NoResize" Icon="/Icon.jpeg" MouseMove="Menu_MouseMove">
-    <Grid x:Name="MainMenuGRID" Cursor="">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="14*"/>
-            <ColumnDefinition Width="580*"/>
-            <ColumnDefinition Width="1243*"/>
-            <ColumnDefinition Width="83*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Texture/Parallax/MainMenu.png"/>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="61*"/>
-            <RowDefinition Height="284*"/>
-            <RowDefinition Height="131*"/>
-            <RowDefinition Height="149*"/>
-            <RowDefinition Height="455*"/>
-        </Grid.RowDefinitions>
-        <Image HorizontalAlignment="Left" Height="100" Margin="140,231,0,0" VerticalAlignment="Top" Width="100" Grid.Row="4" Grid.Column="2"/>
-        <Button x:Name="Button_Play" Content="Играть" Margin="36,10,0,7" MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" FontFamily = "{StaticResource ResourceKey=CustomFont}" FontSize="65" Click="Button_Play_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Row="2" HorizontalAlignment="Left" Width="342" Grid.Column="1"/>
-        <Button x:Name="Button_Exit" Content="Выйти" HorizontalAlignment="Left" Height="111" Margin="36,26,0,0" VerticalAlignment="Top" Width="342" Foreground="White" FontFamily="Hylia Serif Cyrillic" FontSize="65" Click="Button_Exit_Click" BorderBrush="{x:Null}" Background="{x:Null}" Grid.Row="4" Grid.Column="1"/>
-        <Button x:Name="Settings" Content="Настройки" Height="114" VerticalAlignment="Top" Width="342" Click="Settings_Click" FontFamily="Hylia Serif Cyrillic" FontSize="65" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Grid.Row="3" HorizontalAlignment="Left" Grid.Column="1" Margin="35,18,0,0" Grid.RowSpan="2"/>
-        <Image x:Name="logo" Height="158" Margin="386,10,10,0" VerticalAlignment="Top" Source="/Texture/UI/logo.png" Grid.Row="1" Grid.Column="2"/>
-    </Grid>
+    <Viewbox Stretch="Fill">
+        <Canvas x:Name="MainMenu" Height="1080" Width="1920">
+            <Canvas.Background>
+                <ImageBrush ImageSource="/Texture/Parallax/MainMenu.png"/>
+            </Canvas.Background>
+            <Image HorizontalAlignment="Left" Height="100" Margin="140,231,0,0" VerticalAlignment="Top" Width="100" Grid.Row="4" Grid.Column="2"/>
+            <Button x:Name="Button_Play" MouseEnter="Button_Play_MouseEnter" MouseLeave="Button_Play_MouseLeave" Click="Button_Play_Click" HorizontalAlignment="Left" Width="264" Canvas.Left="68" Canvas.Top="428" VerticalAlignment="Top" Height="70" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Texture/UI/Button/ButtonMenu/Play.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="Button_Exit" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="230" Click="Button_Exit_Click" MouseEnter="Button_Exit_MouseEnter" MouseLeave="Button_Exit_MouseLeave" Canvas.Left="85" Canvas.Top="540" Foreground="{x:Null}" BorderBrush="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Texture/UI/Button/ButtonMenu/Exit.png"/>
+                </Button.Background>
+            </Button>
+            <Image x:Name="logo" Height="89" VerticalAlignment="Top" Source="/Texture/UI/logo.png" Grid.Row="1" Grid.Column="2" Canvas.Left="960" Canvas.Top="10" Width="933"/>
+        </Canvas>
+    </Viewbox>
 </Window>

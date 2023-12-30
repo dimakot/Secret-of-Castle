@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Secret_of_Castle;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace Secret_of_Castle
     {
         public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
         public static int Speed = 7;
-        public static int HealthPlayer = 100;
         public string ControlWeapon = "Down";
         Image player;
         Canvas CanvasGame;
         ProgressBar hp_bar;
+        public static int HealthPlayer = 100;
         DispatcherTimer gametimer;
         public List<UIElement> elc;
 
@@ -103,7 +104,7 @@ namespace Secret_of_Castle
         public void Control()
         {
             if (LeftKeyDown == true && Canvas.GetLeft(player) > 0) //Движения игрока
-            { 
+            {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
             }
 
@@ -188,7 +189,7 @@ namespace Secret_of_Castle
                 player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));
                 gametimer.Stop();
             }
-            if (hp_bar.Value > 50)
+            if (hp_bar.Value > 75)
             {
                 hp_bar.Foreground = Brushes.Green; //если здоровья больше 50, то ProgressBar окрашен в зеленый 
             }

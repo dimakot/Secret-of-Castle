@@ -6,9 +6,9 @@
             <Canvas.Background>
                 <ImageBrush ImageSource="/Texture/UI/Menu_background.png"/>
             </Canvas.Background>
-            <Button x:Name="Settings_Button" Content="Настройки" Width="458" Click="Settings_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="55" FontWeight="Bold" Height="112" Canvas.Left="762" Canvas.Top="530"/>
+            <Button x:Name="Settings_Button" Content="Настройки" Width="458" Click="Settings_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="27" Height="112" Canvas.Left="762" Canvas.Top="530" FontWeight="Bold"/>
             <Button x:Name="Play_Button" Content="Продолжить" HorizontalAlignment="Left" Margin="876,330,0,0" VerticalAlignment="Top" Height="77" Width="220" Click="Play_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="27" FontWeight="Bold"/>
-            <Button x:Name="Exit_Button" Content="Выйти" HorizontalAlignment="Left" Margin="860,667,0,0" VerticalAlignment="Top" Height="83" Width="256" Click="Exit_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="52" FontWeight="Bold"/>
+            <Button x:Name="Exit_Button" Content="Выйти" HorizontalAlignment="Left" Margin="860,667,0,0" VerticalAlignment="Top" Height="83" Width="256" Click="Exit_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="27" FontWeight="Bold"/>
         </Canvas>
     </Viewbox>
 </Window>

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 
-namespace Weapon
+namespace Weapon //пространство имен для оружия
 {
     internal class Magic
     {
@@ -14,7 +14,7 @@ namespace Weapon
         private int SpeedMagic = 50; //Скорость магиского снаряда
         private Image MagicSphere = new Image();
         private DispatcherTimer TimerBasicMagicWeapon = new DispatcherTimer();
-        public void SphereMagicNew(Canvas CanvasGame)
+        public void SphereMagicNew(Canvas CanvasGame) //Создание магической сферы
         {
             List<string> MagicSphereImages = new List<string>() { //Создаем лист из картинок для анимации при помощи таймера
                 "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_1.png",
@@ -52,7 +52,7 @@ namespace Weapon
             if (ControlWeapon == "Up")
             {
                 Canvas.SetTop(MagicSphere, Canvas.GetTop(MagicSphere) - SpeedMagic);
-            }
+            } 
 
             if (Canvas.GetLeft(MagicSphere) < 10 || Canvas.GetLeft(MagicSphere) > 2000 || Canvas.GetTop(MagicSphere) < 10 || Canvas.GetTop(MagicSphere) > 1000)
             {

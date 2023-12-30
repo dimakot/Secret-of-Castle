@@ -40,9 +40,9 @@ namespace Secret_of_Castle
             Player_Controller.kbdown(sender, e); //Кнопка опущена
             if (e.Key == Key.E)
             {
-                ShootMagicBasic(ControlWeapon);
+                ShootMagicBasic(ControlWeapon); //Выстрел магией
             }
-            if (e.Key == Key.Q)
+            if (e.Key == Key.Q) //Удар мечом
             {
                 SwordStroke();
             }
@@ -77,7 +77,8 @@ namespace Secret_of_Castle
             {
                 foreach (UIElement j in elc)
                 {
-                        if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Zombie")
+                    string currentDifficulty = difficult.Instance.CurrentDifficulty;
+                    if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "BasicMagicSphere" && u is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Zombie")
                         {
                             Rect MagicSphere = new Rect(Canvas.GetLeft(BasicMagSphere), Canvas.GetTop(BasicMagSphere), BasicMagSphere.RenderSize.Width, BasicMagSphere.RenderSize.Height);
                             Rect rect2 = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
@@ -88,8 +89,40 @@ namespace Secret_of_Castle
                                 CanvasGame.Children.Remove(ZombieMobAttack);
                                 ZombieMobAttack.Source = null;
                                 zombiesList.Remove(ZombieMobAttack);
-                                zombieai.MobSpawn();
                                 zombieKilles++;
+                            if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
+                            {
+                                if (zombieKilles < 50)
+                                {
+                                    zombieai.MobSpawn();
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            if (currentDifficulty == "Medium")
+                            {
+                                if (zombieKilles < 25)
+                                {
+                                    zombieai.MobSpawn();
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            if (currentDifficulty == "Lite")
+                            {
+                                if (zombieKilles < 10)
+                                {
+                                    zombieai.MobSpawn();
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
                         }
                     }
                     }

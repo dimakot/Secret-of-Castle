@@ -17,7 +17,6 @@ namespace Secret_of_Castle
         public ProgressBar zombieHPBar;
         public static int zombieHP = 100;
         public static int zombieKilles;
-        difficult Difficult;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
         public Zombie(Image player, Canvas CanvasGame, List<object> zombiesList, List<UIElement> elc, int Speed_Zombie = 2, int zombieKilles = 0) //Конструктор

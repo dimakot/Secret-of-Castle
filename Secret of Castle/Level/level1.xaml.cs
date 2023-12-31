@@ -24,13 +24,11 @@ namespace Secret_of_Castle.Level
         Random rand = new Random();
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
         public static int Speed = 7;
-        private string ControlWeapon = "Right";
         public level1()
         {
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer, ControlWeapon);
-            CanvasGame.Focus();
+            Player_Controller = new Player(player, CanvasGame, hp_bar);
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Start();
@@ -42,9 +40,6 @@ namespace Secret_of_Castle.Level
         private void kbdown(object sender, KeyEventArgs e)
         {
             Player_Controller.kbdown(sender, e); //Кнопка опущена
-        }
-        private void Game_KeyDown(object sender, KeyEventArgs e)
-        { //По нажатию на кнопку Esc на клавиатуре открывается меню паузы
             if (e.Key == Key.Escape)
             {
                 Pause To_pause = new Pause();

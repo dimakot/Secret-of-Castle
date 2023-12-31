@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Secret_of_Castle.Level"
         mc:Ignorable="d"
-        Title="Secret Of Castle Game" Height="1080" Width="1920" WindowState="Maximized" WindowStyle="None"  Icon="/Icon.jpeg" KeyDown="Game_KeyDown" >
+        Title="Secret Of Castle Game" Height="1080" Width="1920" WindowState="Maximized" WindowStyle="None"  Icon="/Icon.jpeg" KeyUp="kbup" KeyDown="kbdown" >
     <Viewbox Stretch="Fill">
-        <Canvas x:Name="CanvasGame"  KeyUp="kbup" KeyDown="kbdown" Height="1080" Width="1920" Focusable="True">
+        <Canvas x:Name="CanvasGame" Height="1080" Width="1920" Focusable="True">
             <Canvas.Background>
                 <ImageBrush ImageSource="/Texture/background/Level/game_background_1.png"/>
             </Canvas.Background>

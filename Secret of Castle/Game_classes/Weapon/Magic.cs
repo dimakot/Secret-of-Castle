@@ -25,7 +25,7 @@ namespace Weapon //пространство имен для оружия
             }; int animationCurrentImage = 0;
             MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
             MagicSphere.Height = 106; MagicSphere.Width = 70; //задаем стандартные параметры для генерации Магической сферы, тег
-            MagicSphere.Tag = "BasicMagicSphere";
+            MagicSphere.Tag = "Damage";
             Canvas.SetLeft(MagicSphere, MagicHorisontal); Canvas.SetTop(MagicSphere, MagicVertical);
             Canvas.SetZIndex(MagicSphere, 1);
             CanvasGame.Children.Add(MagicSphere);

@@ -19,15 +19,14 @@ namespace Secret_of_Castle
         Canvas CanvasGame;
         ProgressBar hp_bar;
         public static int HealthPlayer = 100;
-        DispatcherTimer gametimer;
         public List<UIElement> elc;
+        DispatcherTimer gametimer;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer, String ControlWeapon)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
-            this.gametimer = gametimer;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
@@ -93,7 +92,7 @@ namespace Secret_of_Castle
             if (e.Key == Key.LeftShift)
             {
                 Speed = 12;
-                /*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));*/
+/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));*/
             }
         }
         public void Control()

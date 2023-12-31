@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace Bow
+namespace Weapon
 {
     class Bow
     {
@@ -17,7 +17,7 @@ namespace Bow
         {
             BowArrow.Source = new BitmapImage(new Uri("Castle_1.jpeg", UriKind.RelativeOrAbsolute)); //Спрайт стрелы //ПОМЕНЯТЬ
             BowArrow.Height = 106; BowArrow.Width = 70;
-            BowArrow.Tag = "BasicMagicSphere";
+            BowArrow.Tag = "Damage";
             Canvas.SetLeft(BowArrow, BowHorisontal); Canvas.SetTop(BowArrow, BowVertical);
             Canvas.SetZIndex(BowArrow, 1);
             CanvasGame.Children.Add(BowArrow);

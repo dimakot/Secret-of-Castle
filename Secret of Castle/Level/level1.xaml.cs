@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Secret_of_Castle.Level;
-using Weapon;
 
 namespace Secret_of_Castle.Level
 {
@@ -49,16 +42,16 @@ namespace Secret_of_Castle.Level
         private void GameTickTimer(object sender, EventArgs e)
         {
             Player_Controller.Control(); //Движение игрока
-/*                Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                Rect portal = new Rect(Canvas.GetLeft(Portal), Canvas.GetTop(Portal), Portal.RenderSize.Width, Portal.RenderSize.Height); //Переход на другой уровень
-                if (playerRect.IntersectsWith(portal))
-                {
-                    level1 ChangeLevel = new level1();
-                    this.Hide(); // скрываем текущее окно
-                    gametimer.Stop();
-                    ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
-                    this.Close(); // закрываем текущее окно после закрытия нового
-                }*/
-            }
+            /*                Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                            Rect portal = new Rect(Canvas.GetLeft(Portal), Canvas.GetTop(Portal), Portal.RenderSize.Width, Portal.RenderSize.Height); //Переход на другой уровень
+                            if (playerRect.IntersectsWith(portal))
+                            {
+                                level1 ChangeLevel = new level1();
+                                this.Hide(); // скрываем текущее окно
+                                gametimer.Stop();
+                                ChangeLevel.ShowDialog(); // показываем новое окно как диалоговое
+                                this.Close(); // закрываем текущее окно после закрытия нового
+                            }*/
         }
     }
+}

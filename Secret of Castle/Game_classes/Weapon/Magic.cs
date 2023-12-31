@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Threading;
 using System.Windows.Media.Imaging;
-using Secret_of_Castle;
+using System.Windows.Threading;
 
 namespace Weapon //пространство имен для оружия
 {
@@ -30,7 +29,8 @@ namespace Weapon //пространство имен для оружия
             Canvas.SetZIndex(MagicSphere, 1);
             CanvasGame.Children.Add(MagicSphere);
             TimerBasicMagicWeapon.Interval = TimeSpan.FromMilliseconds(SpeedMagic); //запускаем таймер со скоростью в указанной выши
-            TimerBasicMagicWeapon.Tick += (sender, e) => {
+            TimerBasicMagicWeapon.Tick += (sender, e) =>
+            {
                 animationCurrentImage = (animationCurrentImage + 1) % MagicSphereImages.Count;
                 MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute)); BasicMagicEvent(sender, e); //анимация воспроизводится со скоростью таймера
             };
@@ -53,7 +53,7 @@ namespace Weapon //пространство имен для оружия
             if (ControlWeapon == "Up")
             {
                 Canvas.SetTop(MagicSphere, Canvas.GetTop(MagicSphere) - SpeedMagic);
-            } 
+            }
 
             if (Canvas.GetLeft(MagicSphere) < 10 || Canvas.GetLeft(MagicSphere) > 2000 || Canvas.GetTop(MagicSphere) < 10 || Canvas.GetTop(MagicSphere) > 1000)
             {

@@ -1,7 +1,6 @@
 ﻿using Secret_of_Castle.Level;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +26,7 @@ namespace Secret_of_Castle
         List<object> zombiesList = new List<object>(); //Список для моба
         List<Image> objectlist = new List<Image>(); //Список для объектов
         public static int Speed = 7; //Скорость игрока
+        ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -63,6 +63,7 @@ namespace Secret_of_Castle
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie, zombieKilles);
+            objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
@@ -84,6 +85,28 @@ namespace Secret_of_Castle
                 Player.LeftKeyDown = false;
                 Player.RightKeyDown = false;
             }
+            string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
+            if (currentDifficulty == "Hard") //В зависимости от сложности, появляется портал после определенного кол-во побежденных зомби
+            {
+                if (zombieKilles > 50)
+                {
+                    Portal.Visibility = Visibility.Visible;
+                }
+            }
+            if (currentDifficulty == "Medium")
+            {
+                if (zombieKilles > 25)
+                {
+                    Portal.Visibility = Visibility.Visible;
+                }
+            }
+            if (currentDifficulty == "Lite")
+            {
+                if (zombieKilles > 10)
+                {
+                    Portal.Visibility = Visibility.Visible;
+                }
+            }
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             zombieai.ZombieMovement(); //Движение зомби
             zombieai.elc = elc; //Список для зомби
@@ -91,7 +114,6 @@ namespace Secret_of_Castle
             {
                 foreach (UIElement j in elc)
                 {
-                    string currentDifficulty = difficult.Instance.CurrentDifficulty;
                     if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "Damage" && u is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob")
                     {
                         Rect MagicSphere = new Rect(Canvas.GetLeft(BasicMagSphere), Canvas.GetTop(BasicMagSphere), BasicMagSphere.RenderSize.Width, BasicMagSphere.RenderSize.Height);
@@ -146,42 +168,11 @@ namespace Secret_of_Castle
         }
         private void OBJGeneration() //Рандомная генерация
         {
-            Image collisionobj = new Image();
-            collisionobj.Tag = "objects";
-            collisionobj.Source = new BitmapImage(new Uri("castle_1.jpeg", UriKind.RelativeOrAbsolute));
-            Canvas.SetLeft(collisionobj, rand.Next(0, Convert.ToInt32(CanvasGame.Width)));
-            Canvas.SetTop(collisionobj, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
-            collisionobj.Height = 75; collisionobj.Width = 75;
-            objectlist.Add(collisionobj);
-            CanvasGame.Children.Add(collisionobj);
-            Canvas.SetZIndex(player, 1);
+            objectRandomGeneration.Test();
         }
-        private void CristmasTreeGeneration() //Рандомная генерация
+        private void CristmasTreeGeneration() //Рандомная генерация елки
         {
-            Image xmast = new Image();
-            xmast.Tag = "objects";
-            List<string> XmasAnimation = new List<string>() { //Создаем лист из картинок для анимации при помощи таймера
-                "Texture/Objects/Xmas/Xmas_0.png",
-                "Texture/Objects/Xmas/Xmas_1.png",
-                "Texture/Objects/Xmas/Xmas_2.png",
-            }; int animationCurrentImage = 0;
-            int counter = 0; //Счетчик
-            gametimer.Tick += (sender, e) => //Таймер
-            {
-                counter++;
-                if (counter >= 50) //Скорость анимации
-                {
-                    xmast.Source = new BitmapImage(new Uri(XmasAnimation[animationCurrentImage], UriKind.RelativeOrAbsolute)); //анимация воспроизводится со скоростью таймера
-                    animationCurrentImage = (animationCurrentImage + 1) % XmasAnimation.Count;
-                    counter = 0;
-                }
-            };
-            Canvas.SetLeft(xmast, rand.Next(0, Convert.ToInt32(CanvasGame.Width - 500)));
-            Canvas.SetTop(xmast, rand.Next(85, Convert.ToInt32(CanvasGame.Height - 500)));
-            xmast.Height = 300; xmast.Width = 150;
-            objectlist.Add(xmast);
-            CanvasGame.Children.Add(xmast);
-            Canvas.SetZIndex(player, 1);
+            objectRandomGeneration.XmasTree();
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {

@@ -92,7 +92,7 @@ namespace Secret_of_Castle
             if (e.Key == Key.LeftShift)
             {
                 Speed = 12;
-/*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));*/
+                /*                player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));*/
             }
         }
         public void Control()

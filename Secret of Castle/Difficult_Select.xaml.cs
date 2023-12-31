@@ -13,7 +13,7 @@ namespace Secret_of_Castle
             InitializeComponent();
         }
 
-        private void Lite_Button_Click(object sender, RoutedEventArgs e)
+        private void Lite_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
         {
             difficult.Instance.SetDifficulty("Lite"); //Установка сложности
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
@@ -24,7 +24,7 @@ namespace Secret_of_Castle
             Player.HealthPlayer = 200;
         }
 
-        private void Medium_Button_Click(object sender, RoutedEventArgs e)
+        private void Medium_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
         {
             difficult.Instance.SetDifficulty("Medium"); //Установка сложности
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
@@ -35,7 +35,7 @@ namespace Secret_of_Castle
             Player.HealthPlayer = 150;
         }
 
-        private void Hard_Button_Click(object sender, RoutedEventArgs e)
+        private void Hard_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
         {
             difficult.Instance.SetDifficulty("Hard"); //Установка сложности
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
@@ -46,9 +46,9 @@ namespace Secret_of_Castle
             Player.HealthPlayer = 100;
         }
 
-        private void To_Level_Click(object sender, RoutedEventArgs e)
+        private void To_Level_Click(object sender, RoutedEventArgs e) //Переход на игровой уровень
         {
-            if (Game_to == null) //Переход на игровой уровень
+            if (Game_to == null)
             {
                 Game_to = new Game();
                 Game_to.Show();

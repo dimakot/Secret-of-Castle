@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
+using Secret_of_Castle;
 
 namespace Weapon //пространство имен для оружия
 {
@@ -35,7 +36,7 @@ namespace Weapon //пространство имен для оружия
             };
             TimerBasicMagicWeapon.Start();
         }
-        private void BasicMagicEvent(object sender, EventArgs w)
+        private void BasicMagicEvent(object sender, EventArgs w) //Событие для магической сферы
         {
             if (ControlWeapon == "Left") //Если прожата кнопка (тег забит в персонажа (не работает )) снаряд стреляет в определенную сторону
             {

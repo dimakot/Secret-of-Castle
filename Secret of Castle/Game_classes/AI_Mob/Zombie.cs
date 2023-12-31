@@ -32,7 +32,7 @@ namespace Secret_of_Castle
         public void MobSpawn() //Создаем зомби
         {
             Image Zombies = new Image();
-            Zombies.Tag = "Zombie";
+            Zombies.Tag = "Mob";
             Zombies.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(Zombies, rand.Next(0, Convert.ToInt32(CanvasGame.Width))); //Использует случайное значение от 0 до крайней точки разрешения экрана
             Canvas.SetTop(Zombies, rand.Next(85, Convert.ToInt32(CanvasGame.Height)));
@@ -45,7 +45,7 @@ namespace Secret_of_Castle
         {
             foreach (UIElement w in elc)
             {
-                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Zombie")
+                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Mob")
                 {
                     Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
                     Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
@@ -79,7 +79,6 @@ namespace Secret_of_Castle
                     {
                         Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.Relative)); //Текстура зомби, идущего влево
-                        /*                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb) + 15);*/
                     }
 
                     if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
@@ -91,7 +90,6 @@ namespace Secret_of_Castle
                     {
                         Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.Relative)); // Текстура зомби, идущего вправо
-                        /*                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - 15);*/
                     }
 
                     if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))

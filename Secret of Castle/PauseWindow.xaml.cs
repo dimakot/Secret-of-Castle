@@ -27,5 +27,10 @@ namespace Secret_of_Castle
         {
             Application.Current.Shutdown();
         }
+        public void PauseGame()
+        {
+            //Сделай так, чтобы при открытии меню паузы, останавлился таймер в окнах Game и Game2
+
+        }
     }
 }

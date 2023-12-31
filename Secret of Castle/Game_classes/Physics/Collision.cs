@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,69 +7,41 @@ namespace Secret_of_Castle
     class Collision
     {
         public bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown;
-        Canvas CanvasGame;
         Image player;
         public static int Speed = 7;
         public List<UIElement> elc;
 
-        public Collision(Canvas CanvasGame, Image player, List<UIElement> elc)
+        public Collision(Image player, List<UIElement> elc)
         {
-            this.CanvasGame = CanvasGame;
-            this.player = player;
             this.elc = elc;
+            this.player = player;
         }
-        public void Collision_physics()
+        public void Collision_physics() //Коллизия для игрока
         {
-            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            foreach (UIElement u in elc)
+            foreach (UIElement u in elc) //Проверка на столкновение с объектами
             {
-                if (u is Image collisionobj && (string)collisionobj.Tag == "objects" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie")
+                if (u is Image collisionobj && (string)collisionobj.Tag == "objects") //Проверка на столкновение с объектами
                 {
                     Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
                     Rect rect6 = new Rect(Canvas.GetLeft(collisionobj), Canvas.GetTop(collisionobj), collisionobj.RenderSize.Width, collisionobj.RenderSize.Height);
-                    Rect rect7 = new Rect(Canvas.GetLeft(ZombieMob), Canvas.GetTop(ZombieMob), ZombieMob.RenderSize.Width, ZombieMob.RenderSize.Height);
-                    //Проверка на столкновение с объектами
                     if (playerRect.IntersectsWith(rect6))
                     {
-                        if (UpKeyDown)
+                        if (Player.UpKeyDown) 
                         {
-                            UpKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+                            UpKeyDown = false; //Обнуляем кнопки
+                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed); //Возвращаем игрока на прежнее место
                         }
-                        if (DownKeyDown)
-                        {
-                            DownKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
-                        }
-                        if (LeftKeyDown)
-                        {
-                            LeftKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
-                        }
-                        if (RightKeyDown)
-                        {
-                            RightKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
-                        }
-                    }
-                    if (playerRect.IntersectsWith(rect7))
-                    {
-                        if (UpKeyDown)
-                        {
-                            UpKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
-                        }
-                        if (DownKeyDown)
+                        if (Player.DownKeyDown)
                         {
                             DownKeyDown = false;
                             Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
                         }
-                        if (LeftKeyDown)
+                        if (Player.LeftKeyDown)
                         {
                             LeftKeyDown = false;
                             Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
                         }
-                        if (RightKeyDown)
+                        if (Player.RightKeyDown)
                         {
                             RightKeyDown = false;
                             Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);

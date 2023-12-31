@@ -61,7 +61,7 @@ namespace Secret_of_Castle
         {
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie, zombieKilles);
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();

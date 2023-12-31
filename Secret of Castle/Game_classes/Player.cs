@@ -22,11 +22,12 @@ namespace Secret_of_Castle
         public List<UIElement> elc;
         DispatcherTimer gametimer;
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer)
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.hp_bar = hp_bar;
+            this.gametimer = gametimer;
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {

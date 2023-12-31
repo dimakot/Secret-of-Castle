@@ -21,7 +21,7 @@ namespace Secret_of_Castle.Level
         {
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar);
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             gametimer.Tick += new EventHandler(GameTickTimer);
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Start();

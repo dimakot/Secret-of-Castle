@@ -1,5 +1,4 @@
-﻿using Secret_of_Castle.Level;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -23,7 +22,7 @@ namespace Secret_of_Castle
         int zombieKilles = 0; //Количество убитых зомби
         Random rand = new Random(); //Рандом
         Zombie zombieai; //Класс зомби
-        List<object> zombiesList = new List<object>(); //Список для моба
+        List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> objectlist = new List<Image>(); //Список для объектов
         public static int Speed = 7; //Скорость игрока
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
@@ -86,93 +85,14 @@ namespace Secret_of_Castle
                 Player.RightKeyDown = false;
             }
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
-            if (currentDifficulty == "Hard") //В зависимости от сложности, появляется портал после определенного кол-во побежденных зомби
-            {
-                if (zombieKilles > 50)
-                {
-                    Portal.Visibility = Visibility.Visible;
-                }
-            }
-            if (currentDifficulty == "Medium")
-            {
-                if (zombieKilles > 25)
-                {
-                    Portal.Visibility = Visibility.Visible;
-                }
-            }
-            if (currentDifficulty == "Lite")
-            {
-                if (zombieKilles > 10)
-                {
-                    Portal.Visibility = Visibility.Visible;
-                }
-            }
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             zombieai.ZombieMovement(); //Движение зомби
             zombieai.elc = elc; //Список для зомби
-            foreach (UIElement u in elc) //Проверка на столкновение
+            foreach (UIElement j in elc)
             {
-                foreach (UIElement j in elc)
-                {
-                    if (j is Image BasicMagSphere && (string)BasicMagSphere.Tag == "Damage" && u is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob")
-                    {
-                        Rect MagicSphere = new Rect(Canvas.GetLeft(BasicMagSphere), Canvas.GetTop(BasicMagSphere), BasicMagSphere.RenderSize.Width, BasicMagSphere.RenderSize.Height);
-                        Rect rect2 = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
-                        if (MagicSphere.IntersectsWith(rect2))
-                        {
-                            CanvasGame.Children.Remove(BasicMagSphere);
-                            BasicMagSphere.Source = null;
-                            CanvasGame.Children.Remove(ZombieMobAttack);
-                            ZombieMobAttack.Source = null;
-                            zombiesList.Remove(ZombieMobAttack);
-                            zombieKilles++;
-                            if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
-                            {
-                                if (zombieKilles < 50)
-                                {
-                                    zombieai.MobSpawn();
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                            if (currentDifficulty == "Medium")
-                            {
-                                if (zombieKilles < 25)
-                                {
-                                    zombieai.MobSpawn();
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                            if (currentDifficulty == "Lite")
-                            {
-                                if (zombieKilles < 10)
-                                {
-                                    zombieai.MobSpawn();
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
                 Collision collision = new Collision(player, elc);
                 collision.Collision_physics();
             }
-        }
-        private void OBJGeneration() //Рандомная генерация
-        {
-            objectRandomGeneration.Test();
-        }
-        private void CristmasTreeGeneration() //Рандомная генерация елки
-        {
-            objectRandomGeneration.XmasTree();
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {
@@ -185,9 +105,9 @@ namespace Secret_of_Castle
         public void SwordStroke() //Удар мечом
         {
             Sword sword = new Sword();
-            sword.playerVertical = (int)(Canvas.GetLeft(player) - (player.Width / 2));
-            sword.playerHorizontal = (int)(Canvas.GetTop(player) - (player.Height / 2));
-            sword.powerWaveCreator(CanvasGame);
+            sword.swordVertical = (int)(Canvas.GetLeft(player) - (player.Width / 2));
+            sword.swordHorizontal = (int)(Canvas.GetTop(player) - (player.Height / 2));
+            sword.WaveSwordCreator(CanvasGame, player);
         }
         public void ShootBowBasic(string ControlBow) //Выстрел магией
         {
@@ -202,20 +122,7 @@ namespace Secret_of_Castle
         private void GameLose()
         {
             zombieai.GameLose();
-
-            foreach (Image x in objectlist)
-            {
-                CanvasGame.Children.Remove(x);
-            }
-            objectlist.Clear();
-            for (int i = 0; i < 3; i++)
-            {
-                OBJGeneration();
-            }
-            for (int i = 0; i < 1; i++)
-            {
-                CristmasTreeGeneration();
-            }
+            objectRandomGeneration.objectGeneration();
         }
     }
 }

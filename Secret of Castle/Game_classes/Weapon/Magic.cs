@@ -17,10 +17,10 @@ namespace Weapon //пространство имен для оружия
         public void SphereMagicNew(Canvas CanvasGame) //Создание магической сферы
         {
             List<string> MagicSphereImages = new List<string>() { //Создаем лист из картинок для анимации при помощи таймера
-                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_1.png",
-                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_2.png",
-                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_3.png",
-                "Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_4.png"
+                "pack://application:,,,/Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_1.png",
+                "pack://application:,,,/Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_2.png",
+                "pack://application:,,,/Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_3.png",
+                "pack://application:,,,/Texture/Weapon/Magic/BasicSphere/MagicSphereBasic_4.png"
             }; int animationCurrentImage = 0;
             MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
             MagicSphere.Height = 106; MagicSphere.Width = 70; //задаем стандартные параметры для генерации Магической сферы, тег

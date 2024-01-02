@@ -15,7 +15,7 @@ namespace Weapon
         private DispatcherTimer TimerBowArrow = new DispatcherTimer();
         public void BowNew(Canvas CanvasGame)
         {
-            BowArrow.Source = new BitmapImage(new Uri("Castle_1.jpeg", UriKind.RelativeOrAbsolute)); //Спрайт стрелы //ПОМЕНЯТЬ
+            BowArrow.Source = new BitmapImage(new Uri("pack://application:,,,/Castle_1.jpeg", UriKind.RelativeOrAbsolute)); //Спрайт стрелы //ПОМЕНЯТЬ
             BowArrow.Height = 106; BowArrow.Width = 70;
             BowArrow.Tag = "Damage";
             Canvas.SetLeft(BowArrow, BowHorisontal); Canvas.SetTop(BowArrow, BowVertical);

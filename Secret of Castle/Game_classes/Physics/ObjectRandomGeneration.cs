@@ -12,6 +12,7 @@ namespace Secret_of_Castle
         List<Image> objectlist = new List<Image>(); //Список для объектов
         Image player; //Игрок
         int ObjectCanvasTop, ObjectCanvasLeft; //Координаты для обьектов
+        int SellectOBJ; //Выбор объекта
 
         public ObjectRandomGeneration(Canvas CanvasGame, List<Image> objectlist, Image player) //Конструктор
         {
@@ -28,7 +29,7 @@ namespace Secret_of_Castle
             } while (Math.Abs(Canvas.GetLeft(player) - ObjectCanvasLeft) < 200 && Math.Abs(Canvas.GetTop(player) - ObjectCanvasTop) < 200); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
             Image collisionobj = new Image();
             collisionobj.Tag = "objects";
-            collisionobj.Source = new BitmapImage(new Uri("castle_1.jpeg", UriKind.RelativeOrAbsolute));
+            collisionobj.Source = new BitmapImage(new Uri("pack://application:,,,/castle_1.jpeg", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(collisionobj, ObjectCanvasLeft);
             Canvas.SetTop(collisionobj, ObjectCanvasTop);
             collisionobj.Height = 75; collisionobj.Width = 75;
@@ -40,7 +41,7 @@ namespace Secret_of_Castle
         {
             Image xmast = new Image();
             xmast.Tag = "objects";
-            xmast.Source = new BitmapImage(new Uri("Texture\\Objects\\Xmas\\Xmas_0.png", UriKind.RelativeOrAbsolute));
+            xmast.Source = new BitmapImage(new Uri("pack://application:,,,/Texture\\Objects\\Xmas\\Xmas_0.png", UriKind.RelativeOrAbsolute));
             Canvas.SetLeft(xmast, ObjectCanvasLeft);
             Canvas.SetTop(xmast, ObjectCanvasTop);
             xmast.Height = 300; xmast.Width = 150;
@@ -51,18 +52,25 @@ namespace Secret_of_Castle
 
         public void objectGeneration()
         {
+            SellectOBJ = rand.Next(1, 2); //Случайное число для выбора объекта
             foreach (Image x in objectlist)
             {
                 CanvasGame.Children.Remove(x);
             }
             objectlist.Clear();
-            for (int i = 0; i < 3; i++)
+            if (SellectOBJ == 1)
             {
-                Test();
+                for (int i = 0; i < 3; i++)
+                {
+                    Test();
+                }
             }
-            for (int i = 0; i < 1; i++)
+            if (SellectOBJ == 2)
             {
-                XmasTree();
+                for (int i = 0; i < 1; i++)
+                {
+                    XmasTree();
+                }
             }
         }
     }

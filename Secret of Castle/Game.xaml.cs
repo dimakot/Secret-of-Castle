@@ -18,13 +18,11 @@ namespace Secret_of_Castle
     {
         DispatcherTimer gametimer = new DispatcherTimer(); //Таймер
         Player Player_Controller; //Класс игрока
-        int Speed_Zombie = 2; //Скорость зомби
         int zombieKilles = 0; //Количество убитых зомби
         Random rand = new Random(); //Рандом
         Zombie zombieai; //Класс зомби
         List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> objectlist = new List<Image>(); //Список для объектов
-        public static int Speed = 7; //Скорость игрока
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
@@ -61,7 +59,7 @@ namespace Secret_of_Castle
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
-            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie, zombieKilles);
+            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
             gametimer.Tick += new EventHandler(GameTickTimer);

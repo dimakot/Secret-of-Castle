@@ -17,7 +17,7 @@ namespace Weapon
         {
             BowArrow.Source = new BitmapImage(new Uri("pack://application:,,,/Castle_1.jpeg", UriKind.RelativeOrAbsolute)); //Спрайт стрелы //ПОМЕНЯТЬ
             BowArrow.Height = 106; BowArrow.Width = 70;
-            BowArrow.Tag = "Damage";
+            BowArrow.Tag = "BowArrow";
             Canvas.SetLeft(BowArrow, BowHorisontal); Canvas.SetTop(BowArrow, BowVertical);
             Canvas.SetZIndex(BowArrow, 1);
             CanvasGame.Children.Add(BowArrow);

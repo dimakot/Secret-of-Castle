@@ -26,7 +26,7 @@ namespace Weapon
             }; int animationCurrentImage = 0;
             SwordWaves.Source = new BitmapImage(new Uri(SwordWavesImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
             SwordWaves.Height = 256; SwordWaves.Width = 156; //задаем стандартные параметры для генерации волны меча, тег
-            SwordWaves.Tag = "Damage";
+            SwordWaves.Tag = "SwordAttack";
             this.player = player;
             Canvas.SetLeft(SwordWaves, Canvas.GetLeft(player) + player.Width / 2 - SwordWaves.Width / 2.5);
             Canvas.SetTop(SwordWaves, Canvas.GetTop(player) + player.Height / 2 - SwordWaves.Height / 2.5);

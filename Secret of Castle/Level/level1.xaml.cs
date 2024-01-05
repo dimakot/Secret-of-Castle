@@ -18,13 +18,14 @@ namespace Secret_of_Castle
     {
         DispatcherTimer gametimer = new DispatcherTimer(); //Таймер
         Player Player_Controller; //Класс игрока
-        int Speed_Zombie = 2; //Скорость зомби
         int zombieKilles = 0; //Количество убитых зомби
+        int wizardKilles = 0; //Количество убитых магов
         Random rand = new Random(); //Рандом
-        Zombie zombieai; //Класс зомби
+/*        Zombie zombieai; //Класс зомби*/
+        DarkWizard darkWizard; //Класс мага
         List<Image> zombiesList = new List<Image>(); //Список для моба
+        List<Image> wizardList = new List<Image>(); //Список для мага
         List<Image> objectlist = new List<Image>(); //Список для объектов
-        public static int Speed = 7; //Скорость игрока
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
@@ -61,7 +62,9 @@ namespace Secret_of_Castle
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
-            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, Speed_Zombie, zombieKilles);
+            darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles);
+            /*            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);*/
+
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
             gametimer.Tick += new EventHandler(GameTickTimer);
@@ -86,8 +89,9 @@ namespace Secret_of_Castle
             }
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            zombieai.ZombieMovement(); //Движение зомби
-            zombieai.elc = elc; //Список для зомби
+            darkWizard.WizardAI(); //ИИ мага
+/*            zombieai.ZombieMovement(); //Движение зомби
+            zombieai.elc = elc; //Список для зомби*/
             foreach (UIElement j in elc)
             {
                 Collision collision = new Collision(player, elc);
@@ -121,7 +125,8 @@ namespace Secret_of_Castle
 
         private void GameLose()
         {
-            zombieai.GameLose();
+            darkWizard.GameLose();
+/*            zombieai.GameLose();*/
             objectRandomGeneration.objectGeneration();
         }
     }

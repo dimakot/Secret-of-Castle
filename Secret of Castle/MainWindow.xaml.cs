@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Sound;
+using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Secret_of_Castle
@@ -11,17 +11,13 @@ namespace Secret_of_Castle
     public partial class MainWindow : Window
     {
         public static Window Game_to;
-/*        public void Music()
-        {
-            System.Media.SoundPlayer player = new System.Media.SoundPlayer();
-            player.SoundLocation = @"Sound\Music\MainMenuTheme.wav";
-            player.PlayLooping();
-        }*/
         public MainWindow()
         {
+            SoundPlayerM.SoundMenuMain = 1;
             InitializeComponent();
-        }
+            SoundPlayerM.MusicMenu();
 
+        }
         private void Menu_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -33,6 +29,7 @@ namespace Secret_of_Castle
 
         private void Button_Play_MouseLeave(object sender, MouseEventArgs e)
         {
+
         }
         private void Settings_MouseEnter(object sender, MouseEventArgs e) //При наведении на кнопку настройки меняется цвет и размер шрифта
         {
@@ -44,7 +41,7 @@ namespace Secret_of_Castle
         }
         private void Button_Exit_MouseEnter(object sender, MouseEventArgs e) //При наведении на кнопку выход меняется цвет и размер шрифта
         {
-            
+
         }
         private void Button_Exit_MouseLeave(object sender, MouseEventArgs e)
         {

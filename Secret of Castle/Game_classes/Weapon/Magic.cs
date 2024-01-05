@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Secret_of_Castle;
+using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -24,7 +25,7 @@ namespace Weapon //пространство имен для оружия
             }; int animationCurrentImage = 0;
             MagicSphere.Source = new BitmapImage(new Uri(MagicSphereImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
             MagicSphere.Height = 106; MagicSphere.Width = 70; //задаем стандартные параметры для генерации Магической сферы, тег
-            MagicSphere.Tag = "Damage";
+            MagicSphere.Tag = "BasicMagicAttack";
             Canvas.SetLeft(MagicSphere, MagicHorisontal); Canvas.SetTop(MagicSphere, MagicVertical);
             Canvas.SetZIndex(MagicSphere, 1);
             CanvasGame.Children.Add(MagicSphere);

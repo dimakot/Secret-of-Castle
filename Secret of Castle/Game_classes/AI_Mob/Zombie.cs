@@ -14,20 +14,18 @@ namespace Secret_of_Castle
         Random rand = new Random();
         Canvas CanvasGame;
         public List<UIElement> elc;
-        public int Speed_Zombie;
+        public static int Speed_Zombie = 2;
         public ProgressBar zombieHPBar;
-        public static int zombieHP = 100;
         public static int zombieKilles;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
-        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int Speed_Zombie = 2, int zombieKilles = 0) //Конструктор
+        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int zombieKilles = 0) //Конструктор
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
             this.zombiesList = zombiesList;
             this.elc = elc;
-            this.Speed_Zombie = Speed_Zombie;
         }
 
         public void MobSpawn() //Создаем зомби
@@ -44,16 +42,13 @@ namespace Secret_of_Castle
             Canvas.SetTop(Zombies, ZombieCanvasTop);
             Zombies.Height = 200; Zombies.Width = 200;
             zombieHPBar = new ProgressBar(); // Создаем ProgressBar для зомби
-            zombieHPBar.Width = 150;
-            zombieHPBar.Height = 10;
-            zombieHPBar.Value = 100; // Устанавливаем здоровье зомби
-            zombieHPBar.Maximum = 100; // Устанавливаем максимальное значение ProgressBar
-            // Размещаем ProgressBar над зомби
+            zombieHPBar.Width = 150; zombieHPBar.Height = 10;
+            zombieHPBar.Value = 100; zombieHPBar.Maximum = 100;
             Canvas.SetLeft(zombieHPBar, ZombieCanvasLeft);
             Canvas.SetTop(zombieHPBar, ZombieCanvasTop - zombieHPBar.Height);
-            CanvasGame.Children.Add(zombieHPBar); // Добавляем ProgressBar на Canvas
-            zombiesList.Add(Zombies); // Добавляем зомби в список
-            CanvasGame.Children.Add(Zombies); // Добавляем зомби на Canvas
+            CanvasGame.Children.Add(zombieHPBar);
+            zombiesList.Add(Zombies);
+            CanvasGame.Children.Add(Zombies);
             HPbars.Add(Zombies, zombieHPBar);
             Canvas.SetZIndex(player, 1);
         }
@@ -95,52 +90,79 @@ namespace Secret_of_Castle
                     {
                         Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.RelativeOrAbsolute)); //Текстура зомби, идущего влево
-                        ProgressBar zombieHPBar = HPbars[ImgZomb];
-                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                        if (HPbars.ContainsKey(ImgZomb))
+                        {
+                            ProgressBar zombieHPBar = HPbars[ImgZomb];
+                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                        }
                     }
 
                     if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
                     {
                         Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) + Speed_Zombie);
-                        ProgressBar zombieHPBar = HPbars[ImgZomb];
-                        Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                        if (HPbars.ContainsKey(ImgZomb))
+                        {
+                            ProgressBar zombieHPBar = HPbars[ImgZomb];
+                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                        }
                     }
 
                     if (Canvas.GetTop(ImgZomb) > Canvas.GetTop(player))
                     {
                         Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
                         ImgZomb.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute)); // Текстура зомби, идущего вправо
-                        ProgressBar zombieHPBar = HPbars[ImgZomb];
-                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                        if (HPbars.ContainsKey(ImgZomb))
+                        {
+                            ProgressBar zombieHPBar = HPbars[ImgZomb];
+                            Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                        }
                     }
 
                     if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
                     {
                         Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
-                        ProgressBar zombieHPBar = HPbars[ImgZomb];
-                        Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                        if (HPbars.ContainsKey(ImgZomb))
+                        {
+                            ProgressBar zombieHPBar = HPbars[ImgZomb];
+                            Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                        }
                     }
                     foreach (UIElement j in elc)
                     {
-                        if (j is Image WeaponDamage && (string)WeaponDamage.Tag == "Damage" && w is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob")
+                        if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob") //При попадании в зомби, урон отнимается
                         {
                             Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height);
-                            if (MagicSphere.IntersectsWith(rect2))
+                            Rect ZombieDamage = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
+                            if (MagicSphere.IntersectsWith(ZombieDamage))
                             {
-                                zombieHPBar.Value -= 25; //При попадании в зомби, урон отнимается
-                                WeaponDamage.Source = null;
-                                CanvasGame.Children.Remove(WeaponDamage);
+                                if (HPbars.ContainsKey(ZombieMobAttack)) // Проверяем, существует ли зомби в словаре HPbars
+                                {
+                                    ProgressBar zombieHPBar = HPbars[ZombieMobAttack]; // Получаем ProgressBar для текущего зомби
+                                    WeaponDamage.Source = null;
+                                    CanvasGame.Children.Remove(WeaponDamage);
+                                    if ((string)WeaponDamage.Tag == "SwordAttack")
+                                    {
+                                        zombieHPBar.Value -= 10; //При попадании в зомби, урон отнимается
+                                    }
+                                    if ((string)WeaponDamage.Tag == "BowArrow")
+                                    {
+                                        zombieHPBar.Value -= 15; //При попадании в зомби, урон отнимается
+                                    }
+                                    if ((string)WeaponDamage.Tag == "BasicMagicAttack")
+                                    {
+                                        zombieHPBar.Value -= 25; //При попадании в зомби, урон отнимается
+                                    }
+                                }
                             }
-                            if (HPbars.ContainsKey(ImgZomb))
+                        if (HPbars.ContainsKey(ImgZomb))
                             {
                                 ProgressBar zombieHPBar = HPbars[ImgZomb];
-                                if (zombieHPBar.Value == 0)
+                                if (zombieHPBar.Value < 1)
                                 {
                                     CanvasGame.Children.Remove(ImgZomb); //При смерти зомби, он пропадает
                                     CanvasGame.Children.Remove(zombieHPBar);
-                                    ZombieMobAttack.Source = null;
-                                    HPbars.Remove(ImgZomb);
-                                    zombiesList.Remove(ImgZomb);
+                                    zombiesList.Remove(ImgZomb); // Удаление зомби из списка
+                                    HPbars.Remove(ImgZomb); // Удаление зомби из словаря
                                     zombieKilles++;
                                     if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                     {
@@ -205,7 +227,6 @@ namespace Secret_of_Castle
         }
         public void GameLose()
         {
-            player.Source = new BitmapImage(new Uri("Texture/Mob/Enemy/zombie_right.png", UriKind.Relative));
             foreach (Image i in zombiesList) // при проигрыше игрока, лист с зомби чистится, мобы пропадают
             {
                 CanvasGame.Children.Remove(i);

@@ -13,7 +13,7 @@ namespace Weapon
         public int swordVertical;
         private int SpeedSword = 50; //Скорость волны меча
         private Image SwordWaves = new Image();
-        private DispatcherTimer TimerSwordWeapon = new DispatcherTimer();
+        public DispatcherTimer TimerSwordWeapon = new DispatcherTimer();
         double animationtick = 0;
         public void WaveSwordCreator(Canvas CanvasGame, Image player)
         {

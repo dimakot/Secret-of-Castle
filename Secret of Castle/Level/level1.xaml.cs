@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,12 +21,14 @@ namespace Secret_of_Castle
         Player Player_Controller; //Класс игрока
         int zombieKilles = 0; //Количество убитых зомби
         int wizardKilles = 0; //Количество убитых магов
+/*        int gameTimerTick = 0;*/
         Random rand = new Random(); //Рандом
 /*        Zombie zombieai; //Класс зомби*/
         DarkWizard darkWizard; //Класс мага
         List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> wizardList = new List<Image>(); //Список для мага
         List<Image> objectlist = new List<Image>(); //Список для объектов
+        int gameTimerTick = 0;
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
@@ -53,8 +56,9 @@ namespace Secret_of_Castle
             }
             if (e.Key == Key.Escape)
             {
-                Pause To_pause = new Pause();
-                To_pause.Show();
+                PauseCanvas.Visibility = Visibility.Visible;
+                gametimer.Stop();
+                Canvas.SetZIndex(PauseCanvas, 1);
             }
         }
         public level1()
@@ -67,7 +71,7 @@ namespace Secret_of_Castle
 
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
-            gametimer.Tick += new EventHandler(GameTickTimer);
+            gametimer.Tick += (sender, e) => { GameTickTimer(sender, e);}; //Таймер игры
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Start();
             player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
@@ -128,6 +132,22 @@ namespace Secret_of_Castle
             darkWizard.GameLose();
 /*            zombieai.GameLose();*/
             objectRandomGeneration.objectGeneration();
+        }
+        private void Exit_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Play_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PauseCanvas.Visibility = Visibility.Hidden;
+            gametimer.Start();
+            CanvasGame.Focus();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            darkWizard.TeleportRandomly();
         }
     }
 }

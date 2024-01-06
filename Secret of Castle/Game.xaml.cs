@@ -50,8 +50,9 @@ namespace Secret_of_Castle
             }
             if (e.Key == Key.Escape)
             {
-                Pause To_pause = new Pause();
-                To_pause.Show();
+                PauseCanvas.Visibility = Visibility.Visible;
+                gametimer.Stop();
+                Canvas.SetZIndex(PauseCanvas, 1);
             }
         }
         public Game()
@@ -121,6 +122,18 @@ namespace Secret_of_Castle
         {
             zombieai.GameLose();
             objectRandomGeneration.objectGeneration();
+        }
+
+        private void Exit_Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Play_Button_Click(object sender, RoutedEventArgs e)
+        {
+            PauseCanvas.Visibility = Visibility.Hidden;
+            gametimer.Start();
+            CanvasGame.Focus();
         }
     }
 }

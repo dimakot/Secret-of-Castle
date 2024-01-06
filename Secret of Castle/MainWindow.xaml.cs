@@ -13,7 +13,7 @@ namespace Secret_of_Castle
         public static Window Game_to;
         public MainWindow()
         {
-            SoundPlayerM.SoundMenuMain = 1;
+            SoundPlayerM.SoundMenuMain = 0;
             InitializeComponent();
             SoundPlayerM.MusicMenu();
 

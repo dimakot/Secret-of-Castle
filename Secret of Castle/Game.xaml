@@ -9,6 +9,13 @@
             <Image Height="100" Canvas.Left="1551" Source="/Texture/UI/Game/HP/icon_hp.png" Stretch="Fill" Canvas.Top="16" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ProgressBar x:Name="hp_bar" Height="18" Canvas.Left="1664" Canvas.Top="57" Width="192" HorizontalAlignment="Left" VerticalAlignment="Center" Value="100" Background="#FFA19D9D" Foreground="#FF6BFF00" Maximum="1000"/>
             <Image x:Name="player" Height="174" Canvas.Left="149" Canvas.Top="466" Width="165" Source="/Texture/Mob/Player/player_move_animation/Right/PlayerMoveRightAnimation1.png" HorizontalAlignment="Left" VerticalAlignment="Center" Stretch="Fill"/>
+            <Canvas x:Name="PauseCanvas" Height="1080" Width="1920" Visibility="Hidden">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Texture/UI/Menu_background.png"/>
+                </Canvas.Background>
+                <Button x:Name="Play_Button" Content="Продолжить" HorizontalAlignment="Left" Margin="876,330,0,0" VerticalAlignment="Top" Height="77" Width="220" Click="Play_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="27" FontWeight="Bold"/>
+                <Button x:Name="Exit_Button" Content="Выйти" HorizontalAlignment="Left" Margin="860,667,0,0" VerticalAlignment="Top" Height="83" Width="256" Click="Exit_Button_Click" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" FontSize="27" FontWeight="Bold"/>
+            </Canvas>
         </Canvas>
     </Viewbox>
 </Window>

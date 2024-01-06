@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,14 +20,12 @@ namespace Secret_of_Castle
         Player Player_Controller; //Класс игрока
         int zombieKilles = 0; //Количество убитых зомби
         int wizardKilles = 0; //Количество убитых магов
-/*        int gameTimerTick = 0;*/
         Random rand = new Random(); //Рандом
-/*        Zombie zombieai; //Класс зомби*/
+        /*        Zombie zombieai; //Класс зомби*/
         DarkWizard darkWizard; //Класс мага
         List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> wizardList = new List<Image>(); //Список для мага
-        List<Image> objectlist = new List<Image>(); //Список для объектов
-        int gameTimerTick = 0;
+        List<Image> objectlist = new List<Image>(); //Список для объектов        int gameTimerTick = 0;
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
@@ -64,14 +61,13 @@ namespace Secret_of_Castle
         public level1()
         {
             InitializeComponent(); //Таймер
-            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles);
             /*            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);*/
-
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
-            gametimer.Tick += (sender, e) => { GameTickTimer(sender, e);}; //Таймер игры
+            gametimer.Tick += (sender, e) => { GameTickTimer(sender, e); }; //Таймер игры
             gametimer.Interval = TimeSpan.FromMilliseconds(10);
             gametimer.Start();
             player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
@@ -79,6 +75,8 @@ namespace Secret_of_Castle
 
         private void GameTickTimer(object sender, EventArgs e) //Таймер игры
         {
+            string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller.Control(); //Движение игрока
             if (Portal.Visibility == Visibility.Visible && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
@@ -91,11 +89,10 @@ namespace Secret_of_Castle
                 Player.LeftKeyDown = false;
                 Player.RightKeyDown = false;
             }
-            string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
-            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             darkWizard.WizardAI(); //ИИ мага
-/*            zombieai.ZombieMovement(); //Движение зомби
-            zombieai.elc = elc; //Список для зомби*/
+            darkWizard.elc = elc; //Список для мага
+            /*          zombieai.ZombieMovement(); //Движение зомби
+                        zombieai.elc = elc; //Список для зомби*/
             foreach (UIElement j in elc)
             {
                 Collision collision = new Collision(player, elc);
@@ -130,7 +127,7 @@ namespace Secret_of_Castle
         private void GameLose()
         {
             darkWizard.GameLose();
-/*            zombieai.GameLose();*/
+            /*            zombieai.GameLose();*/
             objectRandomGeneration.objectGeneration();
         }
         private void Exit_Button_Click(object sender, RoutedEventArgs e)
@@ -143,11 +140,6 @@ namespace Secret_of_Castle
             PauseCanvas.Visibility = Visibility.Hidden;
             gametimer.Start();
             CanvasGame.Focus();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            darkWizard.TeleportRandomly();
         }
     }
 }

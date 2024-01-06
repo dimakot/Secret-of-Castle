@@ -34,7 +34,7 @@ namespace Secret_of_Castle
             if (e.Key == Key.E)
             {
                 //Случайное число для выбора оружия
-                int random = rand.Next(1, 2);
+                int random = rand.Next(1, 3);
                 if (random == 1) //Если 1, то стреляет магией
                 {
                     ShootMagicBasic(Player.ControlWeapon);

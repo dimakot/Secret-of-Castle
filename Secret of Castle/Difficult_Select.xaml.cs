@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Sound;
 
 namespace Secret_of_Castle
 {
@@ -49,7 +48,6 @@ namespace Secret_of_Castle
 
         private void To_Level_Click(object sender, RoutedEventArgs e) //Переход на игровой уровень
         {
-            SoundPlayerM.SoundMenuMain = 0;
             if (Game_to == null)
             {
                 Game_to = new Game();

@@ -63,5 +63,6 @@ namespace Weapon //пространство имен для оружия
                 TimerBasicMagicWeapon = null;
             }
         }
+
     }
 }

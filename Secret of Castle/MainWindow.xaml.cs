@@ -1,4 +1,4 @@
-﻿using Sound;
+﻿/*using Sound;*/
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -13,9 +13,9 @@ namespace Secret_of_Castle
         public static Window Game_to;
         public MainWindow()
         {
-            SoundPlayerM.SoundMenuMain = 0;
+/*            SoundPlayerM.SoundMenuMain = 1;*/
             InitializeComponent();
-            SoundPlayerM.MusicMenu();
+/*            SoundPlayerM.MusicMenu();*/
 
         }
         private void Menu_MouseMove(object sender, MouseEventArgs e)

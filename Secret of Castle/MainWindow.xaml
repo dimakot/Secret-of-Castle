@@ -23,6 +23,19 @@
                 </Button.Background>
             </Button>
             <Image x:Name="logo" Height="89" VerticalAlignment="Top" Source="/Texture/UI/logo.png" Grid.Row="1" Grid.Column="2" Canvas.Left="960" Canvas.Top="10" Width="933"/>
+            <Canvas x:Name="DifficultCanvas"  Height="1080" Width="1920" Visibility="Hidden">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="/Texture/UI/Game/Settings_Background.png"/>
+                </Canvas.Background>
+                <Label x:Name="DifficultCurrentLB" Content="Выберите уровень сложности" Canvas.Left="806" Canvas.Top="475" Height="45" Width="364" Foreground="White" FontWeight="Bold" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Label x:Name="HP_PersonLB" Content="" Canvas.Left="806" Canvas.Top="550" HorizontalAlignment="Left" Height="47" VerticalAlignment="Center" Width="364" Foreground="White" FontSize="16" FontWeight="Bold"/>
+                <Label x:Name="MobDifficultLB" Content="" Canvas.Left="782" Canvas.Top="639" HorizontalAlignment="Left" Height="39" VerticalAlignment="Center" Width="411" Foreground="White" FontSize="16" FontWeight="Bold"/>
+                <Button x:Name="Medium_Button" Content="Нормальный" Canvas.Left="884" Canvas.Top="400" Height="52" Width="212" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" FontSize="16" FontWeight="Bold" Click="Medium_Button_Click"/>
+                <Button x:Name="Lite_Button" Content="Легкий" Height="52" Canvas.Left="658" Canvas.Top="400" Width="215" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="Lite_Button_Click" FontSize="16" FontWeight="Bold"/>
+                <Button x:Name="Hard_Button" Content="Сложный" Height="52" Canvas.Left="1101" Canvas.Top="400" Width="215" BorderBrush="{x:Null}" Background="{x:Null}" Foreground="White" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Click="Hard_Button_Click"/>
+                <Button x:Name="To_Level" Content="Играть" Canvas.Left="806" Canvas.Top="700" HorizontalAlignment="Center" VerticalAlignment="Top" Height="51" Width="364" FontSize="24" FontWeight="Bold" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" Click="To_Level_Click" Visibility="Hidden"/>
+
+            </Canvas>
         </Canvas>
     </Viewbox>
 </Window>

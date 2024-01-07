@@ -49,11 +49,52 @@ namespace Secret_of_Castle
         }
         private void Button_Play_Click(object sender, RoutedEventArgs e)
         {
-            /* Game To_Game = new Game();
-               To_Game.Show(); //Показывает окно поверх второго*/
+            DifficultCanvas.Visibility = Visibility.Visible;
+        }
+
+        private void Button_Exit_Click(object sender, RoutedEventArgs e)
+        {
+
+            Application.Current.Shutdown();
+        }
+        private void Lite_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
+        {
+            difficult.Instance.SetDifficulty("Lite"); //Установка сложности
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            To_Level.Visibility = Visibility.Visible;
+            DifficultCurrentLB.Content = "Легкая";
+            HP_PersonLB.Content = "Количество здоровья: 200";
+            MobDifficultLB.Content = "Количество мобов: Низкое";
+            Player.HealthPlayer = 200;
+        }
+
+        private void Medium_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
+        {
+            difficult.Instance.SetDifficulty("Medium"); //Установка сложности
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            To_Level.Visibility = Visibility.Visible;
+            DifficultCurrentLB.Content = "Нормальная";
+            HP_PersonLB.Content = "Количество здоровья: 150";
+            MobDifficultLB.Content = "Количество мобов: Среднее";
+            Player.HealthPlayer = 150;
+        }
+
+        private void Hard_Button_Click(object sender, RoutedEventArgs e) //Установка сложности
+        {
+            difficult.Instance.SetDifficulty("Hard"); //Установка сложности
+            string currentDifficulty = difficult.Instance.CurrentDifficulty;
+            To_Level.Visibility = Visibility.Visible;
+            DifficultCurrentLB.Content = "Сложная";
+            HP_PersonLB.Content = "Количество здоровья: 100";
+            MobDifficultLB.Content = "Количество мобов: Большое";
+            Player.HealthPlayer = 100;
+        }
+
+        private void To_Level_Click(object sender, RoutedEventArgs e) //Переход на игровой уровень
+        {
             if (Game_to == null)
             {
-                Game_to = new Difficult_Select();
+                Game_to = new Game();
                 Game_to.Show();
             }
             else
@@ -61,12 +102,6 @@ namespace Secret_of_Castle
                 Game_to.Activate();
             }
             this.Hide();
-        }
-
-        private void Button_Exit_Click(object sender, RoutedEventArgs e)
-        {
-
-            Application.Current.Shutdown();
         }
     }
 }

@@ -78,26 +78,56 @@ namespace Secret_of_Castle
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller.Control(); //Движение игрока
-            if (Portal.Visibility == Visibility.Visible && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+            int prt1 = rand.Next(1, 3); //Случайное число для генерации объектов
+            if (zombiesList.Count == 0 || wizardList.Count == 0 && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
-                level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
-                this.Hide();
-                gametimer.Stop();
-                ChangeLevel.Show();
-                Player.UpKeyDown = false; //Обнуляем кнопки
-                Player.DownKeyDown = false;
-                Player.LeftKeyDown = false;
-                Player.RightKeyDown = false;
+                if (prt1 == 1)
+                {
+                    level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    DarkWizard.wizardKilles = 0;
+                    prt1 = 0;
+                }
+                else if (prt1 == 2)
+                {
+                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    DarkWizard.wizardKilles = 0;
+                    prt1 = 0;
+                }
+                /*                if (prt1 == 3)
+                                {
+                                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень
+                                    this.Hide();
+                                    gametimer.Stop();
+                                    ChangeLevel.Show();
+                                    Player.UpKeyDown = false; //Обнуляем кнопки
+                                        Player.DownKeyDown = false;
+                                    Player.LeftKeyDown = false;
+                                    Player.RightKeyDown = false;
+                                }*/
             }
             darkWizard.WizardAI(); //ИИ мага
-            darkWizard.elc = elc; //Список для мага
-            /*          zombieai.ZombieMovement(); //Движение зомби
-                        zombieai.elc = elc; //Список для зомби*/
-            foreach (UIElement j in elc)
-            {
-                Collision collision = new Collision(player, elc);
-                collision.Collision_physics();
-            }
+                darkWizard.elc = elc; //Список для мага
+                /*          zombieai.ZombieMovement(); //Движение зомби
+                            zombieai.elc = elc; //Список для зомби*/
+                foreach (UIElement j in elc)
+                {
+                    Collision collision = new Collision(player, elc);
+                    collision.Collision_physics();
+                }
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {

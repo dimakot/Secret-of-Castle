@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using System.Windows;
+
 
 namespace Secret_of_Castle
 {
@@ -21,7 +19,9 @@ namespace Secret_of_Castle
         public ProgressBar ScientistHPBar;
         public static int HealthScientist = 2500;
         DateTime lastDamageBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
-        int delayDamage = 4000; //Задержка
+        DateTime lastCreateBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
+        int delayDamage = 6000; //Задержка
+        int delayCreate = 4000; //Задержка
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
         public MadScientist(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, ProgressBar ScientistHPBar) //Конструктор
         {
@@ -53,14 +53,19 @@ namespace Secret_of_Castle
         }
         public void MadScientistDamage()
         {
-
+            BulbScientist magicAttack = new BulbScientist();
+            magicAttack.MadScientistHorisontal = (int)(Canvas.GetLeft(player)); // Задаем координаты для снаряда
+            magicAttack.MadScientistVertical = (int)(Canvas.GetTop(player));
+            magicAttack.MadScientistMagicAttack(CanvasGame); // Создаем снаряд
         }
+
+
         public void ScientistMove() //Движение Дракона
         {
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
             foreach (UIElement w in elc)
             {
-                if (w is Image ScientistMad && (string)ScientistMad.Tag == "MadScientistBoss")
+                if (w is Image ScientistMad && ((string)ScientistMad.Tag == "MadScientistBoss" || (string)ScientistMad.Tag == "MadScientistBoss"))
                 {
                     if (Canvas.GetLeft(ScientistMad) > Canvas.GetLeft(player)) //Если ученый правее игрока
                     {
@@ -92,66 +97,64 @@ namespace Secret_of_Castle
                         Speed_Scientist = 2;
                         delayDamage = 3000;
                     }
-                    foreach (UIElement j in elc)
+                    foreach (UIElement q in elc)
                     {
-                        if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image MadScientistBossAttack && (string)MadScientistBossAttack.Tag == "MadScientistBoss") //При попадании в зомби, урон отнимается
+                        if (q is Image wizardWeapon && (string)wizardWeapon.Tag == "BulbMagicAttack")
                         {
-                            Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height);
-                            Rect ZombieDamage = new Rect(Canvas.GetLeft(MadScientistBossAttack), Canvas.GetTop(MadScientistBossAttack), MadScientistBossAttack.RenderSize.Width, MadScientistBossAttack.RenderSize.Height);
-                            if (MagicSphere.IntersectsWith(ZombieDamage))
+                            Rect WizardWeaponHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                            Rect PlayerHitBox = new Rect(Canvas.GetLeft(wizardWeapon), Canvas.GetTop(wizardWeapon), wizardWeapon.RenderSize.Width, wizardWeapon.RenderSize.Height);
+                            if (WizardWeaponHitBox.IntersectsWith(PlayerHitBox))
                             {
-                                WeaponDamage.Source = null;
-                                CanvasGame.Children.Remove(WeaponDamage);
-                                double damage = 0;
-                                if ((string)WeaponDamage.Tag == "SwordAttack")
+                                if (currentDifficulty == "Hard")
                                 {
-                                    damage = 10; //При попадании в зомби, урон отнимается
+                                    Player.HealthPlayer -= 1;
                                 }
-                                if ((string)WeaponDamage.Tag == "BowArrow")
+                                else if (currentDifficulty == "Medium")
                                 {
-                                    damage = 15; //При попадании в зомби, урон отнимается
+                                    Player.HealthPlayer -= 1;
                                 }
-                                if ((string)WeaponDamage.Tag == "BasicMagicAttack")
+                                else if (currentDifficulty == "Lite")
                                 {
-                                    damage = 25; //При попадании в зомби, урон отнимается
+                                    Player.HealthPlayer -= 1;
                                 }
-                                ScientistHPBar.Value -= damage; //При попадании в зомби, урон отнимается
+                                wizardWeapon.Source = null;
+                                CanvasGame.Children.Remove(wizardWeapon);
                             }
                         }
-                        foreach (UIElement i in elc)
+                        foreach (UIElement j in elc)
                         {
-                            if (i is Image dragonAttackMagic && (string)dragonAttackMagic.Tag == "DragonMagicAttack")
+                            if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image MadScientistBossAttack && (string)MadScientistBossAttack.Tag == "MadScientistBoss") //При попадании в зомби, урон отнимается
                             {
-                                Rect PlayerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                                Rect DragonWeaponHitBox = new Rect(Canvas.GetLeft(dragonAttackMagic), Canvas.GetTop(dragonAttackMagic), dragonAttackMagic.RenderSize.Width, dragonAttackMagic.RenderSize.Height);
-                                if (DragonWeaponHitBox.IntersectsWith(PlayerHitBox))
+                                Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height);
+                                Rect ZombieDamage = new Rect(Canvas.GetLeft(MadScientistBossAttack), Canvas.GetTop(MadScientistBossAttack), MadScientistBossAttack.RenderSize.Width, MadScientistBossAttack.RenderSize.Height);
+                                if (MagicSphere.IntersectsWith(ZombieDamage))
                                 {
-                                    if (currentDifficulty == "Hard")
+                                    WeaponDamage.Source = null;
+                                    CanvasGame.Children.Remove(WeaponDamage);
+                                    double damage = 0;
+                                    if ((string)WeaponDamage.Tag == "SwordAttack")
                                     {
-                                        Player.HealthPlayer -= 25;
+                                        damage = 10; //При попадании в зомби, урон отнимается
                                     }
-                                    else if (currentDifficulty == "Medium")
+                                    if ((string)WeaponDamage.Tag == "BowArrow")
                                     {
-                                        Player.HealthPlayer -= 15;
+                                        damage = 15; //При попадании в зомби, урон отнимается
                                     }
-                                    else if (currentDifficulty == "Lite")
+                                    if ((string)WeaponDamage.Tag == "BasicMagicAttack")
                                     {
-                                        Player.HealthPlayer -= 4;
+                                        damage = 25; //При попадании в зомби, урон отнимается
                                     }
-                                    dragonAttackMagic.Source = null;
-                                    CanvasGame.Children.Remove(dragonAttackMagic);
+                                    ScientistHPBar.Value -= damage; //При попадании в зомби, урон отнимается
                                 }
                             }
+                            if (ScientistHPBar.Value < 1)
+                            {
+                                CanvasGame.Children.Remove(ScientistMad); //При смерти зомби, он пропадает
+                                CanvasGame.Children.Remove(ScientistHPBar);
+                                ScientistList.Remove(ScientistMad); // Удаление зомби из списка
+                                HPbars.Remove(ScientistMad); // Удаление зомби из словаря
+                            }
                         }
-
-                        if (ScientistHPBar.Value < 1)
-                        {
-                            CanvasGame.Children.Remove(ScientistMad); //При смерти зомби, он пропадает
-                            CanvasGame.Children.Remove(ScientistHPBar);
-                            ScientistList.Remove(ScientistMad); // Удаление зомби из списка
-                            HPbars.Remove(ScientistMad); // Удаление зомби из словаря
-                        }
-
                     }
                 }
             }

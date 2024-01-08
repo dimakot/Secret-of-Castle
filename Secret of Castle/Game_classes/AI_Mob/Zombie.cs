@@ -80,7 +80,7 @@ namespace Secret_of_Castle
                             }
                             else if (currentDifficulty == "Lite")
                             {
-                                Player.HealthPlayer -= 4;
+                                Player.HealthPlayer -= 8;
                                 lastDamageTime = currentTime;
                             }
                         }

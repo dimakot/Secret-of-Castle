@@ -27,7 +27,7 @@ namespace Secret_of_Castle
                 "pack://application:,,,/Texture/Weapon/Magic/MadScientistBulb/MadScientist_3.png",
             }; int animationCurrentImage = 0;
             MadScientistWeapon.Source = new BitmapImage(new Uri(MadScientistAttackImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
-            MadScientistWeapon.Height = 38; MadScientistWeapon.Width = 82; //задаем стандартные параметры для генерации Магической сферы, тег
+            MadScientistWeapon.Height = 300; MadScientistWeapon.Width = 300; //задаем стандартные параметры для генерации Магической сферы, тег
             MadScientistWeapon.Tag = "BulbMagicAttack";
             Canvas.SetLeft(MadScientistWeapon, MadScientistHorisontal); Canvas.SetTop(MadScientistWeapon, MadScientistVertical);
             Panel.SetZIndex(MadScientistWeapon, 1);

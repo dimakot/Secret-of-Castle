@@ -6,34 +6,34 @@ using System.Windows.Media.Imaging;
 
 namespace Secret_of_Castle
 {
-    internal class Zombie
+    internal class Dog
     {
-        List<Image> zombiesList; //Список для моба
+        List<Image> DogList; //Список для моба
         Image player;
         Image Portal;
         Random rand = new Random();
         Canvas CanvasGame;
         public List<UIElement> elc;
-        public static int Speed_Zombie = 2;
-        public ProgressBar zombieHPBar;
-        public static int zombieKilles;
-        public static int zombiesNeeded = 0;
+        public static int Speed_Dog = 2;
+        public ProgressBar DogHPBar;
+        public static int DogKilles;
+        public static int DogNeeded = 0;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
-        public Zombie(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, int zombieKilles = 0) //Конструктор
+        public Dog(Image player, Canvas CanvasGame, List<Image> DogList, List<UIElement> elc, int DogKilles = 0) //Конструктор
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
-            this.zombiesList = zombiesList;
+            this.DogList = DogList;
             this.elc = elc;
         }
 
-        public void MobSpawn() //Создаем зомби
+        public void DogSpawn() //Создаем зомби
         {
-            Image Zombies = new Image();
-            Zombies.Tag = "Mob";
-            Zombies.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute));
+            Image Dogs = new Image();
+            Dogs.Tag = "MobAggry";
+            Dogs.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Dog/dog_Right.png", UriKind.RelativeOrAbsolute));
             // Генерируем случайные координаты для зомби
             int ZombieCanvasTop, ZombieCanvasLeft; //Координаты зомби
             do
@@ -41,29 +41,29 @@ namespace Secret_of_Castle
                 ZombieCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width) - 200); //Использует случайное значение от 0 до крайней точки разрешения экрана
                 ZombieCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
             } while (Math.Abs(Canvas.GetLeft(player) - ZombieCanvasLeft) < 800 && Math.Abs(Canvas.GetTop(player) - ZombieCanvasTop) < 800); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
-            Canvas.SetLeft(Zombies, ZombieCanvasLeft);
-            Canvas.SetTop(Zombies, ZombieCanvasTop);
-            Zombies.Height = 200; Zombies.Width = 200;
-            zombieHPBar = new ProgressBar(); // Создаем ProgressBar для зомби
-            zombieHPBar.Width = 150; zombieHPBar.Height = 10;
-            zombieHPBar.Value = 100; zombieHPBar.Maximum = 100;
-            Canvas.SetLeft(zombieHPBar, ZombieCanvasLeft);
-            Canvas.SetTop(zombieHPBar, ZombieCanvasTop - zombieHPBar.Height);
-            CanvasGame.Children.Add(zombieHPBar);
-            zombiesList.Add(Zombies);
-            CanvasGame.Children.Add(Zombies);
-            HPbars.Add(Zombies, zombieHPBar);
+            Canvas.SetLeft(Dogs, ZombieCanvasLeft);
+            Canvas.SetTop(Dogs, ZombieCanvasTop);
+            Dogs.Height = 200; Dogs.Width = 150;
+            DogHPBar = new ProgressBar(); // Создаем ProgressBar для зомби
+            DogHPBar.Width = 150; DogHPBar.Height = 10;
+            DogHPBar.Value = 50; DogHPBar.Maximum = 50;
+            Canvas.SetLeft(DogHPBar, ZombieCanvasLeft);
+            Canvas.SetTop(DogHPBar, ZombieCanvasTop - DogHPBar.Height);
+            CanvasGame.Children.Add(DogHPBar);
+            DogList.Add(Dogs);
+            CanvasGame.Children.Add(Dogs);
+            HPbars.Add(Dogs, DogHPBar);
             Canvas.SetZIndex(player, 1);
         }
-        public void ZombieMovement()
+        public void DogMovement()
         {
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
             foreach (UIElement w in elc)
             {
-                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Mob")
+                if (w is Image ImgDog && (string)ImgDog.Tag == "MobAggry")
                 {
                     Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                    Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
+                    Rect rect2 = new Rect(Canvas.GetLeft(ImgDog), Canvas.GetTop(ImgDog), ImgDog.RenderSize.Width, ImgDog.RenderSize.Height);
                     if (rect1.IntersectsWith(rect2))
                     {
                         DateTime currentTime = DateTime.Now;
@@ -73,106 +73,106 @@ namespace Secret_of_Castle
                         {
                             if (currentDifficulty == "Hard")
                             {
-                                Player.HealthPlayer -= 25;
+                                Player.HealthPlayer -= 10;
                                 lastDamageTime = currentTime;
                             }
                             else if (currentDifficulty == "Medium")
                             {
-                                Player.HealthPlayer -= 15;
+                                Player.HealthPlayer -= 5;
                                 lastDamageTime = currentTime;
                             }
                             else if (currentDifficulty == "Lite")
                             {
-                                Player.HealthPlayer -= 8;
+                                Player.HealthPlayer -= 2;
                                 lastDamageTime = currentTime;
                             }
                         }
 
                     }
-                    if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
+                    if (Canvas.GetLeft(ImgDog) > Canvas.GetLeft(player)) //Движение зомби
                     {
-                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
-                        ImgZomb.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.RelativeOrAbsolute)); //Текстура зомби, идущего влево
-                        if (HPbars.ContainsKey(ImgZomb))
+                        Canvas.SetLeft(ImgDog, Canvas.GetLeft(ImgDog) - Speed_Dog);
+                        ImgDog.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Dog/dog_Left.png", UriKind.RelativeOrAbsolute)); //Текстура зомби, идущего влево
+                        if (HPbars.ContainsKey(ImgDog))
                         {
-                            ProgressBar zombieHPBar = HPbars[ImgZomb];
-                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                            ProgressBar DogHPBar = HPbars[ImgDog];
+                            Canvas.SetLeft(DogHPBar, Canvas.GetLeft(ImgDog));
                         }
                     }
 
-                    if (Canvas.GetLeft(ImgZomb) < Canvas.GetLeft(player))
+                    if (Canvas.GetLeft(ImgDog) < Canvas.GetLeft(player))
                     {
-                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) + Speed_Zombie);
-                        if (HPbars.ContainsKey(ImgZomb))
+                        Canvas.SetLeft(ImgDog, Canvas.GetLeft(ImgDog) + Speed_Dog);
+                        if (HPbars.ContainsKey(ImgDog))
                         {
-                            ProgressBar zombieHPBar = HPbars[ImgZomb];
-                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                            ProgressBar DogHPBar = HPbars[ImgDog];
+                            Canvas.SetLeft(DogHPBar, Canvas.GetLeft(ImgDog));
                         }
                     }
 
-                    if (Canvas.GetTop(ImgZomb) > Canvas.GetTop(player))
+                    if (Canvas.GetTop(ImgDog) > Canvas.GetTop(player))
                     {
-                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) - Speed_Zombie);
-                        ImgZomb.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_right.png", UriKind.RelativeOrAbsolute)); // Текстура зомби, идущего вправо
-                        if (HPbars.ContainsKey(ImgZomb))
+                        Canvas.SetTop(ImgDog, Canvas.GetTop(ImgDog) - Speed_Dog);
+                        ImgDog.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Dog/dog_Right.png", UriKind.RelativeOrAbsolute)); // Текстура зомби, идущего вправо
+                        if (HPbars.ContainsKey(ImgDog))
                         {
-                            ProgressBar zombieHPBar = HPbars[ImgZomb];
-                            Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                            ProgressBar DogHPBar = HPbars[ImgDog];
+                            Canvas.SetTop(DogHPBar, Canvas.GetTop(ImgDog) - DogHPBar.Height);
                         }
                     }
 
-                    if (Canvas.GetTop(ImgZomb) < Canvas.GetTop(player))
+                    if (Canvas.GetTop(ImgDog) < Canvas.GetTop(player))
                     {
-                        Canvas.SetTop(ImgZomb, Canvas.GetTop(ImgZomb) + Speed_Zombie);
-                        if (HPbars.ContainsKey(ImgZomb))
+                        Canvas.SetTop(ImgDog, Canvas.GetTop(ImgDog) + Speed_Dog);
+                        if (HPbars.ContainsKey(ImgDog))
                         {
-                            ProgressBar zombieHPBar = HPbars[ImgZomb];
-                            Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
+                            ProgressBar DogHPBar = HPbars[ImgDog];
+                            Canvas.SetTop(DogHPBar, Canvas.GetTop(ImgDog) - DogHPBar.Height);
                         }
                     }
                     foreach (UIElement j in elc)
                     {
-                        if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob") //При попадании в зомби, урон отнимается
+                        if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image DogMobAttack && (string)DogMobAttack.Tag == "MobAggry") //При попадании в зомби, урон отнимается
                         {
                             Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height);
-                            Rect ZombieDamage = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
+                            Rect ZombieDamage = new Rect(Canvas.GetLeft(DogMobAttack), Canvas.GetTop(DogMobAttack), DogMobAttack.RenderSize.Width, DogMobAttack.RenderSize.Height);
                             if (MagicSphere.IntersectsWith(ZombieDamage))
                             {
-                                if (HPbars.ContainsKey(ZombieMobAttack)) // Проверяем, существует ли зомби в словаре HPbars
+                                if (HPbars.ContainsKey(DogMobAttack)) // Проверяем, существует ли зомби в словаре HPbars
                                 {
-                                    ProgressBar zombieHPBar = HPbars[ZombieMobAttack]; // Получаем ProgressBar для текущего зомби
+                                    ProgressBar DogHPBar = HPbars[DogMobAttack]; // Получаем ProgressBar для текущего зомби
                                     WeaponDamage.Source = null;
                                     CanvasGame.Children.Remove(WeaponDamage);
                                     if ((string)WeaponDamage.Tag == "SwordAttack")
                                     {
-                                        zombieHPBar.Value -= 10; //При попадании в зомби, урон отнимается
+                                        DogHPBar.Value -= 10; //При попадании в зомби, урон отнимается
                                     }
                                     if ((string)WeaponDamage.Tag == "BowArrow")
                                     {
-                                        zombieHPBar.Value -= 15; //При попадании в зомби, урон отнимается
+                                        DogHPBar.Value -= 15; //При попадании в зомби, урон отнимается
                                     }
                                     if ((string)WeaponDamage.Tag == "BasicMagicAttack")
                                     {
-                                        zombieHPBar.Value -= 25; //При попадании в зомби, урон отнимается
+                                        DogHPBar.Value -= 25; //При попадании в зомби, урон отнимается
                                     }
                                 }
                             }
-                            if (HPbars.ContainsKey(ImgZomb))
+                            if (HPbars.ContainsKey(ImgDog))
                             {
-                                ProgressBar zombieHPBar = HPbars[ImgZomb];
-                                if (zombieHPBar.Value < 1)
+                                ProgressBar DogHPBar = HPbars[ImgDog];
+                                if (DogHPBar.Value < 1)
                                 {
-                                    CanvasGame.Children.Remove(ImgZomb); //При смерти зомби, он пропадает
-                                    CanvasGame.Children.Remove(zombieHPBar);
-                                    zombiesList.Remove(ImgZomb); // Удаление зомби из списка
-                                    HPbars.Remove(ImgZomb); // Удаление зомби из словаря
-                                    zombieKilles++;
-                                    zombiesNeeded++;
+                                    CanvasGame.Children.Remove(ImgDog); //При смерти зомби, он пропадает
+                                    CanvasGame.Children.Remove(DogHPBar);
+                                    DogList.Remove(ImgDog); // Удаление зомби из списка
+                                    HPbars.Remove(ImgDog); // Удаление зомби из словаря
+                                    DogKilles++;
+                                    DogNeeded++;
                                     if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                     {
-                                        if (zombieKilles < 50)
+                                        if (DogKilles < 15)
                                         {
-                                            MobSpawn();
+                                            DogSpawn();
                                         }
                                         else
                                         {
@@ -181,9 +181,9 @@ namespace Secret_of_Castle
                                     }
                                     if (currentDifficulty == "Medium")
                                     {
-                                        if (zombieKilles < 25)
+                                        if (DogKilles < 10)
                                         {
-                                            MobSpawn();
+                                            DogSpawn();
                                         }
                                         else
                                         {
@@ -192,9 +192,9 @@ namespace Secret_of_Castle
                                     }
                                     if (currentDifficulty == "Lite")
                                     {
-                                        if (zombieKilles < 10)
+                                        if (DogKilles < 5)
                                         {
-                                            MobSpawn();
+                                            DogSpawn();
                                         }
                                         else
                                         {
@@ -210,32 +210,32 @@ namespace Secret_of_Castle
         }
         public void GameLose()
         {
-            foreach (Image i in zombiesList) // при проигрыше игрока, лист с зомби чистится, мобы пропадают
+            foreach (Image i in DogList) // при проигрыше игрока, лист с зомби чистится, мобы пропадают
             {
                 CanvasGame.Children.Remove(i);
 
             }
-            zombiesList.Clear();
+            DogList.Clear();
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //В зависимости от выбранной сложности спавнится за раз определенное кол-во мобов
             if (currentDifficulty == "Hard")
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    MobSpawn();
+                    DogSpawn();
                 }
             }
             else if (currentDifficulty == "Medium")
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    MobSpawn();
+                    DogSpawn();
                 }
             }
             else if (currentDifficulty == "Lite")
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    MobSpawn();
+                    DogSpawn();
                 }
             }
         }

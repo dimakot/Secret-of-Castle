@@ -183,6 +183,11 @@ namespace Secret_of_Castle
                     HealthPlayer += 10;
                     DarkWizard.wizardNeeded = 0;
                 }
+                if (Skeleton.skeletonNeeded > 15) //Если убито 10 скелетов, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 10;
+                    Skeleton.skeletonNeeded = 0;
+                }
                 hp_bar.Maximum = 100 + Perks.hp_boosting;
             }
             if (currentDifficulty == "Medium")
@@ -197,6 +202,11 @@ namespace Secret_of_Castle
                     HealthPlayer += 5;
                     DarkWizard.wizardNeeded = 0;
                 }
+                if (Skeleton.skeletonNeeded > 10) //Если убито 10 скелетов, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 10;
+                    Skeleton.skeletonNeeded = 0;
+                }
                 hp_bar.Maximum = 150 + Perks.hp_boosting;
             }
             if (currentDifficulty == "Lite")
@@ -210,6 +220,11 @@ namespace Secret_of_Castle
                 {
                     HealthPlayer += 5;
                     DarkWizard.wizardNeeded = 0;
+                }
+                if (Skeleton.skeletonNeeded > 5) //Если убито 10 скелетов, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 15;
+                    Skeleton.skeletonNeeded = 0;
                 }
                 hp_bar.Maximum = 200 + Perks.hp_boosting;
             }

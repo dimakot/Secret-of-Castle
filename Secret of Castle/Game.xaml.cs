@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -22,14 +20,20 @@ namespace Secret_of_Castle
         Player Player_Controller; //Класс игрока
         int zombieKilles = 0; //Количество убитых зомби
         int wizardKilles = 0; //Количество убитых магов
+        int skeletonKilles = 0; //Количество убитых скелетов
+        int DogKilles = 0; //Количество убитых собак
         Random rand = new Random(); //Рандом
         Random manna = new Random(); //рандом для маны
         Random mob = new Random(); //рандом для моба
         List<Image> wizardList = new List<Image>(); //Список для мага
         Zombie zombieai; //Класс зомби
+        Skeleton skeleton; //Класс скелета
         DarkWizard darkWizard; //Класс мага
+        Dog dog; //Класс собаки
         List<Image> zombiesList = new List<Image>(); //Список для моба
+        List<Image> skeletonList = new List<Image>(); //Список для скелета
         List<Image> objectlist = new List<Image>(); //Список для объектов
+        List<Image> DogList = new List<Image>(); //Список для собаки
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
         private void kbup(object sender, KeyEventArgs e)
         {
@@ -52,7 +56,8 @@ namespace Secret_of_Castle
                     }
                 }
             }
-            foreach (UIElement i in elc) {
+            foreach (UIElement i in elc)
+            {
                 if (i is Image Chest && (string)Chest.Tag == "Chest")
                 {
                     if (e.Key == Key.F && (Canvas.GetLeft(player) < Canvas.GetLeft(Chest) + Chest.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Chest) && Canvas.GetTop(player) < Canvas.GetTop(Chest) + Chest.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Chest)))
@@ -124,7 +129,9 @@ namespace Secret_of_Castle
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);
+            skeleton = new Skeleton(player, CanvasGame, skeletonList, elc, skeletonKilles);
             darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles);
+            dog = new Dog(player, CanvasGame, DogList, elc, DogKilles);
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
             gametimer.Tick += new EventHandler(GameTickTimer);
@@ -154,6 +161,8 @@ namespace Secret_of_Castle
                     Zombie.zombieKilles = 0;
                     DarkWizard.wizardKilles = 0;
                     DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
                     Zombie.zombiesNeeded = 0;
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
@@ -172,13 +181,15 @@ namespace Secret_of_Castle
                     Zombie.zombieKilles = 0;
                     DarkWizard.wizardKilles = 0;
                     DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
                     Zombie.zombiesNeeded = 0;
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
                     RandomLevel.CurrentLevel++;
                 }
-                
-                 else if (prt1 == 2)
+
+                else if (prt1 == 2)
                 {
                     Game ChangeLevel1 = new Game(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();
@@ -191,10 +202,11 @@ namespace Secret_of_Castle
                     Zombie.zombieKilles = 0;
                     DarkWizard.wizardKilles = 0;
                     DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
                     Zombie.zombiesNeeded = 0;
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
-                    Zombie.zombiesPerks = 0;
                     RandomLevel.CurrentLevel++;
                 }
                 /*                if (prt1 == 3) 
@@ -216,20 +228,24 @@ namespace Secret_of_Castle
             zombieai.elc = elc; //Список для зомби
             darkWizard.WizardAI(); //ИИ мага
             darkWizard.elc = elc; //Список для мага
+            skeleton.SkeletonMovement();
+            skeleton.elc = elc;
+            dog.DogMovement();
+            dog.elc = elc;
             foreach (UIElement j in elc)
             {
                 Collision collision = new Collision(player, elc);
                 collision.Collision_physics();
-                    if (j is Image StarManna && (string)StarManna.Tag == "Manna") // Трата патронов
+                if (j is Image StarManna && (string)StarManna.Tag == "Manna") // Трата патронов
+                {
+                    if (Canvas.GetLeft(player) < Canvas.GetLeft(StarManna) + StarManna.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(StarManna) && Canvas.GetTop(player) < Canvas.GetTop(StarManna) + StarManna.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(StarManna))
                     {
-                        if (Canvas.GetLeft(player) < Canvas.GetLeft(StarManna) + StarManna.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(StarManna) && Canvas.GetTop(player) < Canvas.GetTop(StarManna) + StarManna.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(StarManna))
-                        {
-                            CanvasGame.Children.Remove(StarManna);
-                            StarManna.Source = null;
-                            Perks.star += 10;
-                        }
+                        CanvasGame.Children.Remove(StarManna);
+                        StarManna.Source = null;
+                        Perks.star += 10;
+                    }
                 }
-                }
+            }
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {
@@ -258,18 +274,45 @@ namespace Secret_of_Castle
 
         private void GameLose()
         {
-            int RandomMob = mob.Next(1, 4);
+            int RandomMob = mob.Next(1, 9);
             if (RandomMob == 1)
             {
                 zombieai.GameLose();
                 darkWizard.GameLose();
+                skeleton.GameLose();
+                dog.GameLose();
             }
             if (RandomMob == 2)
             {
                 zombieai.GameLose();
+                skeleton.GameLose();
             }
             if (RandomMob == 3)
             {
+                darkWizard.GameLose();
+            }
+            if (RandomMob == 5)
+            {
+                zombieai.GameLose();
+                skeleton.GameLose();
+            }
+            if (RandomMob == 6)
+            {
+                skeleton.GameLose();
+            }
+            if (RandomMob == 7)
+            {
+                skeleton.GameLose();
+                darkWizard.GameLose();
+            }
+            if (RandomMob == 8)
+            {
+                dog.GameLose();
+                skeleton.GameLose();
+            }
+            if (RandomMob == 9)
+            {
+                dog.GameLose();
                 darkWizard.GameLose();
             }
             objectRandomGeneration.objectGeneration();

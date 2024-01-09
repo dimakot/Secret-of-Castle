@@ -134,7 +134,6 @@ namespace Secret_of_Castle
                     Zombie.zombiesNeeded = 0;
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
-                    Zombie.zombiesPerks = 0;
                     RandomLevel.CurrentLevel++;
                 }
                 /*                if (prt1 == 3) 
@@ -155,10 +154,10 @@ namespace Secret_of_Castle
             zombieai.ZombieMovement(); //Движение зомби
             zombieai.elc = elc; //Список для зомби
             foreach (UIElement j in elc)
-                {
-                    Collision collision = new Collision(player, elc);
-                    collision.Collision_physics();
-                }
+            {
+                Collision collision = new Collision(player, elc);
+                collision.Collision_physics();
+            }
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {

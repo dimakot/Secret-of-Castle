@@ -1,36 +1,55 @@
-﻿using System.Windows.Controls;
+﻿using System.Numerics;
+using System;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Windows;
 
 namespace Secret_of_Castle
 {
     internal class Perks
     {
         ProgressBar hp_bar;
-        public void HP_boost()
+        Random manna;
+        Image player;
+        Canvas CanvasGame;
+        public List<UIElement> elc;
+        public static int star = 10;
+        public static int Speed_boosting = 0;
+        Random Perksch = new Random();
+        public static int hp_boosting = 0;
+        public void Perks_choose()
         {
-            //увеличивает хп на 100
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
-            if (currentDifficulty == "Hard") //В зависимости от сложности, максимальное значение HP бара разное
+            int Perkschance = Perksch.Next(1, 8);
+            if (Perkschance == 1)
             {
-                hp_bar.Maximum = 100;
+                hp_boosting += 20;
             }
-            if (currentDifficulty == "Medium")
+            if (Perkschance == 2)
             {
-                hp_bar.Maximum = 150;
+                Speed_boosting += 5;
             }
-            if (currentDifficulty == "Lite")
+            if (Perkschance == 3)
             {
-                hp_bar.Maximum = 200;
+                Player.HealthPlayer -= 50;
             }
-        }
-        public void Damage_boost()
-        {
-            //увеличивает урон на 10
-
-        }
-        public void Speed_boost()
-        {
-            //увеличивает скорость на 10
-
+            if (Perkschance == 4)
+            {
+                Player.HealthPlayer -= 50;
+            }
+            if (Perkschance == 5)
+            {
+                Player.HealthPlayer -= 100;
+            }
+            if (Perkschance == 6)
+            {
+                Player.HealthPlayer += 50;
+            }
+            if (Perkschance == 7)
+            {
+                Player.HealthPlayer += 100;
+            }
         }
     }
 }

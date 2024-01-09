@@ -17,6 +17,7 @@ namespace Secret_of_Castle
         public static int Speed_Zombie = 2;
         public ProgressBar zombieHPBar;
         public static int zombieKilles;
+        public static int zombiesPerks = 0;
         public static int zombiesNeeded = 0;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
@@ -37,8 +38,8 @@ namespace Secret_of_Castle
             // Генерируем случайные координаты для зомби
             int ZombieCanvasTop, ZombieCanvasLeft; //Координаты зомби
             do {
-                ZombieCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width)); //Использует случайное значение от 0 до крайней точки разрешения экрана
-                ZombieCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height)); } while (Math.Abs(Canvas.GetLeft(player) - ZombieCanvasLeft) < 800 && Math.Abs(Canvas.GetTop(player) - ZombieCanvasTop) < 800); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
+                ZombieCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width) - 200); //Использует случайное значение от 0 до крайней точки разрешения экрана
+                ZombieCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height) - 200); } while (Math.Abs(Canvas.GetLeft(player) - ZombieCanvasLeft) < 800 && Math.Abs(Canvas.GetTop(player) - ZombieCanvasTop) < 800); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
             Canvas.SetLeft(Zombies, ZombieCanvasLeft);
             Canvas.SetTop(Zombies, ZombieCanvasTop);
             Zombies.Height = 200; Zombies.Width = 200;
@@ -166,6 +167,7 @@ namespace Secret_of_Castle
                                     HPbars.Remove(ImgZomb); // Удаление зомби из словаря
                                     zombieKilles++;
                                     zombiesNeeded++;
+                                    zombiesPerks++;
                                     if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                     {
                                         if (zombieKilles < 50)

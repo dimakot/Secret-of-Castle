@@ -54,7 +54,7 @@ namespace Secret_of_Castle
             }
             if (e.Key == Key.LeftShift)
             {
-                Speed = 7;
+                Speed = 7 + Perks.Speed_boosting;
                 player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_stand.png", UriKind.RelativeOrAbsolute));
             }
         }
@@ -88,7 +88,7 @@ namespace Secret_of_Castle
             }
             if (e.Key == Key.LeftShift)
             {
-                Speed = 12;
+                Speed = 12 + Perks.Speed_boosting;
                 player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture\\Mob\\Player\\player_berserk.png", UriKind.RelativeOrAbsolute));
             }
         }
@@ -183,7 +183,7 @@ namespace Secret_of_Castle
                     HealthPlayer += 10;
                     DarkWizard.wizardNeeded = 0;
                 }
-                hp_bar.Maximum = 100;
+                hp_bar.Maximum = 100 + Perks.hp_boosting;
             }
             if (currentDifficulty == "Medium")
             {
@@ -197,7 +197,7 @@ namespace Secret_of_Castle
                     HealthPlayer += 5;
                     DarkWizard.wizardNeeded = 0;
                 }
-                hp_bar.Maximum = 150;
+                hp_bar.Maximum = 150 + Perks.hp_boosting;
             }
             if (currentDifficulty == "Lite")
             {
@@ -211,7 +211,7 @@ namespace Secret_of_Castle
                     HealthPlayer += 5;
                     DarkWizard.wizardNeeded = 0;
                 }
-                hp_bar.Maximum = 200;
+                hp_bar.Maximum = 200 + Perks.hp_boosting;
             }
             if (DarkWizard.wizardKilles > 20) //Если убито 10 зомби, то игрок получает 10 здоровья
             {

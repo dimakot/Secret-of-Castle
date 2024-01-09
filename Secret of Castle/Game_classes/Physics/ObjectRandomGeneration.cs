@@ -44,8 +44,8 @@ namespace Secret_of_Castle
             xmast.Source = new BitmapImage(new Uri("pack://application:,,,/Texture\\Objects\\Xmas\\Xmas_0.png", UriKind.RelativeOrAbsolute));
             do
             {
-                ObjectCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width)); //Использует случайное значение от 0 до крайней точки разрешения экрана
-                ObjectCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height));
+                ObjectCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width) - 200); //Использует случайное значение от 0 до крайней точки разрешения экрана
+                ObjectCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
             } while (Math.Abs(Canvas.GetLeft(player) - ObjectCanvasLeft) < 200 && Math.Abs(Canvas.GetTop(player) - ObjectCanvasTop) < 200); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
             Canvas.SetLeft(xmast, ObjectCanvasLeft);
             Canvas.SetTop(xmast, ObjectCanvasTop);

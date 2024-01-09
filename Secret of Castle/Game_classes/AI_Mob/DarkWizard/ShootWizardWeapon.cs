@@ -27,7 +27,6 @@ namespace Secret_of_Castle
             WizardWeapon.Height = 30; WizardWeapon.Width = 30; //задаем стандартные параметры для генерации Магической сферы, тег
             WizardWeapon.Tag = "WizardMagicAttack";
             Canvas.SetLeft(WizardWeapon, MagicHorisontal); Canvas.SetTop(WizardWeapon, MagicVertical);
-            Panel.SetZIndex(WizardWeapon, 1);
             CanvasGame.Children.Add(WizardWeapon);
             TimerMagicWizard.Interval = TimeSpan.FromMilliseconds(SpeedMagicWizard); //запускаем таймер со скоростью в указанной выши
             TimerMagicWizard.Tick += (sender, e) =>

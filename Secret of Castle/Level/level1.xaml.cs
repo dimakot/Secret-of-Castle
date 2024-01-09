@@ -95,6 +95,7 @@ namespace Secret_of_Castle
                     DarkWizard.wizardKilles = 0;
                     DarkWizard.wizardNeeded = 0;
                     Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
                     prt1 = 0;
                 }
                 if (prt1 == 2)
@@ -111,6 +112,7 @@ namespace Secret_of_Castle
                     Zombie.zombieKilles = 0;
                     DarkWizard.wizardNeeded = 0;
                     Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
                     prt1 = 0;
                 }
                 if (prt1 == 3)
@@ -126,7 +128,7 @@ namespace Secret_of_Castle
                 }
             }
             darkWizard.WizardAI(); //ИИ мага
-                darkWizard.elc = elc; //Список для мага
+            darkWizard.elc = elc; //Список для мага
             zombieai.ZombieMovement(); //Движение зомби
             zombieai.elc = elc; //Список для зомби
             foreach (UIElement j in elc)

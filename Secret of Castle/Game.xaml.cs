@@ -141,7 +141,25 @@ namespace Secret_of_Castle
             if ((zombiesList.Count == 0 && wizardList.Count == 0) && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
                 int prt1 = rand.Next(1, 3); //Случайное число для выбора уровня
-                if (prt1 == 1)
+                if (RandomLevel.CurrentLevel == 5)
+                {
+                    levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+                else if (prt1 == 1)
                 {
                     level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();
@@ -157,8 +175,10 @@ namespace Secret_of_Castle
                     Zombie.zombiesNeeded = 0;
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
                 }
-                if (prt1 == 2)
+                
+                 else if (prt1 == 2)
                 {
                     Game ChangeLevel1 = new Game(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();
@@ -175,6 +195,7 @@ namespace Secret_of_Castle
                     Player.Speed = 7;
                     Perks.Speed_boosting = 0;
                     Zombie.zombiesPerks = 0;
+                    RandomLevel.CurrentLevel++;
                 }
                 /*                if (prt1 == 3) 
                                 {

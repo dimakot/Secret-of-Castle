@@ -16,6 +16,7 @@ namespace Secret_of_Castle
         public ProgressBar wizardHPBar;
         public int Speed_Wizard;
         public static int wizardKilles;
+        public static int wizardNeeded = 0;
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
         DateTime LastTeleportTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         DateTime LastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
@@ -226,6 +227,7 @@ namespace Secret_of_Castle
                                         wizardList.Remove(wizard); // Удаление зомби из списка
                                         HPbars.Remove(wizard); // Удаление зомби из словаря
                                         wizardKilles++;
+                                        wizardNeeded++;
                                         if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                         {
                                             if (wizardKilles < 10)
@@ -278,21 +280,21 @@ namespace Secret_of_Castle
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //В зависимости от выбранной сложности спавнится за раз определенное кол-во мобов
             if (currentDifficulty == "Hard")
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     WizardSpawn();
                 }
             }
             else if (currentDifficulty == "Medium")
             {
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     WizardSpawn();
                 }
             }
             else if (currentDifficulty == "Lite")
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 1; i++)
                 {
                     WizardSpawn();
                 }

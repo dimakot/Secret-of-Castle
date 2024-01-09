@@ -21,7 +21,7 @@ namespace Secret_of_Castle
         int zombieKilles = 0; //Количество убитых зомби
         int wizardKilles = 0; //Количество убитых магов
         Random rand = new Random(); //Рандом
-        /*        Zombie zombieai; //Класс зомби*/
+        Zombie zombieai; //Класс зомби
         DarkWizard darkWizard; //Класс мага
         List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> wizardList = new List<Image>(); //Список для мага
@@ -64,7 +64,7 @@ namespace Secret_of_Castle
             Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles);
-            /*            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);*/
+            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);
             objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
             GameLose();
             gametimer.Tick += (sender, e) => { GameTickTimer(sender, e); }; //Таймер игры
@@ -78,9 +78,9 @@ namespace Secret_of_Castle
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller.Control(); //Движение игрока
-            int prt1 = rand.Next(1, 3); //Случайное число для генерации объектов
-            if (zombiesList.Count == 0 || wizardList.Count == 0 && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+            if ((zombiesList.Count == 0 || wizardList.Count == 0) && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
+                int prt1 = rand.Next(1, 3); //Случайное число для выбора уровня
                 if (prt1 == 1)
                 {
                     level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
@@ -91,12 +91,31 @@ namespace Secret_of_Castle
                     Player.DownKeyDown = false;
                     Player.LeftKeyDown = false;
                     Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
                     DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
                     prt1 = 0;
                 }
-                else if (prt1 == 2)
+                if (prt1 == 2)
                 {
-                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень 
+                    Game ChangeLevel1 = new Game(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel1.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    DarkWizard.wizardKilles = 0;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
+                    prt1 = 0;
+                }
+                if (prt1 == 3)
+                {
+                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень
                     this.Hide();
                     gametimer.Stop();
                     ChangeLevel.Show();
@@ -104,26 +123,13 @@ namespace Secret_of_Castle
                     Player.DownKeyDown = false;
                     Player.LeftKeyDown = false;
                     Player.RightKeyDown = false;
-                    DarkWizard.wizardKilles = 0;
-                    prt1 = 0;
                 }
-                /*                if (prt1 == 3)
-                                {
-                                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень
-                                    this.Hide();
-                                    gametimer.Stop();
-                                    ChangeLevel.Show();
-                                    Player.UpKeyDown = false; //Обнуляем кнопки
-                                        Player.DownKeyDown = false;
-                                    Player.LeftKeyDown = false;
-                                    Player.RightKeyDown = false;
-                                }*/
             }
             darkWizard.WizardAI(); //ИИ мага
                 darkWizard.elc = elc; //Список для мага
-                /*          zombieai.ZombieMovement(); //Движение зомби
-                            zombieai.elc = elc; //Список для зомби*/
-                foreach (UIElement j in elc)
+            zombieai.ZombieMovement(); //Движение зомби
+            zombieai.elc = elc; //Список для зомби
+            foreach (UIElement j in elc)
                 {
                     Collision collision = new Collision(player, elc);
                     collision.Collision_physics();
@@ -157,7 +163,7 @@ namespace Secret_of_Castle
         private void GameLose()
         {
             darkWizard.GameLose();
-            /*            zombieai.GameLose();*/
+            zombieai.GameLose();
             objectRandomGeneration.objectGeneration();
         }
         private void Exit_Button_Click(object sender, RoutedEventArgs e)

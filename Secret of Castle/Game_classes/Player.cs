@@ -173,15 +173,49 @@ namespace Secret_of_Castle
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
             if (currentDifficulty == "Hard") //В зависимости от сложности, максимальное значение HP бара разное
             {
+                if (Zombie.zombiesNeeded > 20) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 15;
+                    Zombie.zombiesNeeded = 0;
+                }
+                if (DarkWizard.wizardNeeded > 4) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 10;
+                    DarkWizard.wizardNeeded = 0;
+                }
                 hp_bar.Maximum = 100;
             }
             if (currentDifficulty == "Medium")
             {
+                if (Zombie.zombiesNeeded > 10) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 15;
+                    Zombie.zombiesNeeded = 0;
+                }
+                if (DarkWizard.wizardNeeded > 3) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 5;
+                    DarkWizard.wizardNeeded = 0;
+                }
                 hp_bar.Maximum = 150;
             }
             if (currentDifficulty == "Lite")
             {
+                if (Zombie.zombiesNeeded > 5) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 15;
+                    Zombie.zombiesNeeded = 0;
+                }
+                if (DarkWizard.wizardNeeded > 2) //Если убито 10 зомби, то игрок получает 10 здоровья
+                {
+                    HealthPlayer += 5;
+                    DarkWizard.wizardNeeded = 0;
+                }
                 hp_bar.Maximum = 200;
+            }
+            if (DarkWizard.wizardKilles > 20) //Если убито 10 зомби, то игрок получает 10 здоровья
+            {
+                HealthPlayer += 20;
             }
             if (HealthPlayer > 1) //Если HP больше 1, то мы заносим значение здоровья в прогресс бар 
             {

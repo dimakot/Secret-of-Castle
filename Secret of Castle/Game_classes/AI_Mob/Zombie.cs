@@ -17,6 +17,7 @@ namespace Secret_of_Castle
         public static int Speed_Zombie = 2;
         public ProgressBar zombieHPBar;
         public static int zombieKilles;
+        public static int zombiesNeeded = 0;
         DateTime lastDamageTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delay = 1000; //Задержка
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
@@ -164,6 +165,7 @@ namespace Secret_of_Castle
                                     zombiesList.Remove(ImgZomb); // Удаление зомби из списка
                                     HPbars.Remove(ImgZomb); // Удаление зомби из словаря
                                     zombieKilles++;
+                                    zombiesNeeded++;
                                     if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                     {
                                         if (zombieKilles < 50)

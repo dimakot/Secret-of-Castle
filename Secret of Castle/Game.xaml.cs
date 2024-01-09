@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,10 +21,12 @@ namespace Secret_of_Castle
         Player Player_Controller; //Класс игрока
         int zombieKilles = 0; //Количество убитых зомби
         Random rand = new Random(); //Рандом
+        Random manna = new Random (); //рандом для маны
         Zombie zombieai; //Класс зомби
         List<Image> zombiesList = new List<Image>(); //Список для моба
         List<Image> objectlist = new List<Image>(); //Список для объектов
         ObjectRandomGeneration objectRandomGeneration; //Класс для генерации объектов
+        int star = 10;
         private void kbup(object sender, KeyEventArgs e)
         {
             Player_Controller.kbup(sender, e); //Кнопка поднята
@@ -33,15 +36,16 @@ namespace Secret_of_Castle
             Player_Controller.kbdown(sender, e); //Кнопка опущена
             if (e.Key == Key.E)
             {
-                //Случайное число для выбора оружия
-                int random = rand.Next(1, 3);
-                if (random == 1) //Если 1, то стреляет магией
+                if (e.Key == Key.E && star > 0 && Player.Lose == false)
                 {
+                    star--;
                     ShootMagicBasic(Player.ControlWeapon);
-                }
-                if (random == 2) //Если 2, то стреляет луком
-                {
-                    ShootBowBasic(Player.ControlWeapon);
+
+
+                    if (star < 1)
+                    {
+                        GenerateStars();
+                    }
                 }
             }
             if (e.Key == Key.Q) //Удар мечом
@@ -55,6 +59,19 @@ namespace Secret_of_Castle
                 Canvas.SetZIndex(PauseCanvas, 1);
             }
         }
+
+        private void GenerateStars() // Появление маны
+        {
+            Image StarsManna = new Image();
+            StarsManna.Source = new BitmapImage(new Uri("castle_1.jpeg", UriKind.RelativeOrAbsolute));
+            StarsManna.Height = 50; StarsManna.Width = 50;
+            Canvas.SetLeft(StarsManna, manna.Next(10, Convert.ToInt32(CanvasGame.Width - 200)));
+            Canvas.SetTop(StarsManna, manna.Next(80, Convert.ToInt32(CanvasGame.Height - 200)));
+            StarsManna.Tag = "Manna";
+            CanvasGame.Children.Add(StarsManna);
+            Canvas.SetZIndex(player, 1);
+        }
+
         public Game()
         {
             InitializeComponent(); //Таймер
@@ -71,10 +88,11 @@ namespace Secret_of_Castle
 
         private void GameTickTimer(object sender, EventArgs e) //Таймер игры
         {
+            MannaLB.Content = star;
             Player_Controller.Control(); //Движение игрока
-            int prt1 = rand.Next(1, 3); //Случайное число для генерации объектов
             if (zombiesList.Count == 0 && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
+                int prt1 = rand.Next(1, 3); //Случайное число для выбора уровня
                 if (prt1 == 1)
                 {
                     level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
@@ -86,20 +104,24 @@ namespace Secret_of_Castle
                     Player.LeftKeyDown = false;
                     Player.RightKeyDown = false;
                     Zombie.zombieKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
                 }
                 if (prt1 == 2)
                 {
-                    Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень 
+                    Game ChangeLevel1 = new Game(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();
                     gametimer.Stop();
-                    ChangeLevel.Show();
+                    ChangeLevel1.Show();
                     Player.UpKeyDown = false; //Обнуляем кнопки
                     Player.DownKeyDown = false;
                     Player.LeftKeyDown = false;
                     Player.RightKeyDown = false;
                     Zombie.zombieKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
                 }
-                /*                if (prt1 == 3)
+                /*                if (prt1 == 3) 
                                 {
                                     Game ChangeLevel = new Game(); //При входе в портал, происходит переход на другой уровень
                                     this.Hide();
@@ -120,7 +142,17 @@ namespace Secret_of_Castle
             {
                 Collision collision = new Collision(player, elc);
                 collision.Collision_physics();
-            }
+                    if (j is Image StarManna && (string)StarManna.Tag == "Manna") // Трата патронов
+                    {
+                        if (Canvas.GetLeft(player) < Canvas.GetLeft(StarManna) + StarManna.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(StarManna) && Canvas.GetTop(player) < Canvas.GetTop(StarManna) + StarManna.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(StarManna))
+                        {
+                            CanvasGame.Children.Remove(StarManna);
+                            StarManna.Source = null;
+                            star += 10;
+                        }
+                    }
+                }
+
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {

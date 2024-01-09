@@ -17,8 +17,10 @@ namespace Secret_of_Castle
     {
         DispatcherTimer gametimer = new DispatcherTimer(); //Таймер
         Player Player_Controller; //Класс игрока
+        Random manna = new Random(); //рандом для маны
         int zombieKilles = 0; //Количество убитых зомби
         MadScientist madScientist;
+        public static Window Menu_to;
         Random rand = new Random(); //Рандом
         List<Image> ScientistList = new List<Image>(); //Список для Безумного ученого
         /*        Zombie zombieai; //Класс зомби*/
@@ -33,18 +35,16 @@ namespace Secret_of_Castle
         }
         private void kbdown(object sender, KeyEventArgs e)
         {
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList(); //Список для элементов
             Player_Controller.kbdown(sender, e); //Кнопка опущена
-            if (e.Key == Key.E)
+            if (e.Key == Key.E && Perks.star > 0 && Player.Lose == false && PauseCanvas.Visibility == Visibility.Hidden)
             {
-                //Случайное число для выбора оружия
-                int random = rand.Next(1, 2);
-                if (random == 1) //Если 1, то стреляет магией
+                Perks.star--;
+                ShootMagicBasic(Player.ControlWeapon);
+
+                if (Perks.star < 1)
                 {
-                    ShootMagicBasic(Player.ControlWeapon);
-                }
-                if (random == 2) //Если 2, то стреляет луком
-                {
-                    ShootBowBasic(Player.ControlWeapon);
+                    GenerateStars();
                 }
             }
             if (e.Key == Key.Q) //Удар мечом
@@ -55,7 +55,7 @@ namespace Secret_of_Castle
             {
                 PauseCanvas.Visibility = Visibility.Visible;
                 gametimer.Stop();
-                Canvas.SetZIndex(PauseCanvas, 1);
+                Canvas.SetZIndex(PauseCanvas, 1000);
             }
         }
         public levelmadscientist()
@@ -73,30 +73,182 @@ namespace Secret_of_Castle
             gametimer.Start();
             player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
         }
+        public void GenerateStars() // Появление маны
+        {
+            Image StarsManna = new Image();
+            StarsManna.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Star.png", UriKind.RelativeOrAbsolute));
+            StarsManna.Height = 80; StarsManna.Width = 80;
+            int StarsCanvasTop, StarsCanvasLeft; //Координаты маны
+            do
+            {
+                StarsCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
+                StarsCanvasTop = manna.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
+            } while (Math.Abs(Canvas.GetLeft(player) - StarsCanvasLeft) < 800 && Math.Abs(Canvas.GetTop(player) - StarsCanvasTop) < 800);
+            Canvas.SetLeft(StarsManna, StarsCanvasLeft);
+            Canvas.SetTop(StarsManna, StarsCanvasTop);
+            StarsManna.Tag = "Manna";
+            CanvasGame.Children.Add(StarsManna);
+            Canvas.SetZIndex(player, 1);
+            Canvas.SetZIndex(StarsManna, 1);
+        }
         private void GameTickTimer(object sender, EventArgs e) //Таймер игры
         {
+            MannaLB.Content = Perks.star;
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
             Player_Controller.Control(); //Движение игрока
-            if (Portal.Visibility == Visibility.Visible && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
+            if (ScientistList.Count == 0 && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
-                level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
-                this.Hide();
-                gametimer.Stop();
-                ChangeLevel.Show();
-                Player.UpKeyDown = false; //Обнуляем кнопки
-                Player.DownKeyDown = false;
-                Player.LeftKeyDown = false;
-                Player.RightKeyDown = false;
+                int prt1 = rand.Next(1, 6); //Случайное число для выбора уровня
+                if (RandomLevel.CurrentLevel == 7)
+                {
+                    levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+                if (RandomLevel.CurrentLevel == 14)
+                {
+                    levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+                else if (prt1 == 1)
+                {
+                    level1 ChangeLevel = new level1(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+
+                else if (prt1 == 2)
+                {
+                    Game ChangeLevel1 = new Game(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel1.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+
+                else if (prt1 == 3)
+                {
+                    level2 ChangeLevel1 = new level2(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel1.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
+                else if (prt1 == 4)
+                {
+                    level4 ChangeLevel1 = new level4(); //При входе в портал, происходит переход на другой уровень 
+                    this.Hide();
+                    gametimer.Stop();
+                    ChangeLevel1.Show();
+                    Player.UpKeyDown = false; //Обнуляем кнопки
+                    Player.DownKeyDown = false;
+                    Player.LeftKeyDown = false;
+                    Player.RightKeyDown = false;
+                    Zombie.zombieKilles = 0;
+                    DarkWizard.wizardKilles = 0;
+                    DarkWizard.wizardNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonKilles = 0;
+                    Zombie.zombiesNeeded = 0;
+                    Player.Speed = 7;
+                    Perks.Speed_boosting = 0;
+                    RandomLevel.CurrentLevel++;
+                }
             }
             madScientist.ScientistMove();
             madScientist.elc = elc;
-            /*          zombieai.ZombieMovement(); //Движение зомби
-                        zombieai.elc = elc; //Список для зомби*/
+            foreach (UIElement j in elc) //Проверяет элементы в списке
+            {
+                Collision collision = new Collision(player, elc); //Класс для коллизии
+                collision.Collision_physics(); //Физика коллизии
+                if (j is Image StarManna && (string)StarManna.Tag == "Manna") // Использование маны
+                {
+                    if (Canvas.GetLeft(player) < Canvas.GetLeft(StarManna) + StarManna.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(StarManna) && Canvas.GetTop(player) < Canvas.GetTop(StarManna) + StarManna.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(StarManna)) //Проверка на столкновение
+                    {
+                        CanvasGame.Children.Remove(StarManna); //Удаление маны
+                        StarManna.Source = null; //Удаление картинки маны
+                        Perks.star += 10; //Добавление маны
+                    }
+                }
+            }
             foreach (UIElement j in elc)
             {
                 Collision collision = new Collision(player, elc);
                 collision.Collision_physics();
+            }
+            if (Player.HealthPlayer < 1)
+            {
+                LoseCanvas.Visibility = Visibility.Visible;
+                gametimer.Stop();
+                Canvas.SetZIndex(LoseCanvas, 1500);
             }
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
@@ -139,5 +291,10 @@ namespace Secret_of_Castle
             CanvasGame.Focus();
         }
 
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+
+            Application.Current.Shutdown();
+        }
     }
 }

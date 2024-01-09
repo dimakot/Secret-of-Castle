@@ -21,7 +21,7 @@ namespace Secret_of_Castle
         DateTime lastDamageBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         DateTime lastCreateBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delayDamage = 6000; //Задержка
-        int delayCreate = 4000; //Задержка
+        int delayCreate = 10000; //Задержка
         public static Dictionary<Image, ProgressBar> HPbars = new Dictionary<Image, ProgressBar>();
         public MadScientist(Image player, Canvas CanvasGame, List<Image> zombiesList, List<UIElement> elc, ProgressBar ScientistHPBar) //Конструктор
         {
@@ -62,6 +62,8 @@ namespace Secret_of_Castle
 
         public void ScientistMove() //Движение Дракона
         {
+            DateTime currentTime1 = DateTime.Now;
+            double differenceDae = (currentTime1 - lastCreateBulbTime).TotalMilliseconds;
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
             foreach (UIElement w in elc)
             {
@@ -117,10 +119,15 @@ namespace Secret_of_Castle
                                 {
                                     Player.HealthPlayer -= 1;
                                 }
-                                wizardWeapon.Source = null;
-                                CanvasGame.Children.Remove(wizardWeapon);
+                                if (differenceDae >= delayCreate)
+                                {
+                                    lastCreateBulbTime = DateTime.Now;
+                                    wizardWeapon.Source = null;
+                                    CanvasGame.Children.Remove(wizardWeapon);
+                                }
                             }
                         }
+                    }
                         foreach (UIElement j in elc)
                         {
                             if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image MadScientistBossAttack && (string)MadScientistBossAttack.Tag == "MadScientistBoss") //При попадании в зомби, урон отнимается
@@ -156,7 +163,6 @@ namespace Secret_of_Castle
                             }
                         }
                     }
-                }
             }
         }
         public void MadScientistLose()

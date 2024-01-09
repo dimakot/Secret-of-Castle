@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 using Weapon;
-
 
 namespace Secret_of_Castle
 {
     /// <summary>
-    /// Логика взаимодействия для Game.xaml
+    /// Логика взаимодействия для level4.xaml
     /// </summary>
-    public partial class Game : Window
+    public partial class level4 : Window
     {
         DispatcherTimer gametimer = new DispatcherTimer(); //Таймер
         Player Player_Controller; //Класс игрока
@@ -87,8 +92,8 @@ namespace Secret_of_Castle
         {
             Image StarsManna = new Image();
             StarsManna.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Star.png", UriKind.RelativeOrAbsolute));
-            StarsManna.Height = 80; StarsManna.Width = 80;
-            int StarsCanvasTop, StarsCanvasLeft; //Координаты маны
+            StarsManna.Height = 50; StarsManna.Width = 50;
+            int StarsCanvasTop, StarsCanvasLeft; //Координаты зомби
             do
             {
                 StarsCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
@@ -107,7 +112,7 @@ namespace Secret_of_Castle
             Image Chest = new Image();
             Chest.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Chest.png", UriKind.RelativeOrAbsolute));
             Chest.Height = 100; Chest.Width = 100;
-            int ChestCanvasTop, ChestCanvasLeft; // Координаты сундука
+            int ChestCanvasTop, ChestCanvasLeft; // Координаты зомби
             do
             {
                 ChestCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
@@ -121,7 +126,7 @@ namespace Secret_of_Castle
             Canvas.SetZIndex(Chest, 1);
         }
 
-        public Game()
+        public level4()
         {
             InitializeComponent(); //Таймер
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
@@ -510,7 +515,7 @@ namespace Secret_of_Castle
         }
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            
+
             Application.Current.Shutdown();
         }
     }

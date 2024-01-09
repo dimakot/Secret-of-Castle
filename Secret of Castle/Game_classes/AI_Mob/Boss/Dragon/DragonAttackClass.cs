@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Threading;
+using Weapon;
 
 namespace Secret_of_Castle
 {
@@ -18,13 +20,7 @@ namespace Secret_of_Castle
 
         public void DragonMagicAttack(Canvas CanvasGame)
         {
-            List<string> MagicDragonAttackImages = new List<string>() { //Создаем лист из картинок для анимации при помощи таймера
-                "pack://application:,,,/Texture/Weapon/Magic/DragonWeapon/Attack_Dragon_1.png",
-                "pack://application:,,,/Texture/Weapon/Magic/DragonWeapon/Attack_Dragon_2.png",
-                "pack://application:,,,/Texture/Weapon/Magic/DragonWeapon/Attack_Dragon_3.png",
-                "pack://application:,,,/Texture/Weapon/Magic/DragonWeapon/Attack_Dragon_4.png"
-            }; int animationCurrentImage = 0;
-            DragonWeapon.Source = new BitmapImage(new Uri(MagicDragonAttackImages[animationCurrentImage], UriKind.RelativeOrAbsolute));
+            DragonWeapon.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Weapon/Magic/DragonWeapon/Fire_Dragon.png", UriKind.RelativeOrAbsolute));
             DragonWeapon.Height = 38; DragonWeapon.Width = 82; //задаем стандартные параметры для генерации Магической сферы, тег
             DragonWeapon.Tag = "DragonMagicAttack";
             Canvas.SetLeft(DragonWeapon, DragonHorisontal); Canvas.SetTop(DragonWeapon, DragonVertical);
@@ -33,8 +29,7 @@ namespace Secret_of_Castle
             TimerMagicDragon.Interval = TimeSpan.FromMilliseconds(SpeedMagicDragonAttack); //запускаем таймер со скоростью в указанной выши
             TimerMagicDragon.Tick += (sender, e) =>
             {
-                animationCurrentImage = (animationCurrentImage + 1) % MagicDragonAttackImages.Count;
-                DragonWeapon.Source = new BitmapImage(new Uri(MagicDragonAttackImages[animationCurrentImage], UriKind.RelativeOrAbsolute)); DragonDamage(sender, e); //анимация воспроизводится со скоростью таймера
+                DragonDamage(sender, e); //анимация воспроизводится со скоростью таймера
             };
             TimerMagicDragon.Start();
         }

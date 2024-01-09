@@ -148,6 +148,31 @@ namespace Secret_of_Castle
                         Speed_Dragon = 3;
                         delayDamage = 2000;
                     }
+                    foreach (UIElement i in elc)
+                    {
+                        if (i is Image dragonAttackMagic && (string)dragonAttackMagic.Tag == "DragonMagicAttack")
+                        {
+                            Rect PlayerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
+                            Rect DragonWeaponHitBox = new Rect(Canvas.GetLeft(dragonAttackMagic), Canvas.GetTop(dragonAttackMagic), dragonAttackMagic.RenderSize.Width, dragonAttackMagic.RenderSize.Height);
+                            if (DragonWeaponHitBox.IntersectsWith(PlayerHitBox))
+                            {
+                                if (currentDifficulty == "Hard")
+                                {
+                                    Player.HealthPlayer -= 25;
+                                }
+                                else if (currentDifficulty == "Medium")
+                                {
+                                    Player.HealthPlayer -= 15;
+                                }
+                                else if (currentDifficulty == "Lite")
+                                {
+                                    Player.HealthPlayer -= 4;
+                                }
+                                dragonAttackMagic.Source = null;
+                                CanvasGame.Children.Remove(dragonAttackMagic);
+                            }
+                        }
+                    }
                     foreach (UIElement j in elc)
                     {
                         if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image DragonMobAttack && (string)DragonMobAttack.Tag == "Dragon") //При попадании в зомби, урон отнимается
@@ -172,31 +197,6 @@ namespace Secret_of_Castle
                                     damage = 25; //При попадании в зомби, урон отнимается
                                 }
                                 DragonHPBar.Value -= damage; //При попадании в зомби, урон отнимается
-                            }
-                        }
-                        foreach (UIElement i in elc)
-                        {
-                            if (i is Image dragonAttackMagic && (string)dragonAttackMagic.Tag == "DragonMagicAttack")
-                            {
-                                Rect PlayerHitBox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                                Rect DragonWeaponHitBox = new Rect(Canvas.GetLeft(dragonAttackMagic), Canvas.GetTop(dragonAttackMagic), dragonAttackMagic.RenderSize.Width, dragonAttackMagic.RenderSize.Height);
-                                if (DragonWeaponHitBox.IntersectsWith(PlayerHitBox))
-                                {
-                                    if (currentDifficulty == "Hard")
-                                    {
-                                        Player.HealthPlayer -= 25;
-                                    }
-                                    else if (currentDifficulty == "Medium")
-                                    {
-                                        Player.HealthPlayer -= 15;
-                                    }
-                                    else if (currentDifficulty == "Lite")
-                                    {
-                                        Player.HealthPlayer -= 4;
-                                    }
-                                    dragonAttackMagic.Source = null;
-                                    CanvasGame.Children.Remove(dragonAttackMagic);
-                                }
                             }
                         }
 

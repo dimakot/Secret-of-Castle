@@ -39,9 +39,9 @@ namespace Secret_of_Castle
         public void WizardDamage(object sender, EventArgs w) //Событие для магической сферы
         {
 
-            if (way == "Angle0")
+            if (way == "Angle0") //Если угол 0, то
             {
-                Canvas.SetLeft(WizardWeapon, Canvas.GetLeft(WizardWeapon) + SpeedMagicWizard);
+                Canvas.SetLeft(WizardWeapon, Canvas.GetLeft(WizardWeapon) + SpeedMagicWizard); //Снаряд летит вправо
             }
             if (way == "Angle45")
             {

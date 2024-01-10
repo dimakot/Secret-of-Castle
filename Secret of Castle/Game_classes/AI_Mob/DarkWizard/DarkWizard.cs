@@ -48,7 +48,7 @@ namespace Secret_of_Castle
             } while (Math.Abs(Canvas.GetLeft(player) - WizardCanvasLeft) < 400 && Math.Abs(Canvas.GetTop(player) - WizardCanvasTop) < 400); //Пока расстояние между игроком и зомби меньше 800, зомби не спавнится
             Canvas.SetLeft(Wizards, WizardCanvasLeft);
             Canvas.SetTop(Wizards, WizardCanvasTop);
-            wizardHPBar = new ProgressBar(); // Создаем ProgressBar для зомби
+            wizardHPBar = new ProgressBar(); // Создаем ProgressBar для маг
             wizardHPBar.Width = 100; wizardHPBar.Height = 10;
             wizardHPBar.Value = 100; wizardHPBar.Maximum = 100;
             Canvas.SetLeft(wizardHPBar, WizardCanvasLeft);
@@ -64,16 +64,16 @@ namespace Secret_of_Castle
         {
             foreach (UIElement wz in elc)
             {
-                if (wz is Image wizards && (string)wizards.Tag == "Wizards")
+                if (wz is Image wizards && (string)wizards.Tag == "Wizards") // Если элемент - маг
                 {
-                    int WizardCanvasTop, WizardCanvasLeft; //Координаты зомби
+                    int WizardCanvasTop, WizardCanvasLeft; //Координаты маг
                     do
                     {
-                        WizardCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
+                        WizardCanvasLeft = rand.Next(0, Convert.ToInt32(CanvasGame.Width) - 200); //Использует случайное значение от 0 до крайней точки разрешения экрана
                         WizardCanvasTop = rand.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
-                    } while (Math.Abs(Canvas.GetLeft(player) - WizardCanvasLeft) < 400 && Math.Abs(Canvas.GetTop(player) - WizardCanvasTop) < 400);
-                    Canvas.SetLeft(wizards, WizardCanvasLeft);
-                    Canvas.SetTop(wizards, WizardCanvasTop);
+                    } while (Math.Abs(Canvas.GetLeft(player) - WizardCanvasLeft) < 400 && Math.Abs(Canvas.GetTop(player) - WizardCanvasTop) < 400); //Пока расстояние между игроком и магом меньше 800, маг не спавнится
+                    Canvas.SetLeft(wizards, WizardCanvasLeft); // Устанавливаем координаты для мага
+                    Canvas.SetTop(wizards, WizardCanvasTop); // Устанавливаем координаты для мага
 
                     Canvas.SetLeft(wizards, WizardCanvasLeft);
                     Canvas.SetTop(wizards, WizardCanvasTop);
@@ -86,19 +86,18 @@ namespace Secret_of_Castle
                 }
             }
         }
-        public string CalculateDirection(double WizardCanvasLeft, double WizardCanvasTop, double playerLeft, double playerTop)
+        public string CalculateDirection(double WizardCanvasLeft, double WizardCanvasTop, double playerLeft, double playerTop) // Вычисляем направление
         {
             // Разница между координатами игрока и зомби
             double deltaX = playerLeft - WizardCanvasLeft;
             double deltaY = playerTop - WizardCanvasTop;
 
             //Угол между Магом и игроком
-            double angle = Math.Atan2(deltaY, deltaX);
+            double angle = Math.Atan2(deltaY, deltaX); // Возвращает угол в радианах
 
-            // Словарь направлений
-            Dictionary<string, (double, double)> way = new Dictionary<string, (double, double)>
+            Dictionary<string, (double, double)> way = new Dictionary<string, (double, double)> //Словарь для направлений
             {
-                {"Angle0", (-Math.PI / 8, Math.PI / 8)},
+                {"Angle0", (-Math.PI / 8, Math.PI / 8)}, // Задаем диапазон углов
                 {"Angle45", (-3 * Math.PI / 8, -Math.PI / 8)},
                 {"Angle90", (-5 * Math.PI / 8, -3 * Math.PI / 8)},
                 {"Angle135", (-7 * Math.PI / 8, -5 * Math.PI / 8)},
@@ -113,7 +112,7 @@ namespace Secret_of_Castle
             {
                 if (angle >= Way.Value.Item1 && angle < Way.Value.Item2) // Если угол между заданным диапазоном, то возвращаем направление
                 {
-                    return Way.Key;
+                    return Way.Key; // Возвращаем направление
                 }
             }
 

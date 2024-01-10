@@ -9,10 +9,10 @@ namespace Secret_of_Castle
     internal class Zombie
     {
         List<Image> zombiesList; //Список для моба
-        Image player;
+        Image player; //Игрок
         Image Portal;
-        Random rand = new Random();
-        Canvas CanvasGame;
+        Random rand = new Random(); //Случайное число
+        Canvas CanvasGame; //Канвас
         public List<UIElement> elc;
         public static int Speed_Zombie = 2;
         public ProgressBar zombieHPBar;
@@ -60,14 +60,14 @@ namespace Secret_of_Castle
             string currentDifficulty = difficult.Instance.CurrentDifficulty;
             foreach (UIElement w in elc)
             {
-                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Mob")
+                if (w is Image ImgZomb && (string)ImgZomb.Tag == "Mob") //Проверка на столкновение с объектами
                 {
                     Rect rect1 = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
                     Rect rect2 = new Rect(Canvas.GetLeft(ImgZomb), Canvas.GetTop(ImgZomb), ImgZomb.RenderSize.Width, ImgZomb.RenderSize.Height);
-                    if (rect1.IntersectsWith(rect2))
+                    if (rect1.IntersectsWith(rect2)) //Если игрок столкнулся с объектом
                     {
-                        DateTime currentTime = DateTime.Now;
-                        double difference = (currentTime - lastDamageTime).TotalMilliseconds;
+                        DateTime currentTime = DateTime.Now; //Получаем текущее время
+                        double difference = (currentTime - lastDamageTime).TotalMilliseconds; //Вычисляем разницу между текущим временем и временем последнего урона
 
                         if (difference >= delay) //В зависимости от выбранной сложности, игрок получает определенное кол-во урона
                         {
@@ -91,12 +91,12 @@ namespace Secret_of_Castle
                     }
                     if (Canvas.GetLeft(ImgZomb) > Canvas.GetLeft(player)) //Движение зомби
                     {
-                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie);
+                        Canvas.SetLeft(ImgZomb, Canvas.GetLeft(ImgZomb) - Speed_Zombie); //Движение зомби влево
                         ImgZomb.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Enemy/Zombie/zombie_left.png", UriKind.RelativeOrAbsolute)); //Текстура зомби, идущего влево
-                        if (HPbars.ContainsKey(ImgZomb))
+                        if (HPbars.ContainsKey(ImgZomb)) // Проверяем, существует ли зомби в словаре HPbars
                         {
-                            ProgressBar zombieHPBar = HPbars[ImgZomb];
-                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb));
+                            ProgressBar zombieHPBar = HPbars[ImgZomb]; // Получаем ProgressBar для текущего зомби
+                            Canvas.SetLeft(zombieHPBar, Canvas.GetLeft(ImgZomb)); // Устанавливаем положение ProgressBar в соответствии с положением зомби
                         }
                     }
 
@@ -130,13 +130,13 @@ namespace Secret_of_Castle
                             Canvas.SetTop(zombieHPBar, Canvas.GetTop(ImgZomb) - zombieHPBar.Height);
                         }
                     }
-                    foreach (UIElement j in elc)
+                    foreach (UIElement j in elc) //Проверка на столкновение с объектами
                     {
                         if (j is Image WeaponDamage && ((string)WeaponDamage.Tag == "SwordAttack" || (string)WeaponDamage.Tag == "BasicMagicAttack" || (string)WeaponDamage.Tag == "BowArrow") && w is Image ZombieMobAttack && (string)ZombieMobAttack.Tag == "Mob") //При попадании в зомби, урон отнимается
                         {
-                            Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height);
-                            Rect ZombieDamage = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height);
-                            if (MagicSphere.IntersectsWith(ZombieDamage))
+                            Rect MagicSphere = new Rect(Canvas.GetLeft(WeaponDamage), Canvas.GetTop(WeaponDamage), WeaponDamage.RenderSize.Width, WeaponDamage.RenderSize.Height); //Получаем координаты оружия
+                            Rect ZombieDamage = new Rect(Canvas.GetLeft(ZombieMobAttack), Canvas.GetTop(ZombieMobAttack), ZombieMobAttack.RenderSize.Width, ZombieMobAttack.RenderSize.Height); //Получаем координаты зомби
+                            if (MagicSphere.IntersectsWith(ZombieDamage)) //Если оружие столкнулось с зомби
                             {
                                 if (HPbars.ContainsKey(ZombieMobAttack)) // Проверяем, существует ли зомби в словаре HPbars
                                 {
@@ -157,10 +157,10 @@ namespace Secret_of_Castle
                                     }
                                 }
                             }
-                            if (HPbars.ContainsKey(ImgZomb))
+                            if (HPbars.ContainsKey(ImgZomb)) // Проверяем, существует ли зомби в словаре HPbars
                             {
-                                ProgressBar zombieHPBar = HPbars[ImgZomb];
-                                if (zombieHPBar.Value < 1)
+                                ProgressBar zombieHPBar = HPbars[ImgZomb]; // Получаем ProgressBar для текущего зомби
+                                if (zombieHPBar.Value < 1) //Если у зомби осталось 0 хп, он умирает
                                 {
                                     CanvasGame.Children.Remove(ImgZomb); //При смерти зомби, он пропадает
                                     CanvasGame.Children.Remove(zombieHPBar);
@@ -170,7 +170,7 @@ namespace Secret_of_Castle
                                     zombiesNeeded++;
                                     if (currentDifficulty == "Hard") //В зависимости от сложности, спавнится определенное кол-во зомби
                                     {
-                                        if (zombieKilles < 50)
+                                        if (zombieKilles < 50) //Пока не убито 50 зомби, спавнится новый
                                         {
                                             MobSpawn();
                                         }
@@ -179,7 +179,7 @@ namespace Secret_of_Castle
                                             break;
                                         }
                                     }
-                                    if (currentDifficulty == "Medium")
+                                    if (currentDifficulty == "Medium") //Пока не убито 25 зомби, спавнится новый
                                     {
                                         if (zombieKilles < 25)
                                         {
@@ -190,7 +190,7 @@ namespace Secret_of_Castle
                                             break;
                                         }
                                     }
-                                    if (currentDifficulty == "Lite")
+                                    if (currentDifficulty == "Lite") //Пока не убито 10 зомби, спавнится новый
                                     {
                                         if (zombieKilles < 10)
                                         {
@@ -221,7 +221,7 @@ namespace Secret_of_Castle
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    MobSpawn();
+                    MobSpawn(); //Спавним зомби
                 }
             }
             else if (currentDifficulty == "Medium")

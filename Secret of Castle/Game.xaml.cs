@@ -44,12 +44,12 @@ namespace Secret_of_Castle
         {
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList(); //Список для элементов
             Player_Controller.kbdown(sender, e); //Кнопка опущена
-                if (e.Key == Key.E && Perks.star > 0 && Player.Lose == false && PauseCanvas.Visibility == Visibility.Hidden)
+                if (e.Key == Key.E && Perks.star > 0 && Player.Lose == false && PauseCanvas.Visibility == Visibility.Hidden) //Выстрел магией
                 {
-                    Perks.star--;
+                    Perks.star--; //Уменьшаем количество маны
                     ShootMagicBasic(Player.ControlWeapon);
 
-                    if (Perks.star < 1)
+                    if (Perks.star < 1) //Если маны нет, то генерируем ее
                     {
                         GenerateStars();
                     }
@@ -60,10 +60,10 @@ namespace Secret_of_Castle
                 {
                     if (e.Key == Key.F && (Canvas.GetLeft(player) < Canvas.GetLeft(Chest) + Chest.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Chest) && Canvas.GetTop(player) < Canvas.GetTop(Chest) + Chest.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Chest)))
                     {
-                        CanvasGame.Children.Remove(Chest);
-                        Chest.Source = null;
-                        Perks perk = new Perks();
-                        perk.Perks_choose();
+                        CanvasGame.Children.Remove(Chest); //Удаление сундука
+                        Chest.Source = null; //Удаление картинки сундука
+                        Perks perk = new Perks(); //Класс для перков
+                        perk.Perks_choose(); //Выбор перка
                         Player.UpKeyDown = false; //Обнуляем кнопки
                         Player.DownKeyDown = false;
                         Player.LeftKeyDown = false;
@@ -75,40 +75,40 @@ namespace Secret_of_Castle
             {
                 SwordStroke();
             }
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape) //Пауза
             {
-                PauseCanvas.Visibility = Visibility.Visible;
-                gametimer.Stop();
-                Canvas.SetZIndex(PauseCanvas, 1000);
+                PauseCanvas.Visibility = Visibility.Visible; //Пауза
+                gametimer.Stop(); //Остановка таймера
+                Canvas.SetZIndex(PauseCanvas, 1000); //Пауза на передний план
             }
         }
 
         public void GenerateStars() // Появление маны
         {
-            Image StarsManna = new Image();
-            StarsManna.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Star.png", UriKind.RelativeOrAbsolute));
-            StarsManna.Height = 80; StarsManna.Width = 80;
+            Image StarsManna = new Image(); //Создание маны
+            StarsManna.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Star.png", UriKind.RelativeOrAbsolute)); //Спрайт маны
+            StarsManna.Height = 80; StarsManna.Width = 80; //Размер маны
             int StarsCanvasTop, StarsCanvasLeft; //Координаты маны
-            do
+            do //Проверка на столкновение с игроком
             {
-                StarsCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
+                StarsCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200); //Рандомные координаты
                 StarsCanvasTop = manna.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
             } while (Math.Abs(Canvas.GetLeft(player) - StarsCanvasLeft) < 800 && Math.Abs(Canvas.GetTop(player) - StarsCanvasTop) < 800);
-            Canvas.SetLeft(StarsManna, StarsCanvasLeft);
-            Canvas.SetTop(StarsManna, StarsCanvasTop);
-            StarsManna.Tag = "Manna";
-            CanvasGame.Children.Add(StarsManna);
-            Canvas.SetZIndex(player, 1);
-            Canvas.SetZIndex(StarsManna, 1);
+            Canvas.SetLeft(StarsManna, StarsCanvasLeft); //Установка координат
+            Canvas.SetTop(StarsManna, StarsCanvasTop); //Установка координат
+            StarsManna.Tag = "Manna"; //Тег маны
+            CanvasGame.Children.Add(StarsManna); //Добавление маны
+            Canvas.SetZIndex(player, 1); //Игрок на передний план
+            Canvas.SetZIndex(StarsManna, 1); //Мана на передний план
         }
 
-        public void ChestGenerate()
+        public void ChestGenerate() //Генерация сундука
         {
-            Image Chest = new Image();
-            Chest.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Chest.png", UriKind.RelativeOrAbsolute));
-            Chest.Height = 100; Chest.Width = 100;
+            Image Chest = new Image(); //Создание сундука
+            Chest.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Objects/Chest.png", UriKind.RelativeOrAbsolute)); //Спрайт сундука
+            Chest.Height = 100; Chest.Width = 100; //Размер сундука
             int ChestCanvasTop, ChestCanvasLeft; // Координаты сундука
-            do
+            do  //Проверка на столкновение с игроком
             {
                 ChestCanvasLeft = manna.Next(0, Convert.ToInt32(CanvasGame.Width) - 200);
                 ChestCanvasTop = manna.Next(85, Convert.ToInt32(CanvasGame.Height) - 200);
@@ -124,47 +124,47 @@ namespace Secret_of_Castle
         public Game()
         {
             InitializeComponent(); //Таймер
-            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer);
-            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles);
-            skeleton = new Skeleton(player, CanvasGame, skeletonList, elc, skeletonKilles);
-            darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles);
-            dog = new Dog(player, CanvasGame, DogList, elc, DogKilles);
-            objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player);
-            GameLose();
-            gametimer.Tick += new EventHandler(GameTickTimer);
-            gametimer.Interval = TimeSpan.FromMilliseconds(10);
-            gametimer.Start();
-            player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
+            List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList(); //Список для элементов
+            Player_Controller = new Player(player, CanvasGame, hp_bar, gametimer); //Класс игрока
+            zombieai = new Zombie(player, CanvasGame, zombiesList, elc, zombieKilles); //Класс зомби
+            skeleton = new Skeleton(player, CanvasGame, skeletonList, elc, skeletonKilles); //Класс скелета
+            darkWizard = new DarkWizard(player, CanvasGame, wizardList, elc, wizardKilles); //Класс мага
+            dog = new Dog(player, CanvasGame, DogList, elc, DogKilles); //Класс собаки
+            objectRandomGeneration = new ObjectRandomGeneration(CanvasGame, objectlist, player); //Класс для генерации объектов
+            GameLose(); //Поражение
+            gametimer.Tick += new EventHandler(GameTickTimer); //Таймер игры
+            gametimer.Interval = TimeSpan.FromMilliseconds(10); //Интервал таймера
+            gametimer.Start(); //Запуск таймера
+            player.Source = new BitmapImage(new Uri("Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute)); //Спрайт игрока
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
         }
 
         private void GameTickTimer(object sender, EventArgs e) //Таймер игры
         {
-            MannaLB.Content = Perks.star;
+            MannaLB.Content = Perks.star; //Количество маны
             Player_Controller.Control(); //Движение игрока
             if ((zombiesList.Count == 0 && wizardList.Count == 0 && skeletonList.Count == 0 && DogList.Count == 0) && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
                 int prt1 = rand.Next(1, 6); //Случайное число для выбора уровня
-                if (RandomLevel.CurrentLevel == 7)
+                if (RandomLevel.CurrentLevel == 7) //Если текущий уровень 7, то переходим на окно босса
                 {
                     levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
-                    this.Hide();
-                    gametimer.Stop();
-                    ChangeLevel.Show();
+                    this.Hide(); //Скрываем текущее окно
+                    gametimer.Stop(); //Останавливаем таймер
+                    ChangeLevel.Show(); //Открываем окно босса
                     Player.UpKeyDown = false; //Обнуляем кнопки
                     Player.DownKeyDown = false;
                     Player.LeftKeyDown = false;
                     Player.RightKeyDown = false;
-                    Zombie.zombieKilles = 0;
-                    DarkWizard.wizardKilles = 0;
-                    DarkWizard.wizardNeeded = 0;
-                    Skeleton.skeletonKilles = 0;
-                    Zombie.zombiesNeeded = 0;
-                    Zombie.zombiesNeeded = 0;
-                    Player.Speed = 7;
-                    Perks.Speed_boosting = 0;
-                    RandomLevel.CurrentLevel++;
+                    Zombie.zombieKilles = 0; //Обнуляем количество убитых зомби
+                    DarkWizard.wizardKilles = 0; //Обнуляем количество убитых магов
+                    DarkWizard.wizardNeeded = 0; //Обнуляем количество магов
+                    Skeleton.skeletonKilles = 0; //Обнуляем количество убитых скелетов
+                    Zombie.zombiesNeeded = 0; //Обнуляем количество зомби
+                    Zombie.zombiesNeeded = 0; //Обнуляем количество зомби
+                    Player.Speed = 7; //Возвращаем скорость игрока
+                    Perks.Speed_boosting = 0; //Обнуляем скорость игрока
+                    RandomLevel.CurrentLevel++; //Увеличиваем текущий уровень
                 }
                 if (RandomLevel.CurrentLevel == 14)
                 {
@@ -419,20 +419,20 @@ namespace Secret_of_Castle
                     }
                 }
             }
-            if (Player.HealthPlayer < 1)
+            if (Player.HealthPlayer < 1) //Если здоровья нет, то поражение
             {
-                LoseCanvas.Visibility = Visibility.Visible;
-                gametimer.Stop();
-                Canvas.SetZIndex(LoseCanvas, 1500);
+                LoseCanvas.Visibility = Visibility.Visible; //Поражение
+                gametimer.Stop(); //Остановка таймера
+                Canvas.SetZIndex(LoseCanvas, 1500); //Поражение на передний план
             }
         }
         public void ShootMagicBasic(string Controlmagic) //Выстрел магией
         {
-            Magic ShootBasicWeapon = new Magic();
-            ShootBasicWeapon.ControlWeapon = Controlmagic;
-            ShootBasicWeapon.MagicHorisontal = (int)(Canvas.GetLeft(player) + (player.Width / 2));
-            ShootBasicWeapon.MagicVertical = (int)(Canvas.GetTop(player) + (player.Height / 2));
-            ShootBasicWeapon.SphereMagicNew(CanvasGame);
+            Magic ShootBasicWeapon = new Magic(); //Класс для магии
+            ShootBasicWeapon.ControlWeapon = Controlmagic; //Управление магией
+            ShootBasicWeapon.MagicHorisontal = (int)(Canvas.GetLeft(player) + (player.Width / 2)); //Координаты магии
+            ShootBasicWeapon.MagicVertical = (int)(Canvas.GetTop(player) + (player.Height / 2)); //Координаты магии
+            ShootBasicWeapon.SphereMagicNew(CanvasGame); //Создание магии
         }
         public void SwordStroke() //Удар мечом
         {
@@ -453,13 +453,13 @@ namespace Secret_of_Castle
 
         private void GameLose()
         {
-            int RandomMob = mob.Next(1, 9);
-            if (RandomMob == 1)
+            int RandomMob = mob.Next(1, 9); //Случайное число для выбора моба
+            if (RandomMob == 1) //Если цифра 1
             {
-                zombieai.GameLose();
-                darkWizard.GameLose();
-                skeleton.GameLose();
-                dog.GameLose();
+                zombieai.GameLose(); //Добавляем зомби
+                darkWizard.GameLose(); //Добавляем мага
+                skeleton.GameLose(); //Добавляем скелета
+                dog.GameLose(); //Добавляем собаку
             }
             if (RandomMob == 2)
             {

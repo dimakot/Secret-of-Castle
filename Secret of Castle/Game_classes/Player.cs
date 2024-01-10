@@ -1,4 +1,4 @@
-﻿using System;
+﻿        using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -12,17 +12,17 @@ namespace Secret_of_Castle
 {
     internal class Player
     {
-        public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose;
-        public static int Speed = 7;
-        public static string ControlWeapon = "Down";
-        Image player;
-        Canvas CanvasGame;
-        ProgressBar hp_bar;
-        public static int HealthPlayer = 100;
-        public List<UIElement> elc;
-        DispatcherTimer gametimer;
+        public static bool UpKeyDown, DownKeyDown, LeftKeyDown, RightKeyDown, Lose; //Переменные для управления игроком
+        public static int Speed = 7; //Скорость игрока
+        public static string ControlWeapon = "Down"; //Направление оружия
+        Image player; //Изображение игрока
+        Canvas CanvasGame; //Канвас игры
+        ProgressBar hp_bar; //Прогресс бар здоровья
+        public static int HealthPlayer = 100; //Здоровье игрока
+        public List<UIElement> elc; //Список элементов канваса
+        DispatcherTimer gametimer; //Таймер игры
 
-        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer)
+        public Player(Image player, Canvas CanvasGame, ProgressBar hp_bar, DispatcherTimer gametimer) //Конструктор класса
         {
             this.player = player;
             this.CanvasGame = CanvasGame;
@@ -31,13 +31,13 @@ namespace Secret_of_Castle
         }
         public void kbup(object sender, KeyEventArgs e) //Кнопка поднята
         {
-            if (Lose == true)
+            if (Lose == true) //Если активно условие проигрыша, то управление не работает
             {
                 return;
             }
-            if (e.Key == Key.W)
+            if (e.Key == Key.W) //Если кнопка W поднята, то игрок не двигается вверх
             {
-                UpKeyDown = false;
+                UpKeyDown = false; //Устанавливаем значение переменной в false
             }
             if (e.Key == Key.S)
             {
@@ -64,21 +64,21 @@ namespace Secret_of_Castle
             {
                 return;
             }
-            if (e.Key == Key.W)
+            if (e.Key == Key.W) //Если кнопка W опущена, то игрок двигается вверх
             {
-                UpKeyDown = true;
-                ControlWeapon = "Up";
+                UpKeyDown = true; //Устанавливаем значение переменной в true
+                ControlWeapon = "Up"; //Устанавливаем направление оружия вверх
             }
             if (e.Key == Key.S)
             {
                 DownKeyDown = true;
                 ControlWeapon = "Down";
             }
-            if (e.Key == Key.A)
+            if (e.Key == Key.A) //Если кнопка A опущена, то игрок двигается влево
             {
-                LeftKeyDown = true;
-                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute));
-                ControlWeapon = "Left";
+                LeftKeyDown = true; //Устанавливаем значение переменной в true
+                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_left.png", UriKind.RelativeOrAbsolute)); //Устанавливаем изображение игрока влево
+                ControlWeapon = "Left"; //Устанавливаем направление оружия влево
             }
             if (e.Key == Key.D)
             {
@@ -86,107 +86,51 @@ namespace Secret_of_Castle
                 player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_right.png", UriKind.RelativeOrAbsolute));
                 ControlWeapon = "Right";
             }
-            if (e.Key == Key.LeftShift)
+            if (e.Key == Key.LeftShift) //Если кнопка Shift опущена, то игрок ускоряется
             {
-                Speed = 12 + Perks.Speed_boosting;
-                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture\\Mob\\Player\\player_berserk.png", UriKind.RelativeOrAbsolute));
+                Speed = 12 + Perks.Speed_boosting; //Устанавливаем скорость игрока в 12
+                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture\\Mob\\Player\\player_berserk.png", UriKind.RelativeOrAbsolute)); //Устанавливаем изображение игрока с ускорением
             }
         }
-        public void Control()
+        public void Control() //Управление игроком
         {
             if (LeftKeyDown == true && Canvas.GetLeft(player) > 0) //Движения игрока
             {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
+                Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed); //Устанавливаем позицию игрока влево
             }
 
-            if (RightKeyDown == true && Canvas.GetLeft(player) + player.Width < this.CanvasGame.Width)
+            if (RightKeyDown == true && Canvas.GetLeft(player) + player.Width < this.CanvasGame.Width) //Движения игрока
             {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
+                Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed); //Устанавливаем позицию игрока вправо
             }
 
             if (UpKeyDown == true && Canvas.GetTop(player) > 85)
             {
-                Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
+                Canvas.SetTop(player, Canvas.GetTop(player) - Speed); //Устанавливаем позицию игрока вверх
             }
 
             if (DownKeyDown == true && Canvas.GetTop(player) + player.Height < this.CanvasGame.Height)
             {
-                Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
+                Canvas.SetTop(player, Canvas.GetTop(player) + Speed); //Устанавливаем позицию игрока вниз
             }
             List<UIElement> elc = CanvasGame.Children.Cast<UIElement>().ToList();
-            foreach (UIElement u in elc)
-            {
-                if (u is Image collisionobj && (string)collisionobj.Tag == "objects" && u is Image ZombieMob && (string)ZombieMob.Tag == "Zombie")
-                {
-                    Rect playerRect = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.RenderSize.Width, player.RenderSize.Height);
-                    Rect rect6 = new Rect(Canvas.GetLeft(collisionobj), Canvas.GetTop(collisionobj), collisionobj.RenderSize.Width, collisionobj.RenderSize.Height);
-                    Rect rect7 = new Rect(Canvas.GetLeft(ZombieMob), Canvas.GetTop(ZombieMob), ZombieMob.RenderSize.Width, ZombieMob.RenderSize.Height);
-                    //Проверка на столкновение с объектами
-                    if (playerRect.IntersectsWith(rect6))
-                    {
-                        if (UpKeyDown)
-                        {
-                            UpKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
-                        }
-                        if (DownKeyDown)
-                        {
-                            DownKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
-                        }
-                        if (LeftKeyDown)
-                        {
-                            LeftKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
-                        }
-                        if (RightKeyDown)
-                        {
-                            RightKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
-                        }
-                    }
-                    if (playerRect.IntersectsWith(rect7))
-                    {
-                        if (UpKeyDown)
-                        {
-                            UpKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) + Speed);
-                        }
-                        if (DownKeyDown)
-                        {
-                            DownKeyDown = false;
-                            Canvas.SetTop(player, Canvas.GetTop(player) - Speed);
-                        }
-                        if (LeftKeyDown)
-                        {
-                            LeftKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) + Speed);
-                        }
-                        if (RightKeyDown)
-                        {
-                            RightKeyDown = false;
-                            Canvas.SetLeft(player, Canvas.GetLeft(player) - Speed);
-                        }
-                    }
-                }
-            }
             string currentDifficulty = difficult.Instance.CurrentDifficulty; //Получаем текущую сложность
-            if (currentDifficulty == "Hard") //В зависимости от сложности, максимальное значение HP бара разное
+            if (currentDifficulty == "Hard") //В зависимости от сложности, получаемое количество урона разное
             {
                 if (Zombie.zombiesNeeded > 20) //Если убито 10 зомби, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 15;
-                    Zombie.zombiesNeeded = 0;
+                    Zombie.zombiesNeeded = 0; //Обнуляем счетчик убитых зомби
                 }
                 if (DarkWizard.wizardNeeded > 4) //Если убито 10 зомби, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 10;
-                    DarkWizard.wizardNeeded = 0;
+                    DarkWizard.wizardNeeded = 0;  //Обнуляем счетчик убитых магов
                 }
                 if (Skeleton.skeletonNeeded > 15) //Если убито 10 скелетов, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 10;
-                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;  //Обнуляем счетчик убитых скелетов
                 }
                 hp_bar.Maximum = 100 + Perks.hp_boosting;
             }
@@ -195,17 +139,17 @@ namespace Secret_of_Castle
                 if (Zombie.zombiesNeeded > 10) //Если убито 10 зомби, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 15;
-                    Zombie.zombiesNeeded = 0;
+                    Zombie.zombiesNeeded = 0;  //Обнуляем счетчик убитых зомби
                 }
                 if (DarkWizard.wizardNeeded > 3) //Если убито 10 зомби, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 5;
-                    DarkWizard.wizardNeeded = 0;
+                    DarkWizard.wizardNeeded = 0;  //Обнуляем счетчик убитых магов
                 }
                 if (Skeleton.skeletonNeeded > 10) //Если убито 10 скелетов, то игрок получает 10 здоровья
                 {
                     HealthPlayer += 10;
-                    Skeleton.skeletonNeeded = 0;
+                    Skeleton.skeletonNeeded = 0;  //Обнуляем счетчик убитых скелетов
                 }
                 hp_bar.Maximum = 150 + Perks.hp_boosting;
             }
@@ -238,9 +182,9 @@ namespace Secret_of_Castle
             }
             else //иначе игрок проигрывает, таймер отключается
             {
-                Lose = true;
-                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute));
-                gametimer.Stop();
+                Lose = true; //Устанавливаем значение переменной в true
+                player.Source = new BitmapImage(new Uri("pack://application:,,,/Texture/Mob/Player/player_berserk.png", UriKind.RelativeOrAbsolute)); 
+                gametimer.Stop(); //Останавливаем таймер
             }
             if (hp_bar.Value > 75)
             {

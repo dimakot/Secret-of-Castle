@@ -2,7 +2,7 @@
 {
     internal class RandomLevel
     {
-        public static int CurrentLevel = 0;
+        public static int CurrentLevel = 0; //Счетчик текущего уровня
 
     }
 }

@@ -17,7 +17,7 @@ namespace Secret_of_Castle
         public List<UIElement> elc;
         public static int Speed_Scientist = 1;
         public ProgressBar ScientistHPBar;
-        public static int HealthScientist = 2500;
+        public static int HealthScientist = 1000;
         DateTime lastDamageBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         DateTime lastCreateBulbTime; //Используем модуль времени, для отображения последнего времени нанесения урона
         int delayDamage = 6000; //Задержка
@@ -60,7 +60,7 @@ namespace Secret_of_Castle
         }
 
 
-        public void ScientistMove() //Движение Дракона
+        public void ScientistMove() //Движение Ученого
         {
             DateTime currentTime1 = DateTime.Now;
             double differenceDae = (currentTime1 - lastCreateBulbTime).TotalMilliseconds;
@@ -97,7 +97,7 @@ namespace Secret_of_Castle
                     if (ScientistHPBar.Value < 2500)
                     {
                         Speed_Scientist = 2;
-                        delayDamage = 3000;
+                        delayDamage = 5000;
                     }
                     foreach (UIElement q in elc)
                     {

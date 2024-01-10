@@ -24,31 +24,31 @@ namespace Secret_of_Castle
             int Perkschance = Perksch.Next(1, 8);
             if (Perkschance == 1)
             {
-                hp_boosting += 20;
+                hp_boosting += 20; //Увеличиваем здоровье игрока
             }
             if (Perkschance == 2)
             {
-                Speed_boosting += 5;
+                Speed_boosting += 5; //Увеличиваем скорость игрока
             }
             if (Perkschance == 3)
             {
-                Player.HealthPlayer -= 50;
+                Player.HealthPlayer -= 50; //Уменьшаем здоровье игрока
             }
             if (Perkschance == 4)
             {
-                Player.HealthPlayer -= 50;
+                Player.HealthPlayer -= 50; //Уменьшаем здоровье игрока
             }
             if (Perkschance == 5)
             {
-                Player.HealthPlayer -= 100;
+                Player.HealthPlayer -= 100; //Уменьшаем здоровье игрока
             }
             if (Perkschance == 6)
             {
-                Player.HealthPlayer += 50;
+                Player.HealthPlayer += 50; //Увеличиваем здоровье игрока
             }
             if (Perkschance == 7)
             {
-                Player.HealthPlayer += 100;
+                Player.HealthPlayer += 100; //Увеличиваем здоровье игрока
             }
         }
     }

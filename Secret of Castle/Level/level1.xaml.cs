@@ -146,7 +146,7 @@ namespace Secret_of_Castle
             if ((zombiesList.Count == 0 && wizardList.Count == 0 && skeletonList.Count == 0 && DogList.Count == 0) && Canvas.GetLeft(player) < Canvas.GetLeft(Portal) + Portal.ActualWidth && Canvas.GetLeft(player) + player.ActualWidth > Canvas.GetLeft(Portal) && Canvas.GetTop(player) < Canvas.GetTop(Portal) + Portal.ActualHeight && Canvas.GetTop(player) + player.ActualHeight > Canvas.GetTop(Portal))
             {
                 int prt1 = rand.Next(1, 6); //Случайное число для выбора уровня
-                if (RandomLevel.CurrentLevel == 7)
+                if (RandomLevel.CurrentLevel == 14)
                 {
                     levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();
@@ -166,7 +166,7 @@ namespace Secret_of_Castle
                     Perks.Speed_boosting = 0;
                     RandomLevel.CurrentLevel++;
                 }
-                if (RandomLevel.CurrentLevel == 14)
+                if (RandomLevel.CurrentLevel == 7)
                 {
                     levelmadscientist ChangeLevel = new levelmadscientist(); //При входе в портал, происходит переход на другой уровень 
                     this.Hide();

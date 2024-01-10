@@ -14,7 +14,7 @@ namespace Secret_of_Castle
         public int DragonHorisontal;
         public int DragonVertical;
         List<Image> DragonList; //Список для моба
-        private int SpeedMagicDragonAttack = 50; //Скорость магиского снаряда
+        private int SpeedMagicDragonAttack = 50; //Скорость магического снаряда
         private Image DragonWeapon = new Image();
         private DispatcherTimer TimerMagicDragon = new DispatcherTimer();
 
@@ -29,7 +29,7 @@ namespace Secret_of_Castle
             TimerMagicDragon.Interval = TimeSpan.FromMilliseconds(SpeedMagicDragonAttack); //запускаем таймер со скоростью в указанной выши
             TimerMagicDragon.Tick += (sender, e) =>
             {
-                DragonDamage(sender, e); //анимация воспроизводится со скоростью таймера
+                DragonDamage(sender, e);
             };
             TimerMagicDragon.Start();
         }

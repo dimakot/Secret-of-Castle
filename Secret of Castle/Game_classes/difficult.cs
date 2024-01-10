@@ -2,23 +2,23 @@
 {
     internal class difficult
     {
-        public string CurrentDifficulty = "Lite";
-        private static difficult instance = null;
-        private difficult() { }
-        public static difficult Instance
+        public string CurrentDifficulty = "Lite"; //Текущая сложность
+        private static difficult instance = null; //Создаем экземпляр класса
+        private difficult() { } //Конструктор
+        public static difficult Instance //Создаем экземпляр класса
         {
             get
             {
-                if (instance == null)
+                if (instance == null) //Если экземпляр класса не создан, то создаем его
                 {
-                    instance = new difficult();
+                    instance = new difficult(); ///Создаем экземпляр класса
                 }
-                return instance;
+                return instance; 
             }
         }
-        public void SetDifficulty(string difficulty)
+        public void SetDifficulty(string difficulty) //Устанавливаем сложность
         {
-            CurrentDifficulty = difficulty;
+            CurrentDifficulty = difficulty; //Устанавливаем сложность
         }
     }
 }
